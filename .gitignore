@@ -8,7 +8,7 @@
 *.swo
 
 # Dossiers et fichiers de dépendances
-/node_modules/
+server/node_modules/
 /vendor/
 /bower_components/
 
