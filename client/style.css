@@ -1,0 +1,46 @@
+/* FILEPATH: /mnt/c/Users/arthu/Desktop/GIT/EcoScout/client/style.css */
+
+/* Reset default styles */
+body, h1, p {
+    margin: 0;
+    padding: 0;
+}
+
+/* Set font and background color */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+}
+
+/* Add some styles to headings */
+h1 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+h2 {
+    font-size: 20px;
+    font-weight: bold;
+    color: #666;
+    margin-bottom: 8px;
+}
+
+/* Add some styles to paragraphs */
+p {
+    font-size: 16px;
+    color: #666;
+    line-height: 1.5;
+    margin-bottom: 16px;
+}
+
+/* Add some styles to links */
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
