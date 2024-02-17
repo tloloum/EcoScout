@@ -1,13 +1,77 @@
-# PDF
+# Fichiers de configuration de l'IDE et de l'éditeur
+/.idea/
+*.sublime-project
+*.sublime-workspace
+.vscode/
+*.code-workspace
+*.swp
+*.swo
 
-# *.pdf
+# Dossiers et fichiers de dépendances
+/node_modules/
+/vendor/
+/bower_components/
 
-# Texlive 
-
-*.aux 
-*.fdb_latexmk
-*.fls
+# Dossiers de build et de compilation
+/dist/
+/tmp/
+/out/
+/build/
 *.log
-*.synctex.gz
-*.out
-*.toc
+*.class
+*.jar
+
+# Fichiers de configuration spécifiques aux environnements
+.env
+.env.local
+.env.*.local
+config.json
+*.pem
+*.key
+
+# Dossiers et fichiers de logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Systèmes de base de données
+*.db
+*.sql
+*.sqlite
+*.sqlite3
+*.tar.gz
+*.pgdump
+*.pgdata
+
+# Dossiers de cache
+.cache/
+.pyc
+__pycache__/
+*.pyc
+
+# Autres fichiers et dossiers à ignorer
+.DS_Store
+Thumbs.db
+desktop.ini
+/.sass-cache
+/public/assets
+*.pid
+*.pid.lock
+*.seed
+*.pid.lock
+
+# Fichiers de paquets
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# Fichiers de backup
+*.bak
+*.tmp
+*.temp
