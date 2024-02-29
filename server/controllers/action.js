@@ -1,4 +1,4 @@
-
+const connection = require('../connection')
 
 exports.createAction = (req, res, next) => {
 

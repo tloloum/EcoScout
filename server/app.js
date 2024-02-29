@@ -11,6 +11,7 @@ const impactRouter = require("./routes/impact");
 // Création d'une instance de l'application Express
 const app = express();
 
+
 // Le code suivant permet d'éviter l'erreur CORS en spécifiant qui a le droit d'accéfer à notre api
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*"); // On donne l'accès à tout le monde, remplacer * par l'adresse du serv de front une fois définie

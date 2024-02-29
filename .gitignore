@@ -7,6 +7,7 @@
 *.swp
 *.swo
 
+
 # Dossiers et fichiers de dépendances
 server/node_modules/
 /vendor/
@@ -74,3 +75,6 @@ desktop.ini
 *.bak
 *.tmp
 *.temp
+*temp.sql
+
+# Fichiers de configuration de l'éditeur
