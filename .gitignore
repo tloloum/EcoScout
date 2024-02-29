@@ -78,3 +78,4 @@ desktop.ini
 *temp.sql
 
 # Fichiers de configuration de l'éditeur
+server/config/db_config.js
