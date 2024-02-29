@@ -2,7 +2,7 @@
 
 const express = require("express");
 const router = express.Router();
-const authCtrl = require("../controllers/auth");
+const userCtrl = require("../controllers/user");
 const auth = require("../middleware/auth");
 
 /*
@@ -13,11 +13,11 @@ const auth = require("../middleware/auth");
 5. **DELETE** `/users/{userId}` - Pour supprimer un compte utilisateur.
 */
 
-router.post("/register", authCtrl.register);
-router.post("/login", authCtrl.login);
-router.get("/:userId", auth, authCtrl.getUser);
-router.put("/:userId", auth, authCtrl.updateUser);
-router.delete("/:userId", auth, authCtrl.deleteUser);
+router.post("/register", userCtrl.register);
+router.post("/login", userCtrl.login);
+router.get("/:userId", auth, userCtrl.getUser);
+router.put("/:userId", auth, userCtrl.updateUser);
+router.delete("/:userId", auth, userCtrl.deleteUser);
 
 router.use((req, res, next) => {
   console.log("Requete d'authentification");

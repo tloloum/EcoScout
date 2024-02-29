@@ -1,6 +1,6 @@
 const express = require("express");
 
-const authRoutes = require("./routes/auth");
+const userRoutes = require("./routes/user");
 const actionRoutes = require("./routes/action");
 const eventRoutes = require("./routes/event");
 const statRoutes = require("./routes/stat");
@@ -35,7 +35,7 @@ app.get("/", (req, res) => {
 
 app.use(express.json());
 
-app.use("/auth", authRoutes);
+app.use("/user", userRoutes);
 app.use("/impact", impactRouter);
 app.use("/actions", actionRoutes);
 app.use("/events", eventRoutes);
