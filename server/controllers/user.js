@@ -3,7 +3,6 @@ const bcrypt = require("bcrypt");
 const connection = require("../connection");
 const jwt = require("jsonwebtoken");
 
-
 exports.register = (req, res, next) => {
   console.log("Register request");
   bcrypt
@@ -33,26 +32,58 @@ exports.login = (req, res, next) => {
       bcrypt
         .compare(req.body.password, rows[0].mdp)
         .then((is_valid) => {
-            if (!is_valid) res.status(401).json({ message: "Identifiant ou mot de passe incorrect" });
-            else {
-                res.status(200).json({
-                  userId: rows[0].id_user,
-                  token: jwt.sign(
-                    { userId: rows[0].id_user },
-                    'RANDOM_TOKEN',
-                    { expiresIn: '24h' }
-                  )
-                })
-            }
+          if (!is_valid)
+            res
+              .status(401)
+              .json({ message: "Identifiant ou mot de passe incorrect" });
+          else {
+            res.status(200).json({
+              userId: rows[0].id_user,
+              token: jwt.sign({ userId: rows[0].id_user }, "RANDOM_TOKEN", {
+                expiresIn: "24h",
+              }),
+            });
+          }
         })
         .catch((error) => {
-            res.status(500).json({error});
-        })
+          res.status(500).json({ error });
+        });
     }
   });
 };
 
-exports.getUser = (req, res, next) => {};
+exports.createAdherent = (req, res, next) => {
+  console.log("Create adherent request");
+  const userId = req.auth.userId;
+  const register_query = `INSERT INTO Adherents (id_adherent, nom_ad, prenom_ad, mail_ad, id_user) VALUES ('0', '${req.body.nom_ad}', '${req.body.prenom_ad}', '${req.body.mail_ad}', '${userId}')`;
+  connection.query(register_query, (error) => {
+    if (error) {
+      throw error;
+    } else {
+      res.status(201).json({ message: "Adherent inserted successfully" });
+    }
+  });
+};
+
+exports.selectAdherent = (req, res, next) => {
+  console.log("Select adherent request");
+  const userId = req.auth.userId;
+  const adherentId = req.body.adherentId;
+  res.status(201).json({
+    adherentId: rows[0].id_adherent,
+    token: jwt.sign(
+      { userId: userId, adherentId: rows[0].id_adherent },
+      "RANDOM_TOKEN",
+      { expiresIn: "24h" }
+    ),
+  });
+};
+
+exports.getUser = (req, res, next) => {
+  const userId = req.params.userId;
+  const select_query = `SELECT id_adherent FROM Adherents WHERE id_user = '${userId}'`;
+  // TODO
+};
 
 exports.updateUser = (req, res, next) => {};
 

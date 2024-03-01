@@ -4,6 +4,7 @@ const express = require("express");
 const router = express.Router();
 const userCtrl = require("../controllers/user");
 const auth = require("../middleware/auth");
+const auth_ad = require("../middleware/auth_ad");
 
 /*
 1. **POST** `/user/register` - Pour créer un compte utilisateur.
@@ -15,7 +16,10 @@ const auth = require("../middleware/auth");
 
 router.post("/register", userCtrl.register);
 router.post("/login", userCtrl.login);
+router.post("/create-adherent", auth, userCtrl.createAdherent);
+router.post("/select-adherent", auth, userCtrl.selectAdherent);
 router.get("/:userId", auth, userCtrl.getUser);
+
 router.put("/:userId", auth, userCtrl.updateUser);
 router.delete("/:userId", auth, userCtrl.deleteUser);
 
