@@ -1,6 +1,7 @@
 // Ce fichier contient les middlewares qui gèrent les requêtes vers la route /user
 const bcrypt = require("bcrypt");
 const connection = require("../connection");
+const jwt = require("jsonwebtoken");
 
 
 exports.register = (req, res, next) => {
@@ -8,7 +9,6 @@ exports.register = (req, res, next) => {
   bcrypt
     .hash(req.body.password, 10)
     .then((hash) => {
-      console.log(hash);
       const register_query = `INSERT INTO Utilisateurs (id_user, username, mdp) VALUES ('0', '${req.body.username}', '${hash}')`;
       connection.query(register_query, (error) => {
         if (error) {
@@ -35,7 +35,14 @@ exports.login = (req, res, next) => {
         .then((is_valid) => {
             if (!is_valid) res.status(401).json({ message: "Identifiant ou mot de passe incorrect" });
             else {
-                res.status(200).json({message: "Connexion réussie !"})
+                res.status(200).json({
+                  userId: rows[0].id_user,
+                  token: jwt.sign(
+                    { userId: rows[0].id_user },
+                    'RANDOM_TOKEN',
+                    { expiresIn: '24h' }
+                  )
+                })
             }
         })
         .catch((error) => {
