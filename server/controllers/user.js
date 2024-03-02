@@ -55,7 +55,12 @@ exports.login = (req, res, next) => {
 exports.createAdherent = (req, res, next) => {
   console.log("Create adherent request");
   const userId = req.auth.userId;
-  const register_query = `INSERT INTO Adherents (id_adherent, nom_ad, prenom_ad, mail_ad, id_user) VALUES ('0', '${req.body.nom_ad}', '${req.body.prenom_ad}', '${req.body.mail_ad}', '${userId}')`;
+  const { nom_ad, prenom_ad, mail_ad } = req.body;
+  if (!nom_ad || !prenom_ad || !mail_ad) {
+    return res.status(400).json({ message: "Missing required fields" });
+  }
+  console.log(nom_ad, prenom_ad, mail_ad, userId);
+  const register_query = `INSERT INTO Adherents (id_adherent, nom_ad, prenom_ad, mail_ad, id_user) VALUES ('0', '${nom_ad}', '${prenom_ad}', '${mail_ad}', '${userId}')`;
   connection.query(register_query, (error) => {
     if (error) {
       throw error;
