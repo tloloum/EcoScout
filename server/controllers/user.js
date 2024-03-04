@@ -148,6 +148,7 @@ exports.loginAdherent = async (req, res, next) => {
   const adherentId = req.body.adherentId;
   const userId = req.auth.userId;
   res.status(200).json({
+    userId: userId,
     adherentId: adherentId,
     token: jwt.sign(
       { userId: userId, adherentId: adherentId },
@@ -158,15 +159,30 @@ exports.loginAdherent = async (req, res, next) => {
 };
 
 /**
- * Middleware pour obtenir les informations d'un utilisateur.
+ * Middleware pour obtenir les informations d'un adherent.
  * @param {object} req - L'objet de requête HTTP.
  * @param {object} res - L'objet de réponse HTTP.
  * @param {function} next - La fonction de middleware suivante.
  */
-exports.getUser = (req, res, next) => {
-  const userId = req.params.userId;
-  const select_query = `SELECT id_adherent FROM Adherents WHERE id_user = '${userId}'`;
-  // TODO
+exports.getAdherent = (req, res, next) => {
+  console.log("Get adherent request");
+  const userId = parseInt(req.params.userId, 10);
+  const adherentId = parseInt(req.params.adherentId, 10);
+  if (userId !== req.auth.userId || adherentId !== req.auth.adherentId) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+  const select_query = `SELECT nom_ad, prenom_ad, mail_ad FROM Adherents WHERE id_user = '${userId}'`;
+  send_query_select(select_query)
+    .then((rows) => {
+      res.status(200).json({
+        nom_ad: rows[0].nom_ad,
+        prenom_ad: rows[0].prenom_ad,
+        mail_ad: rows[0].mail_ad,
+      });
+    })
+    .catch((error) => {
+      res.status(500).json({ error });
+    });
 };
 
 /**
@@ -175,8 +191,19 @@ exports.getUser = (req, res, next) => {
  * @param {object} res - L'objet de réponse HTTP.
  * @param {function} next - La fonction de middleware suivante.
  */
-exports.updateUser = (req, res, next) => {
-  // TODO
+exports.updateAdherent = (req, res, next) => {
+  console.log("Update adherent request");
+  const userId = parseInt(req.params.userId, 10);
+  const adherentId = parseInt(req.params.adherentId, 10);
+  if (userId !== req.auth.userId || adherentId !== req.auth.adherentId) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+  const { nom_ad, prenom_ad, mail_ad } = req.body;
+  if (!nom_ad || !prenom_ad || !mail_ad) {
+    return res.status(400).json({ message: "Missing required fields" });
+  }
+  const update_query = `UPDATE Adherents SET nom_ad='${nom_ad}', prenom_ad='${prenom_ad}', mail_ad='${mail_ad}' WHERE id_user='${userId}'`;
+  send_query_insert(update_query, res, 200, "Adherent updated successfully");
 };
 
 /**
@@ -185,6 +212,13 @@ exports.updateUser = (req, res, next) => {
  * @param {object} res - L'objet de réponse HTTP.
  * @param {function} next - La fonction de middleware suivante.
  */
-exports.deleteUser = (req, res, next) => {
-  // TODO
+exports.deleteAdherent = (req, res, next) => {
+  console.log("Delete adherent request");
+  const userId = parseInt(req.params.userId, 10);
+  const adherentId = parseInt(req.params.adherentId, 10);
+  if (userId !== req.auth.userId || adherentId !== req.auth.adherentId) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+  const delete_query = `DELETE FROM Adherents WHERE id_user='${userId}'`;
+  send_query_insert(delete_query, res, 200, "Adherent deleted successfully");
 };

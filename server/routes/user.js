@@ -18,10 +18,9 @@ router.post("/register", userCtrl.register);
 router.post("/login", userCtrl.login);
 router.post("/create-adherent", auth, userCtrl.createAdherent);
 router.post("/login-adherent", auth, userCtrl.loginAdherent);
-router.get("/:userId", auth, userCtrl.getUser);
-
-router.put("/:userId", auth, userCtrl.updateUser);
-router.delete("/:userId", auth, userCtrl.deleteUser);
+router.get("/:userId/adherent/:adherentId", auth_ad, userCtrl.getAdherent);
+router.put("/:userId/adherent/:adherentId", auth_ad, userCtrl.updateAdherent);
+router.delete("/:userId/adherent/:adherentId", auth_ad, userCtrl.deleteAdherent);
 
 router.use((req, res, next) => {
   console.log("Requete d'authentification");
