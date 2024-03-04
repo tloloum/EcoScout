@@ -66,7 +66,6 @@ check_if_exists = async (table, field, name) => {
  * @param {function} next - La fonction de middleware suivante.
  */
 exports.register = async (req, res, next) => {
-  console.log("Register request");
   if (await check_if_exists("Utilisateurs", "username", req.body.username))
     return res.status(400).json({ message: "Username already taken" });
   else {
@@ -94,11 +93,14 @@ exports.register = async (req, res, next) => {
  * @param {function} next - La fonction de middleware suivante.
  */
 exports.login = async (req, res, next) => {
-  console.log("Login request");
   const username = req.body.username;
   const password = req.body.password;
   const login_query = `SELECT id_user, mdp FROM Utilisateurs WHERE username = '${username}'`;
   const rows = await send_query_select(login_query);
+  if (rows.length === 0)
+    return res
+      .status(401)
+      .json({ message: "Identifiant ou mot de passe incorrect" });
   bcrypt
     .compare(password, rows[0].mdp)
     .then((is_valid) => {
@@ -127,7 +129,6 @@ exports.login = async (req, res, next) => {
  * @param {function} next - La fonction de middleware suivante.
  */
 exports.createAdherent = (req, res, next) => {
-  console.log("Create adherent request");
   const userId = req.auth.userId;
   const { nom_ad, prenom_ad, mail_ad } = req.body;
   if (!nom_ad || !prenom_ad || !mail_ad) {
@@ -144,9 +145,16 @@ exports.createAdherent = (req, res, next) => {
  * @param {function} next - La fonction de middleware suivante.
  */
 exports.loginAdherent = async (req, res, next) => {
-  console.log("Login adherent request");
+  if (req.body.adherentId === undefined) {
+    return res.status(400).json({ message: "Missing required fields" });
+  }
   const adherentId = req.body.adherentId;
   const userId = req.auth.userId;
+  const select_query = `SELECT id_user FROM Adherents WHERE id_adherent = '${adherentId}'`;
+  const rows = await send_query_select(select_query);
+  if (rows.length === 0 || rows[0].id_user !== userId) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
   res.status(200).json({
     userId: userId,
     adherentId: adherentId,
@@ -165,7 +173,6 @@ exports.loginAdherent = async (req, res, next) => {
  * @param {function} next - La fonction de middleware suivante.
  */
 exports.getAdherent = (req, res, next) => {
-  console.log("Get adherent request");
   const userId = parseInt(req.params.userId, 10);
   const adherentId = parseInt(req.params.adherentId, 10);
   if (userId !== req.auth.userId || adherentId !== req.auth.adherentId) {
@@ -192,7 +199,6 @@ exports.getAdherent = (req, res, next) => {
  * @param {function} next - La fonction de middleware suivante.
  */
 exports.updateAdherent = (req, res, next) => {
-  console.log("Update adherent request");
   const userId = parseInt(req.params.userId, 10);
   const adherentId = parseInt(req.params.adherentId, 10);
   if (userId !== req.auth.userId || adherentId !== req.auth.adherentId) {
@@ -213,7 +219,6 @@ exports.updateAdherent = (req, res, next) => {
  * @param {function} next - La fonction de middleware suivante.
  */
 exports.deleteAdherent = (req, res, next) => {
-  console.log("Delete adherent request");
   const userId = parseInt(req.params.userId, 10);
   const adherentId = parseInt(req.params.adherentId, 10);
   if (userId !== req.auth.userId || adherentId !== req.auth.adherentId) {
