@@ -11,18 +11,16 @@ CREATE TABLE Adherents
     prenom_ad VARCHAR(255) NOT NULL,
     mail_ad VARCHAR(255) NOT NULL,
     id_user INTEGER,
-    FOREIGN KEY (id_user) REFERENCES Utilisateurs(id_user) 
+    FOREIGN KEY (id_user) REFERENCES Utilisateurs(id_user) ON DELETE CASCADE
 );
 
-/*Plus de table surstructure car modif de la cardinalité => on ne peut pas être dans plusieurs structures plus grande différentes => c'est un arbre"*/
 
 CREATE TABLE Structure
 (
     id_structure SERIAL PRIMARY KEY,
     nom_structure VARCHAR(255) NOT NULL,
     date_creation DATE NOT NULL,
-    id_structure_mere INTEGER,
-    FOREIGN KEY (id_structure_mere) REFERENCES Structure(id_structure)
+    id_structure_mere INTEGER REFERENCES Structure(id_structure) ON DELETE CASCADE,
 );
 
 CREATE TABLE Evenements
@@ -57,13 +55,13 @@ CREATE TABLE Trajets
     id_badge SERIAL PRIMARY KEY,
     distance FLOAT NOT NULL,
     date_trajet DATE NOT NULL,
-    vehicule VARCHAR(255) NOT NULL, /*A voir comment on s'occupe du véhicule => VARCHAR??*/
+    vehicule VARCHAR(255) NOT NULL,
     impact FLOAT NOT NULL,
     nb_passagers INTEGER NOT NUll,
     id_evenement INTEGER,
-    FOREIGN KEY (id_evenement) REFERENCES Evenements(id_evenement) ON DELETE CASCADE
-    /*vraiment lié à l'adhérent? pcq pas de liaison dans le conceptuel alors que dans le relationnel oui. Si oui rajouter:
-    FOREIGN KEY id_adherent REFERENCES Adherents(id_adherent) ON DELETE CASCADE*/
+    FOREIGN KEY (id_evenement) REFERENCES Evenements(id_evenement) ON DELETE CASCADE,
+    id_adherent INTEGER,
+    FOREIGN KEY (id_adherent) REFERENCES Adherents(id_adherent) ON DELETE CASCADE
 );
 
 CREATE TABLE Badges
@@ -71,9 +69,9 @@ CREATE TABLE Badges
     id_badge SERIAL PRIMARY KEY,
     nom_badge VARCHAR(255) NOT NULL,
     /*icone => voir comment ca marche pour les images*/
-    description_badge VARCHAR(255), /*NOT NULL?*/
+    description_badge VARCHAR(255),
     date_badge_obtenu DATE NOT NULL,
-    statut BOOLEAN NOT NULL /*pas compris le statut c'est ça?*/
+    statut BOOLEAN NOT NULL,
     id_adherent INTEGER,
     FOREIGN KEY (id_adherent) REFERENCES Adherents(id_adherent) ON DELETE CASCADE,
     id_structure INTEGER,
@@ -83,7 +81,7 @@ CREATE TABLE Badges
 CREATE TABLE Defis
 (
     id_defi SERIAL PRIMARY KEY,
-    description_defi VARCHAR(255), /*NOT NULL?*/
+    description_defi VARCHAR(255) NOT NULL,
     id_badge INTEGER,
     FOREIGN KEY (id_badge) REFERENCES Badges(id_badge) ON DELETE CASCADE,
     id_evenement INTEGER, 
