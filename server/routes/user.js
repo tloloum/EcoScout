@@ -17,7 +17,7 @@ const auth_ad = require("../middleware/auth_ad");
 router.post("/register", userCtrl.register);
 router.post("/login", userCtrl.login);
 router.post("/create-adherent", auth, userCtrl.createAdherent);
-router.post("/select-adherent", auth, userCtrl.selectAdherent);
+router.post("/login-adherent", auth, userCtrl.loginAdherent);
 router.get("/:userId", auth, userCtrl.getUser);
 
 router.put("/:userId", auth, userCtrl.updateUser);
