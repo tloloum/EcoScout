@@ -1,31 +1,34 @@
 CREATE TABLE Utilisateurs
 (
-    id_user SERIAL PRIMARY KEY,
+    id_user INT PRIMARY KEY AUTO_INCREMENT,
     mdp VARCHAR(50) NOT NULL
 );
 
+--@block 
 CREATE TABLE Adherents
 (
-    id_adherent SERIAL PRIMARY KEY,
+    id_adherent INTEGER PRIMARY KEY AUTO_INCREMENT,
     nom_ad VARCHAR(255) NOT NULL,
     prenom_ad VARCHAR(255) NOT NULL,
-    mail_ad VARCHAR(255) NOT NULL,
+    mail_ad VARCHAR(255) NOT NULL UNIQUE,
     id_user INTEGER,
     FOREIGN KEY (id_user) REFERENCES Utilisateurs(id_user) ON DELETE CASCADE
 );
 
-
-CREATE TABLE Structure
+--@block 
+CREATE TABLE Structur /* car Structure est un truc déja implémenté*/
 (
-    id_structure SERIAL PRIMARY KEY,
+    id_structur INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     nom_structure VARCHAR(255) NOT NULL,
     date_creation DATE NOT NULL,
-    id_structure_mere INTEGER REFERENCES Structure(id_structure) ON DELETE CASCADE,
+    id_structur_mere INTEGER UNSIGNED,
+    FOREIGN KEY (id_structur_mere) REFERENCES Structur(id_structur) ON DELETE CASCADE 
 );
 
+--@block 
 CREATE TABLE Evenements
 (
-    id_evenement SERIAL PRIMARY KEY,
+    id_evenement INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     nom_evenement VARCHAR(255) NOT NULL,
     lieu VARCHAR(255) NOT NULL,
     duree_evenement FLOAT NOT NULL,
@@ -34,39 +37,43 @@ CREATE TABLE Evenements
     date_debut DATE NOT NULL
 );
 
+--@block 
 CREATE TABLE Organisateurs
 (
-    id_structure INTEGER,
-    FOREIGN KEY (id_structure) REFERENCES Structure(id_structure) ON DELETE CASCADE,
-    id_evenement INTEGER,
+    id_structure INTEGER UNSIGNED,
+    FOREIGN KEY (id_structure) REFERENCES Structur(id_structur) ON DELETE CASCADE,
+    id_evenement INTEGER UNSIGNED,
     FOREIGN KEY (id_evenement) REFERENCES Evenements(id_evenement) ON DELETE CASCADE
 );
 
+--@block 
 CREATE TABLE Participants
 (
-    id_structure INTEGER,
-    FOREIGN KEY (id_structure) REFERENCES Structure(id_structure) ON DELETE CASCADE,
-    id_evenement INTEGER,
+    id_structure INTEGER UNSIGNED,
+    FOREIGN KEY (id_structure) REFERENCES Structur(id_structur) ON DELETE CASCADE,
+    id_evenement INTEGER UNSIGNED,
     FOREIGN KEY (id_evenement) REFERENCES Evenements(id_evenement) ON DELETE CASCADE
 );
 
+--@block 
 CREATE TABLE Trajets
 (
-    id_badge SERIAL PRIMARY KEY,
+    id_badge INT PRIMARY KEY AUTO_INCREMENT,
     distance FLOAT NOT NULL,
     date_trajet DATE NOT NULL,
     vehicule VARCHAR(255) NOT NULL,
     impact FLOAT NOT NULL,
     nb_passagers INTEGER NOT NUll,
-    id_evenement INTEGER,
+    id_evenement INTEGER UNSIGNED,
     FOREIGN KEY (id_evenement) REFERENCES Evenements(id_evenement) ON DELETE CASCADE,
     id_adherent INTEGER,
     FOREIGN KEY (id_adherent) REFERENCES Adherents(id_adherent) ON DELETE CASCADE
 );
 
+--@block 
 CREATE TABLE Badges
 (
-    id_badge SERIAL PRIMARY KEY,
+    id_badge INT PRIMARY KEY AUTO_INCREMENT,
     nom_badge VARCHAR(255) NOT NULL,
     /*icone => voir comment ca marche pour les images*/
     description_badge VARCHAR(255),
@@ -74,26 +81,28 @@ CREATE TABLE Badges
     statut BOOLEAN NOT NULL,
     id_adherent INTEGER,
     FOREIGN KEY (id_adherent) REFERENCES Adherents(id_adherent) ON DELETE CASCADE,
-    id_structure INTEGER,
-    FOREIGN KEY (id_structure) REFERENCES Structure(id_structure) ON DELETE CASCADE
+    id_structure INTEGER UNSIGNED,
+    FOREIGN KEY (id_structure) REFERENCES Structur(id_structur) ON DELETE CASCADE
 );
 
+--@block 
 CREATE TABLE Defis
 (
-    id_defi SERIAL PRIMARY KEY,
+    id_defi INT PRIMARY KEY AUTO_INCREMENT,
     description_defi VARCHAR(255) NOT NULL,
     id_badge INTEGER,
     FOREIGN KEY (id_badge) REFERENCES Badges(id_badge) ON DELETE CASCADE,
-    id_evenement INTEGER, 
+    id_evenement INTEGER UNSIGNED, 
     FOREIGN KEY (id_evenement) REFERENCES Evenements(id_evenement) ON DELETE CASCADE
 );
 
+--@block 
 CREATE TABLE Admin
 (
-    id_admin SERIAL PRIMARY KEY,
+    id_admin INT PRIMARY KEY AUTO_INCREMENT,
     debut_mandat DATE NOT NULL,
-    id_structure INTEGER,
-    FOREIGN KEY id_structure REFERENCES Structures(id_structure) ON DELETE CASCADE,
+    id_structure INTEGER UNSIGNED,
+    FOREIGN KEY (id_structure) REFERENCES Structur(id_structur) ON DELETE CASCADE,
     id_adherent INTEGER,
-    FOREIGN KEY id_adherent REFERENCES Adherents(id_adherent) ON DELETE CASCADE
+    FOREIGN KEY (id_adherent) REFERENCES Adherents(id_adherent) ON DELETE CASCADE
 );
