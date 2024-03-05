@@ -93,6 +93,7 @@ exports.register = async (req, res, next) => {
  * @param {function} next - La fonction de middleware suivante.
  */
 exports.login = async (req, res, next) => {
+  console.log("lofin")
   const username = req.body.username;
   const password = req.body.password;
   const login_query = `SELECT id_user, mdp FROM Utilisateurs WHERE username = '${username}'`;
@@ -152,7 +153,7 @@ exports.loginAdherent = async (req, res, next) => {
   const userId = req.auth.userId;
   const select_query = `SELECT id_user FROM Adherents WHERE id_adherent = '${adherentId}'`;
   const rows = await send_query_select(select_query);
-  if (rows.length === 0 || rows[0].id_user !== userId) {
+  if (rows.length === 0 || (userId - rows[0].id_user !== 0) ){
     return res.status(401).json({ message: "Unauthorized" });
   }
   res.status(200).json({
@@ -227,3 +228,4 @@ exports.deleteAdherent = (req, res, next) => {
   const delete_query = `DELETE FROM Adherents WHERE id_user='${userId}'`;
   send_query_insert(delete_query, res, 200, "Adherent deleted successfully");
 };
+

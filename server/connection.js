@@ -10,11 +10,6 @@ const connection = mysql.createPool({
   queueLimit: 0,
 });
 
-// connection.connect((error) => {
-//   if (error) throw error;
-//   console.log('Connecté à la BDD');
-// });
-
 // connection.query('select * from Utilisateurs', (err, rows, fields) => {
 //   if (err) throw err
 //   console.log(rows)
