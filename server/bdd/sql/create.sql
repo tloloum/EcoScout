@@ -4,10 +4,10 @@ CREATE TABLE Utilisateurs
     mdp VARCHAR(50) NOT NULL
 );
 
---@block 
+/*@block*/ 
 CREATE TABLE Adherents
 (
-    id_adherent INTEGER PRIMARY KEY AUTO_INCREMENT,
+    id_adherent INTEGER AUTO_INCREMENT PRIMARY KEY ,
     nom_ad VARCHAR(255) NOT NULL,
     prenom_ad VARCHAR(255) NOT NULL,
     mail_ad VARCHAR(255) NOT NULL UNIQUE,
@@ -15,7 +15,7 @@ CREATE TABLE Adherents
     FOREIGN KEY (id_user) REFERENCES Utilisateurs(id_user) ON DELETE CASCADE
 );
 
---@block 
+/* @block  */
 CREATE TABLE Structur /* car Structure est un truc déja implémenté*/
 (
     id_structur INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
@@ -25,7 +25,7 @@ CREATE TABLE Structur /* car Structure est un truc déja implémenté*/
     FOREIGN KEY (id_structur_mere) REFERENCES Structur(id_structur) ON DELETE CASCADE 
 );
 
---@block 
+/* --@block  */
 CREATE TABLE Evenements
 (
     id_evenement INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
@@ -37,7 +37,7 @@ CREATE TABLE Evenements
     date_debut DATE NOT NULL
 );
 
---@block 
+/* --@block  */
 CREATE TABLE Organisateurs
 (
     id_structure INTEGER UNSIGNED,
@@ -46,7 +46,7 @@ CREATE TABLE Organisateurs
     FOREIGN KEY (id_evenement) REFERENCES Evenements(id_evenement) ON DELETE CASCADE
 );
 
---@block 
+/* --@block  */
 CREATE TABLE Participants
 (
     id_structure INTEGER UNSIGNED,
@@ -55,7 +55,7 @@ CREATE TABLE Participants
     FOREIGN KEY (id_evenement) REFERENCES Evenements(id_evenement) ON DELETE CASCADE
 );
 
---@block 
+/* --@block  */
 CREATE TABLE Trajets
 (
     id_badge INT PRIMARY KEY AUTO_INCREMENT,
@@ -70,7 +70,7 @@ CREATE TABLE Trajets
     FOREIGN KEY (id_adherent) REFERENCES Adherents(id_adherent) ON DELETE CASCADE
 );
 
---@block 
+/* --@block  */
 CREATE TABLE Badges
 (
     id_badge INT PRIMARY KEY AUTO_INCREMENT,
@@ -85,7 +85,7 @@ CREATE TABLE Badges
     FOREIGN KEY (id_structure) REFERENCES Structur(id_structur) ON DELETE CASCADE
 );
 
---@block 
+/* --@block  */
 CREATE TABLE Defis
 (
     id_defi INT PRIMARY KEY AUTO_INCREMENT,
@@ -96,7 +96,7 @@ CREATE TABLE Defis
     FOREIGN KEY (id_evenement) REFERENCES Evenements(id_evenement) ON DELETE CASCADE
 );
 
---@block 
+/* --@block  */
 CREATE TABLE Admin
 (
     id_admin INT PRIMARY KEY AUTO_INCREMENT,
