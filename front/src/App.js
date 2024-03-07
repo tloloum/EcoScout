@@ -1,18 +1,15 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import Auth from "./contexts/Auth";
+import { AuthContext, AuthContextProvider } from "./contexts/Auth";
 import Error404 from "./pages/Error404";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import Register from "./pages/Register";
-import { hasAuthenticated } from "./services/AuthApi";
 
 const App = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(hasAuthenticated());
-
   return (
-    <Auth.Provider value={{ isAuthenticated }}>
+    <AuthContextProvider>
       <BrowserRouter>
         <Routes>
           <Route exact path="/" element={<Home />} />
@@ -21,12 +18,20 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route
             path="/profile"
-            element={isAuthenticated ? <Profile /> : <Navigate to="/login" />}
+            element={<PrivateRoute component={<Profile />} />}
           />
         </Routes>
       </BrowserRouter>
-    </Auth.Provider>
+    </AuthContextProvider>
   );
+};
+
+const PrivateRoute = ({ component }) => {
+  // Accessing isAuthenticated from the context
+  const { isAuthenticated } = useContext(AuthContext);
+
+  // Redirect to login if not authenticated
+  return isAuthenticated ? component : <Navigate to="/login" />;
 };
 
 export default App;

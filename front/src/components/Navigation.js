@@ -1,9 +1,15 @@
 import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
-import Auth from "../contexts/Auth";
+import { AuthContext } from "../contexts/Auth";
 
 const Navigation = () => {
-  const { isAuthenticated } = useContext(Auth);
+  const { isAuthenticated, signOut } = useContext(AuthContext);
+  // const { isAuthenticated } = useContext(Auth);
+
+  // const handleSignOut = () => {
+  //   signOut();
+  // };
+
   return (
     <div className="navigation">
       <ul>
@@ -37,7 +43,7 @@ const Navigation = () => {
             </NavLink>
 
             <li>
-              <button>Déconnexion</button>
+              <button onClick={signOut}>Déconnexion</button>
             </li>
           </>
         )}
