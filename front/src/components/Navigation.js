@@ -4,11 +4,6 @@ import { AuthContext } from "../contexts/Auth";
 
 const Navigation = () => {
   const { isAuthenticated, signOut } = useContext(AuthContext);
-  // const { isAuthenticated } = useContext(Auth);
-
-  // const handleSignOut = () => {
-  //   signOut();
-  // };
 
   return (
     <div className="navigation">
