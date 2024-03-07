@@ -2,7 +2,7 @@ CREATE TABLE Utilisateurs
 (
     id_user INT PRIMARY KEY AUTO_INCREMENT,
     mail_ad VARCHAR(255) NOT NULL UNIQUE,
-    mdp VARCHAR(50) NOT NULL
+    mdp VARCHAR(255) NOT NULL
 );
 
 /*@block*/ 
