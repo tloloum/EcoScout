@@ -1,5 +1,3 @@
-// Ce fichier contient le middleware d'authentification.
-
 const jwt = require("jsonwebtoken");
 
 module.exports = (req, res, next) => {
@@ -7,8 +5,10 @@ module.exports = (req, res, next) => {
     const token = req.headers.authorization.split(" ")[1];
     const decodedToken = jwt.verify(token, "RANDOM_TOKEN");
     const userId = decodedToken.userId;
+    const adherentId = decodedToken.adherentId;
     req.auth = {
       userId: userId,
+      adherentId: adherentId,
     };
     next();
   } catch (error) {
