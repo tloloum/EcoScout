@@ -30,15 +30,17 @@ send_query_select = async (msg) => {
   }
 };
 
-check_if_exists = async (table, field, name) => {
+const check_if_exists = async (table, field, name) => {
   const query = `SELECT COUNT(*) AS count FROM ${table} WHERE ${field}='${name}'`;
   let u = await send_query_select(query);
   return u[0].count;
 };
 
+const check_if_exists_user = (username) => check_if_exists("Utilisateurs", "username", username);
+
 exports.register = async (req, res, next) => {
   console.log("Register request");
-  if (await check_if_exists("Utilisateurs", "username", req.body.username))
+  if (await check_if_exists_user(req.body.username))
     return res.status(400).json({ message: "Username already taken" });
   else {
     bcrypt
