@@ -258,6 +258,38 @@ describe("Adherent Management", () => {
     expect(response.statusCode).toBe(401);
   });
 
+  it("should get the list of adherents", async () => {
+    const userId = 1;
+
+    const response = await request(app)
+      .get(`/user/${userId}/adherents`)
+      .set("Authorization", `Bearer ${adherentToken}`)
+      .expect(200);
+
+    expect(response.body).toHaveLength(2);
+    expect(response.body[0]).toHaveProperty("nom_ad", "test_ad_nom");
+    expect(response.body[0]).toHaveProperty("prenom_ad", "test_ad_prenom");
+    expect(response.body[1]).toHaveProperty("nom_ad", "test_ad_nom2");
+    expect(response.body[1]).toHaveProperty("prenom_ad", "test_ad_prenom2");
+  });
+
+  it("should not get the list of adherents with an invalid token", async () => {
+    const userId = 1;
+
+    const response = await request(app)
+      .get(`/user/${userId}/adherents`)
+      .set("Authorization", `Bearer invalidToken`)
+      .expect(401);
+  });
+
+  it("should not get the list of adherents with a missing token", async () => {
+    const userId = 1;
+
+    const response = await request(app)
+      .get(`/user/${userId}/adherents`)
+      .expect(401);
+  });
+
   it("should get the information of an adherent", async () => {
     const userId = 1;
     const adherentId = 1;

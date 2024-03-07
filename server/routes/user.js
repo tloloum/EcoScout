@@ -18,6 +18,7 @@ router.post("/register", userCtrl.register);
 router.post("/login", userCtrl.login);
 router.post("/create-adherent", auth, userCtrl.createAdherent);
 router.post("/login-adherent", auth, userCtrl.loginAdherent);
+router.get("/:userId/adherents", auth, userCtrl.getAdherentsFromUser);
 router.get("/:userId/adherent/:adherentId", auth_ad, userCtrl.getAdherent);
 router.put("/:userId/adherent/:adherentId", auth_ad, userCtrl.updateAdherent);
 router.delete("/:userId/adherent/:adherentId", auth_ad, userCtrl.deleteAdherent);

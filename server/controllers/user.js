@@ -122,6 +122,22 @@ exports.loginAdherent = async (req, res, next) => {
   });
 };
 
+exports.getAdherentsFromUser = (req, res, next) => {
+  const userId = parseInt(req.params.userId, 10);
+  if (userId !== req.auth.userId) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+  const select_query = `SELECT id_adherent, nom_ad, prenom_ad FROM Adherents WHERE id_user = '${userId}'`;
+  utils
+    .send_query_select(select_query)
+    .then((rows) => {
+      res.status(200).json(rows);
+    })
+    .catch((error) => {
+      res.status(500).json({ error });
+    });
+};
+
 /**
  * Middleware pour obtenir les informations d'un adherent.
  * @param {object} req - L'objet de requête HTTP.
@@ -134,7 +150,7 @@ exports.getAdherent = (req, res, next) => {
   if (userId !== req.auth.userId || adherentId !== req.auth.adherentId) {
     return res.status(401).json({ message: "Unauthorized" });
   }
-  const select_query = `SELECT nom_ad, prenom_ad FROM Adherents WHERE id_user = '${userId}'`;
+  const select_query = `SELECT nom_ad, prenom_ad FROM Adherents WHERE id_user = '${userId}' AND id_adherent = '${adherentId}'`;
   utils
     .send_query_select(select_query)
     .then((rows) => {
