@@ -5,13 +5,13 @@ module.exports = (req, res, next) => {
     const token = req.headers.authorization.split(" ")[1];
     const decodedToken = jwt.verify(token, "RANDOM_TOKEN");
     const userId = decodedToken.userId;
-    const adhrentId = decodedToken.adhrentId;
+    const adherentId = decodedToken.adherentId;
     req.auth = {
       userId: userId,
-      adhrentId: adhrentId,
+      adherentId: adherentId,
     };
     next();
   } catch (error) {
-    res.status(401).json({ error: error | "Requête non authentifiée" });
+    res.status(401).json({ error: error | "Unauthorized" });
   }
 };
