@@ -1,7 +1,7 @@
 CREATE TABLE Utilisateurs
 (
-    id_user INT PRIMARY KEY AUTO_INCREMENT,
-    mail VARCHAR(255) NOT NULL UNIQUE,
+    id_user INTEGER PRIMARY KEY AUTO_INCREMENT,
+    mail_ad VARCHAR(255) NOT NULL UNIQUE,
     mdp VARCHAR(255) NOT NULL
 );
 
@@ -22,7 +22,11 @@ CREATE TABLE Structur /* car Structure est un truc déja implémenté*/
     nom_structure VARCHAR(255) NOT NULL,
     date_creation DATE NOT NULL,
     id_structur_mere INTEGER UNSIGNED,
-    FOREIGN KEY (id_structur_mere) REFERENCES Structur(id_structur) ON DELETE CASCADE 
+    FOREIGN KEY (id_structur_mere) REFERENCES Structur(id_structur) ON DELETE CASCADE, 
+    id_owner INTEGER NOT NULL UNIQUE,
+    FOREIGN KEY (id_owner) REFERENCES Utilisateurs(id_user) ON DELETE CASCADE,
+    id_admin INTEGER,
+    FOREIGN KEY (id_admin) REFERENCES Adherents(id_adherent) ON DELETE CASCADE
 );
 
 /* --@block  */
