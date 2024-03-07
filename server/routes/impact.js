@@ -2,6 +2,7 @@
 
 const express = require("express");
 const router = express.Router();
+const impactCtrl = require('../controllers/impact')
 
 router.use((req, res, next) => {
   console.log("Requete de calcul d'impact");
