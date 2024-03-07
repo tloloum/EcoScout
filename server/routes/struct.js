@@ -16,7 +16,7 @@ const auth = require('../middleware/auth');
 8. **POST** `/structures/{structureId}/hierarchy` - Pour faire rejoindre une structure à une autre (gestion de la hiérarchie).
 */
 
-router.post('/', auth, structCtrl.createStruct);
+router.post('/create', auth, structCtrl.createStruct);
 router.get('/:structureId', auth, structCtrl.getStruct);
 router.put('/:structureId', auth, structCtrl.updateStruct);
 router.delete('/:structureId', auth, structCtrl.deleteStruct);
