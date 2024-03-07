@@ -1,11 +1,5 @@
 import React, { createContext, useState } from "react";
 
-// export default React.createContext({
-//   isAuthenticated: hasAuthenticated(),
-// });
-
-// import React, { createContext, useState } from "react";
-
 const AuthContext = createContext();
 
 const AuthContextProvider = (props) => {
