@@ -1,6 +1,7 @@
 CREATE TABLE Utilisateurs
 (
     id_user INT PRIMARY KEY AUTO_INCREMENT,
+    mail_ad VARCHAR(255) NOT NULL UNIQUE,
     mdp VARCHAR(50) NOT NULL
 );
 
@@ -10,7 +11,6 @@ CREATE TABLE Adherents
     id_adherent INTEGER PRIMARY KEY AUTO_INCREMENT,
     nom_ad VARCHAR(255) NOT NULL,
     prenom_ad VARCHAR(255) NOT NULL,
-    mail_ad VARCHAR(255) NOT NULL UNIQUE,
     id_user INTEGER,
     FOREIGN KEY (id_user) REFERENCES Utilisateurs(id_user) ON DELETE CASCADE
 );
