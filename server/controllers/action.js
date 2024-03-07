@@ -1,4 +1,4 @@
-const connection = require('../connection')
+const utils = require("../bdd/utils/utils.js")
 
 exports.createAction = (req, res, next) => {
 

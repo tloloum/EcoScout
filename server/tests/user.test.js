@@ -2,7 +2,7 @@ const request = require("supertest");
 const fs = require("fs");
 const path = require("path");
 const app = require("../app");
-const connection = require("../connection");
+const connection = require("../bdd/utils/connection");
 
 /**
  * Réinitialise la base de données avant de lancer les tests.
