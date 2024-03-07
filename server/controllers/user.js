@@ -4,12 +4,11 @@
 
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const utils = require("../bdd/utils/utils.js")
+const utils = require("../bdd/utils/utils.js");
 
+const check_if_exists_user = (mail) =>
+  utils.check_if_exists("Utilisateurs", "mail", mail);
 
-
-const check_if_exists_user = (username) => utils.check_if_exists("Utilisateurs", "username", username);
-  
 /**
  * Middleware pour l'enregistrement d'un utilisateur.
  * @param {object} req - L'objet de requête HTTP.
@@ -17,13 +16,13 @@ const check_if_exists_user = (username) => utils.check_if_exists("Utilisateurs",
  * @param {function} next - La fonction de middleware suivante.
  */
 exports.register = async (req, res, next) => {
-  if (await check_if_exists_user(req.body.username))
-    return res.status(400).json({ message: "Username already taken" });
+  if (await check_if_exists_user(req.body.mail))
+    return res.status(400).json({ message: "Mail already taken" });
   else {
     bcrypt
       .hash(req.body.password, 10)
       .then((hash) => {
-        const register_query = `INSERT INTO Utilisateurs (id_user, username, mdp) VALUES ('0', '${req.body.username}', '${hash}')`;
+        const register_query = `INSERT INTO Utilisateurs (id_user, mail, mdp) VALUES ('0', '${req.body.mail}', '${hash}')`;
         utils.send_query_insert(
           register_query,
           res,
@@ -44,9 +43,9 @@ exports.register = async (req, res, next) => {
  * @param {function} next - La fonction de middleware suivante.
  */
 exports.login = async (req, res, next) => {
-  const username = req.body.username;
+  const mail = req.body.mail;
   const password = req.body.password;
-  const login_query = `SELECT id_user, mdp FROM Utilisateurs WHERE username = '${username}'`;
+  const login_query = `SELECT id_user, mdp FROM Utilisateurs WHERE mail = '${mail}'`;
   const rows = await utils.send_query_select(login_query);
   if (rows.length === 0)
     return res
@@ -82,12 +81,17 @@ exports.login = async (req, res, next) => {
 
 exports.createAdherent = (req, res, next) => {
   const userId = req.auth.userId;
-  const { nom_ad, prenom_ad, mail_ad } = req.body;
-  if (!nom_ad || !prenom_ad || !mail_ad) {
+  const { nom_ad, prenom_ad } = req.body;
+  if (!nom_ad || !prenom_ad) {
     return res.status(400).json({ message: "Missing required fields" });
   }
-  const register_query = `INSERT INTO Adherents (id_adherent, nom_ad, prenom_ad, mail_ad, id_user) VALUES ('0', '${nom_ad}', '${prenom_ad}', '${mail_ad}', '${userId}')`;
-  utils.send_query_insert(register_query, res, 201, "Adherent inserted successfully");
+  const register_query = `INSERT INTO Adherents (id_adherent, nom_ad, prenom_ad, id_user) VALUES ('0', '${nom_ad}', '${prenom_ad}', '${userId}')`;
+  utils.send_query_insert(
+    register_query,
+    res,
+    201,
+    "Adherent inserted successfully"
+  );
 };
 
 /**
@@ -104,7 +108,7 @@ exports.loginAdherent = async (req, res, next) => {
   const userId = req.auth.userId;
   const select_query = `SELECT id_user FROM Adherents WHERE id_adherent = '${adherentId}'`;
   const rows = await utils.send_query_select(select_query);
-  if (rows.length === 0 || (userId - rows[0].id_user !== 0) ){
+  if (rows.length === 0 || userId - rows[0].id_user !== 0) {
     return res.status(401).json({ message: "Unauthorized" });
   }
   res.status(200).json({
@@ -130,13 +134,13 @@ exports.getAdherent = (req, res, next) => {
   if (userId !== req.auth.userId || adherentId !== req.auth.adherentId) {
     return res.status(401).json({ message: "Unauthorized" });
   }
-  const select_query = `SELECT nom_ad, prenom_ad, mail_ad FROM Adherents WHERE id_user = '${userId}'`;
-  utils.send_query_select(select_query)
+  const select_query = `SELECT nom_ad, prenom_ad FROM Adherents WHERE id_user = '${userId}'`;
+  utils
+    .send_query_select(select_query)
     .then((rows) => {
       res.status(200).json({
         nom_ad: rows[0].nom_ad,
         prenom_ad: rows[0].prenom_ad,
-        mail_ad: rows[0].mail_ad,
       });
     })
     .catch((error) => {
@@ -156,12 +160,17 @@ exports.updateAdherent = (req, res, next) => {
   if (userId !== req.auth.userId || adherentId !== req.auth.adherentId) {
     return res.status(401).json({ message: "Unauthorized" });
   }
-  const { nom_ad, prenom_ad, mail_ad } = req.body;
-  if (!nom_ad || !prenom_ad || !mail_ad) {
+  const { nom_ad, prenom_ad } = req.body;
+  if (!nom_ad || !prenom_ad) {
     return res.status(400).json({ message: "Missing required fields" });
   }
-  const update_query = `UPDATE Adherents SET nom_ad='${nom_ad}', prenom_ad='${prenom_ad}', mail_ad='${mail_ad}' WHERE id_user='${userId}'`;
-  utils.send_query_insert(update_query, res, 200, "Adherent updated successfully");
+  const update_query = `UPDATE Adherents SET nom_ad='${nom_ad}', prenom_ad='${prenom_ad}' WHERE id_user='${userId}'`;
+  utils.send_query_insert(
+    update_query,
+    res,
+    200,
+    "Adherent updated successfully"
+  );
 };
 
 /**
@@ -177,6 +186,10 @@ exports.deleteAdherent = (req, res, next) => {
     return res.status(401).json({ message: "Unauthorized" });
   }
   const delete_query = `DELETE FROM Adherents WHERE id_user='${userId}'`;
-  utils.send_query_insert(delete_query, res, 200, "Adherent deleted successfully");
+  utils.send_query_insert(
+    delete_query,
+    res,
+    200,
+    "Adherent deleted successfully"
+  );
 };
-

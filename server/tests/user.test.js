@@ -26,7 +26,7 @@ async function resetDatabase() {
   }
 
   const dropScriptPath = path.join(__dirname, "../bdd/sql/drop.sql");
-  const tempScriptPath = path.join(__dirname, "../bdd/sql/temp.sql");
+  const tempScriptPath = path.join(__dirname, "../bdd/sql/create.sql");
 
   await executeScript(dropScriptPath);
 
@@ -53,7 +53,7 @@ describe("Authentication API", () => {
     const res = await request(app)
       .post("/user/register")
       .send({
-        username: "testUser",
+        mail: "testMail@mail.mail",
         password: "password123",
       })
       .expect(201);
@@ -61,16 +61,16 @@ describe("Authentication API", () => {
     expect(res.body).toHaveProperty("message", "User inserted successfully");
   });
 
-  it("should not register a user with an existing username", async () => {
+  it("should not register a user with an existing mail", async () => {
     const res = await request(app)
       .post("/user/register")
       .send({
-        username: "testUser",
+        mail: "testMail@mail.mail",
         password: "password123",
       })
       .expect(400);
 
-    expect(res.body).toHaveProperty("message", "Username already taken");
+    expect(res.body).toHaveProperty("message", "Mail already taken");
   });
 
   // Test de login
@@ -78,7 +78,7 @@ describe("Authentication API", () => {
     const res = await request(app)
       .post("/user/login")
       .send({
-        username: "testUser",
+        mail: "testMail@mail.mail",
         password: "password123",
       })
       .expect(200);
@@ -91,7 +91,7 @@ describe("Authentication API", () => {
     const res = await request(app)
       .post("/user/login")
       .send({
-        username: "testUser",
+        mail: "testMail@mail.mail",
         password: "wrongPassword",
       })
       .expect(401);
@@ -102,11 +102,11 @@ describe("Authentication API", () => {
     );
   });
 
-  it("should not login the user with an incorrect username", async () => {
+  it("should not login the user with an incorrect mail", async () => {
     const res = await request(app)
       .post("/user/login")
       .send({
-        username: "wrongUser",
+        mail: "testMail2@mail.mail",
         password: "password123",
       })
       .expect(401);
@@ -123,7 +123,6 @@ describe("Adherent Management", () => {
     const adherentData = {
       nom_ad: "test_ad_nom",
       prenom_ad: "test_ad_prenom",
-      mail_ad: "test_ad@mail.mail",
     };
 
     const response = await request(app)
@@ -142,7 +141,6 @@ describe("Adherent Management", () => {
     const adherentData = {
       nom_ad: "test_ad_nom2",
       prenom_ad: "test_ad_prenom2",
-      mail_ad: "test_ad2@mail.mail",
     };
 
     const response = await request(app)
@@ -161,7 +159,6 @@ describe("Adherent Management", () => {
     const adherentData = {
       nom_ad: "test_ad_nom",
       prenom_ad: "test_ad_prenom",
-      mail_ad: "test_ad@mail.mail",
     };
 
     const response = await request(app)
@@ -176,7 +173,6 @@ describe("Adherent Management", () => {
     const adherentData = {
       nom_ad: "test_ad_nom",
       prenom_ad: "test_ad_prenom",
-      mail_ad: "test_ad@mail.mail",
     };
 
     const response = await request(app)
@@ -189,7 +185,6 @@ describe("Adherent Management", () => {
   it("should not create an adherent with missing data", async () => {
     const adherentData = {
       nom_ad: "test_ad_nom",
-      prenom_ad: "test_ad_prenom",
     };
 
     const response = await request(app)
@@ -274,7 +269,6 @@ describe("Adherent Management", () => {
 
     expect(response.body).toHaveProperty("nom_ad", "test_ad_nom");
     expect(response.body).toHaveProperty("prenom_ad", "test_ad_prenom");
-    expect(response.body).toHaveProperty("mail_ad", "test_ad@mail.mail");
   });
 
   it("should not get the information of an adherent with an invalid token", async () => {
@@ -340,7 +334,6 @@ describe("Adherent Management", () => {
     const updatedData = {
       nom_ad: "updated_nom",
       prenom_ad: "updated_prenom",
-      mail_ad: "update_mail@mail.mail",
     };
 
     const response = await request(app)
@@ -359,7 +352,6 @@ describe("Adherent Management", () => {
       .expect(200);
     expect(getResponse.body).toHaveProperty("nom_ad", "updated_nom");
     expect(getResponse.body).toHaveProperty("prenom_ad", "updated_prenom");
-    expect(getResponse.body).toHaveProperty("mail_ad", "update_mail@mail.mail");
   });
 
   it("should not update the information of an adherent with an invalid token", async () => {
@@ -368,7 +360,6 @@ describe("Adherent Management", () => {
     const updatedData = {
       nom_ad: "updated_nom",
       prenom_ad: "updated_prenom",
-      mail_ad: "test_ad@mail.mail",
     };
 
     const response = await request(app)
@@ -384,7 +375,6 @@ describe("Adherent Management", () => {
     const updatedData = {
       nom_ad: "updated_nom",
       prenom_ad: "updated_prenom",
-      mail_ad: "test_ad@mail.mail",
     };
 
     const response = await request(app)
@@ -399,7 +389,6 @@ describe("Adherent Management", () => {
     const updatedData = {
       nom_ad: "updated_nom",
       prenom_ad: "updated_prenom",
-      mail_ad: "test_ad@mail.mail",
     };
 
     const response = await request(app)
@@ -417,7 +406,6 @@ describe("Adherent Management", () => {
     const updatedData = {
       nom_ad: "updated_nom",
       prenom_ad: "updated_prenom",
-      mail_ad: "test_ad@mail.mail",
     };
 
     const response = await request(app)
