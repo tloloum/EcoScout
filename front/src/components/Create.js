@@ -1,30 +1,45 @@
 import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 import { RiCloseLine } from "react-icons/ri";
 
 const Create = () => {
-  const [showForm, setShowForm] = useState(false);
-  const handleClick = () => {
-    setShowForm(true);
-  };
   const defaultFormData = {
     name: "",
     region: "",
     date: "",
   };
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    defaultValues: defaultFormData,
+  });
+  console.log(errors);
+  const [showForm, setShowForm] = useState(false);
+  const handleClick = () => {
+    setShowForm(true);
+  };
 
-  const [formData, setFormData] = useState(defaultFormData);
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
+  // const [formData, setFormData] = useState(defaultFormData);
+  // const handleChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setFormData((prevData) => ({
+  //     ...prevData,
+  //     [name]: value,
+  //   }));
+  // };
   const handleUndo = () => {
-    setFormData(defaultFormData);
+    reset();
   };
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   handleUndo();
+  //   setShowForm(false);
+  // };
+  const onSubmit = (data) => {
+    console.log(data);
     handleUndo();
     setShowForm(false);
   };
@@ -51,45 +66,46 @@ const Create = () => {
                 <RiCloseLine style={{ marginBottom: "-3px" }} />
               </button>
               <div className="modalContent">
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit(onSubmit)}>
                   <label>
                     Nom de la structure:
                     <input
+                      {...register("name", {
+                        required: "Ce champ est obligatoire",
+                      })}
                       type="text"
                       name="name"
                       placeholder="insérer le nom de la structure"
-                      value={formData.name}
-                      onChange={handleChange}
-                      required
                     />
                   </label>
+                  <p>{errors.name?.message}</p>
                   <br />
                   <label>
                     La région:
                     <input
+                      {...register("region", { required: "obligatoire" })}
                       type="region"
                       name="region"
                       placeholder="insérer la région"
-                      value={formData.region}
-                      onChange={handleChange}
                     />
+                    {errors.region && (
+                      <span className="error">{errors.region.message}</span>
+                    )}
                   </label>
                   <br />
                   <label>
                     Date de formation:
-                    <input
-                      type="date"
-                      name="date"
-                      value={formData.date}
-                      onChange={handleChange}
-                    />
+                    <input {...register("date")} type="date" name="date" />
                   </label>
                   <br />
                 </form>
               </div>
               <div className="modalActions">
                 <div className="actionsContainer">
-                  <button className="submitBtn" onClick={handleSubmit}>
+                  <button
+                    className="submitBtn"
+                    onClick={handleSubmit(onSubmit)}
+                  >
                     Soumettre
                   </button>
                   <button className="undoBtn" onClick={handleUndo}>
