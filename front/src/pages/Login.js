@@ -6,7 +6,7 @@ import { ServerContext } from "../contexts/Server";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { login } = useContext(AuthContext);
+  const { login, setToken, setUserId } = useContext(AuthContext);
   const { getServerAddress } = useContext(ServerContext);
 
   const navigate = useNavigate();
@@ -24,24 +24,38 @@ const Login = () => {
     login(email, password);
     const serverAddress = getServerAddress();
     console.log(serverAddress + "user/register");
-    const result = await fetch(serverAddress + "user/register", {
+
+    // Creation du compte :
+    const resultRegister = await fetch(serverAddress + "user/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        mail: "admin9",
-        password: "admin8",
+        mail: email,
+        password: password,
+      }),
+    });
+    console.log(resultRegister);
+    console.log(await resultRegister.json());
+
+    // Demande de token
+    const resultToken = await fetch(serverAddress + "user/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        mail: email,
+        password: password,
       }),
     });
 
-    console.log(result);
-    console.log(result.body);
-    console.log(await result.json());
-    // .then((res) => {
-    //   return res.json();
-    // })
-    // .then((res) => console.log(json.userID));
+    // const resultTokenContent = await resultRegister.json();
+    const resultTokenContent = await resultToken.json();
+    setUserId(resultTokenContent.userId);
+    setToken(resultTokenContent.token);
+
     navigate("/");
     // return result.json();
   }
