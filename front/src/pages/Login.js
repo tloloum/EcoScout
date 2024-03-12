@@ -1,11 +1,14 @@
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/Auth";
+import { ServerContext } from "../contexts/Server";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { login } = useContext(AuthContext);
+  const { getServerAddress } = useContext(ServerContext);
+
   const navigate = useNavigate();
 
   const handleEmailChange = (event) => {
@@ -16,11 +19,32 @@ const Login = () => {
     setPassword(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  async function handleSubmit(event) {
     event.preventDefault();
     login(email, password);
+    const serverAddress = getServerAddress();
+    console.log(serverAddress + "user/register");
+    const result = await fetch(serverAddress + "user/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        mail: "admin9",
+        password: "admin8",
+      }),
+    });
+
+    console.log(result);
+    console.log(result.body);
+    console.log(await result.json());
+    // .then((res) => {
+    //   return res.json();
+    // })
+    // .then((res) => console.log(json.userID));
     navigate("/");
-  };
+    // return result.json();
+  }
 
   return (
     <div>
