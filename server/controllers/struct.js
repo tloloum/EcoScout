@@ -19,13 +19,6 @@ exports.createStruct = async (req, res, next) => {
 };
 
 exports.getStruct = async (req, res, next) => {
-  /* vraiment utile?
-  const userId = parseInt(req.params.userId, 10);
-  const structureId = parseInt(req.params.structureId, 10);
-  if (userId !== req.auth.userId || structureId !== req.auth.structureId) {
-    return res.status(401).json({ message: "Unauthorized" });
-  }
-  */
   const query = `SELECT nom_structur, date_creation FROM Structur WHERE id_structur = '${id_structure}' `;
   utils
     .send_query_select(query)
@@ -44,9 +37,8 @@ exports.updateStruct = (req, res, next) => {
 };
 
 exports.deleteStruct = (req, res, next) => {
-  const userId = parseInt(req.params.userId, 10);
   const structureId = parseInt(req.params.structureId, 10);
-  if (userId !== req.auth.userId || structureId !== req.auth.structureId) {
+  if (structureId !== req.auth.structureId) {
     return res.status(401).json({ message: "Unauthorized" });
   }
   else{
@@ -57,9 +49,8 @@ exports.deleteStruct = (req, res, next) => {
 };
 
 exports.addMember = (req, res, next) => {
-  const userId = parseInt(req.params.userId, 10);
   const structureId = parseInt(req.params.structureId, 10);
-  if (userId !== req.auth.userId || structureId !== req.auth.structureId) {
+  if (structureId !== req.auth.structureId) {
     return res.status(401).json({ message: "Unauthorized" });
   }
   else{
