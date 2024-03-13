@@ -18,13 +18,54 @@ exports.createStruct = async (req, res, next) => {
   }
 };
 
-exports.getStruct = (req, res, next) => {};
+exports.getStruct = async (req, res, next) => {
+  /* vraiment utile?
+  const userId = parseInt(req.params.userId, 10);
+  const structureId = parseInt(req.params.structureId, 10);
+  if (userId !== req.auth.userId || structureId !== req.auth.structureId) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+  */
+  const query = `SELECT nom_structur, date_creation FROM Structur WHERE id_structur = '${id_structure}' `;
+  utils
+    .send_query_select(query)
+    .then((rows) => {
+    res.status(200).json({
+      nom_structur: rows[0].nom_structur,
+      date_creation: rows[0].date_creation,
+    });
+  })
+  .catch((error) => {
+    res.status(500).json({ error });
+  });
+};
 
-exports.updateStruct = (req, res, next) => {};
+exports.updateStruct = (req, res, next) => {
+};
 
-exports.deleteStruct = (req, res, next) => {};
+exports.deleteStruct = (req, res, next) => {
+  const userId = parseInt(req.params.userId, 10);
+  const structureId = parseInt(req.params.structureId, 10);
+  if (userId !== req.auth.userId || structureId !== req.auth.structureId) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+  else{
+    const query= `DELETE FROM Structur WHERE id_structur= '${structureId}' `;
+    utils
+      .send_query_insert(query,res,200,"Structure deleted successfully")
+  }
+};
 
-exports.addMember = (req, res, next) => {};
+exports.addMember = (req, res, next) => {
+  const userId = parseInt(req.params.userId, 10);
+  const structureId = parseInt(req.params.structureId, 10);
+  if (userId !== req.auth.userId || structureId !== req.auth.structureId) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+  else{
+    const query= `INSERT INTO Participants_Struct (id_p_struct, date_join, id_structur, id_adherent) VALUES ( '0' , GETDATE(), '${structureId}' , )`
+  }
+};
 
 exports.removeMember = (req, res, next) => {};
 

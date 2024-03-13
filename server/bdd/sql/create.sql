@@ -109,3 +109,13 @@ CREATE TABLE Admin
     id_adherent INTEGER,
     FOREIGN KEY (id_adherent) REFERENCES Adherents(id_adherent) ON DELETE CASCADE
 );
+
+CREATE TABLE Participants_Struct
+(
+    id_p_struct INT PRIMARY KEY AUTO_INCREMENT,
+    date_join DATE NOT NULL,
+    id_structure INTEGER UNSIGNED,
+    FOREIGN KEY (id_structure) REFERENCES Structur(id_structur) ON DELETE CASCADE,
+    id_adherent INTEGER,
+    FOREIGN KEY (id_adherent) REFERENCES Adherents(id_adherent) ON DELETE CASCADE
+)
