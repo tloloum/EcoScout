@@ -74,4 +74,12 @@ describe("Structures API", () => {
       "Structure created successfully"
     );
   });
+
+  it("should get a struct", async () => {
+    const structureId=1;
+    await request(app)
+      .get(`/structures/${structureId}`)
+      .expect(200)
+  })
+
 });
