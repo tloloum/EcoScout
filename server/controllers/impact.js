@@ -39,7 +39,7 @@ exports.getImpact = async (req, res, next) => {
         req.body.nombre_passagers;
       return res
         .status(200)
-        .json({ impact_data: impact, consommation: conso, unité: "kgCO2e" });
+        .json({consommation: conso, unité: "kgCO2e" });
     }
   }
 };

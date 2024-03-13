@@ -4,11 +4,10 @@ const express = require("express");
 const router = express.Router();
 const impactCtrl = require('../controllers/impact')
 
-router.post("/calcul", impactCtrl.getImpact);
+//Calcul d'impact d'un trajet
+//Entrée: type_moteur("E85", "essence", "gazole", "GNV", "GPL", "moyenne"), distance(en km), nombre_passagers, vehicule("Voiture" uniquement pour l'instant)
+//Sortie: consommation(en "kgCO2e")
+router.post("/calcul", impactCtrl.getImpact); 
 
-// router.use((req, res, next) => {
-//   console.log("Requete de calcul d'impact");
-//   res.send("TON TAU DE CARBONE EST DE 1000 TONNES C BEAUCOUP");
-// });
 
 module.exports = router;

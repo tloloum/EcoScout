@@ -14,13 +14,33 @@ const auth_ad = require("../middleware/auth_ad");
 5. **DELETE** `/user/{userId}` - Pour supprimer un compte utilisateur.
 */
 
+//Enregistrement d'un utilisateur
+//Entrée: email, password
 router.post("/register", userCtrl.register);
+//Connexion d'un utilisateur
+//Entrée: email, password
 router.post("/login", userCtrl.login);
+//Création d'un adherent
+//Necessite d'être connecté => token utilisateur
+//Entrée: nom_ad, prenom_ad 
 router.post("/create-adherent", auth, userCtrl.createAdherent);
+//Connexion d'un adherent
+//Necessite d'être connecté => token utilisateur
+//Entrée: adherent_id
 router.post("/login-adherent", auth, userCtrl.loginAdherent);
+//Liste des adhérents d'un utilisateur
+//Necessite d'être connecté => token utilisateur
 router.get("/:userId/adherents", auth, userCtrl.getAdherentsFromUser);
+//Informations d'un adhérent
+//Necessite d'être connecté => token adhérent
+//Entrée: adherent_id
 router.get("/:userId/adherent/:adherentId", auth_ad, userCtrl.getAdherent);
+//Mise à jour des informations d'un adhérent
+//Necessite d'être connecté => token adhérent
+//Entrée: nom_ad, prenom_ad
 router.put("/:userId/adherent/:adherentId", auth_ad, userCtrl.updateAdherent);
+//Suppression d'un adhérent
+//Necessite d'être connecté => token adhérent
 router.delete("/:userId/adherent/:adherentId", auth_ad, userCtrl.deleteAdherent);
 
 router.use((req, res, next) => {
