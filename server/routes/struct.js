@@ -3,7 +3,7 @@
 const express = require('express');
 const router = express.Router();
 const structCtrl = require('../controllers/struct');
-const auth = require('../middleware/auth');
+const auth = require('../middleware/auth_struct');
 
 /*
 1. **POST** `/structures` - Pour créer une nouvelle structure.
