@@ -47,7 +47,6 @@ const connection = require("../bdd/utils/connection");
 //   connection.end();
 // });
 
-
 describe("Structures API", () => {
   // Test de l'enregistrement
   it("should create a new struct", async () => {
@@ -67,8 +66,8 @@ describe("Structures API", () => {
       .set("Authorization", `Bearer ${userToken}`)
       .send({
         nom_structure: "StructTest1",
-      });   
-      console.log("struct cree")
+      });
+    console.log("struct cree");
     expect(res.body).toHaveProperty(
       "message",
       "Structure created successfully"
@@ -76,10 +75,26 @@ describe("Structures API", () => {
   });
 
   it("should get a struct", async () => {
-    const structureId=1;
-    await request(app)
-      .get(`/structures/${structureId}`)
-      .expect(200)
-  })
+    const structureId = 1;
+    await request(app).get(`/structures/${structureId}`).expect(200);
+  });
 
+  it("should update a struct name", async () => {
+    const structureId = 1;
+    const updatename = "update";
+
+    const response = await request(app)
+      .put(`/structure/${structureId}`)
+      .send(updatedStructure)
+      .expect(200);
+
+    expect(response.body).toHaveProperty(
+      "message",
+      "Structure updated successfully"
+    );
+    const getResponse = await request(app)
+      .get(`/structure/${structureId}`)
+      .expect(200);
+    expect(getResponse.body).toHaveProperty("nom_st", "updated_nom");
+  });
 });
