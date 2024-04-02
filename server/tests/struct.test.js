@@ -85,7 +85,7 @@ describe("Structures API", () => {
 
     const response = await request(app)
       .put(`/structure/${structureId}`)
-      .send(updatedStructure)
+      .send(updatename)
       .expect(200);
 
     expect(response.body).toHaveProperty(

@@ -5,8 +5,8 @@ const check_if_exists_struct = (nom) =>
 
 exports.createStruct = async (req, res, next) => {
   const nom_structure = req.body.nom_structure;
-  const date_creation = "Date du jour";
-  const idUser = parseInt(req.auth.userId, 10);
+  const date_creation = "Date du jour"; // A voir comment on fait ça propre
+  const idUser = parseInt(req.auth.userId, 10); //j'ai le droit de faire ça??
   console.log("structure creation");
 
   if (await check_if_exists_struct(nom_structure))
@@ -21,7 +21,7 @@ exports.createStruct = async (req, res, next) => {
 
 exports.getStruct = async (req, res, next) => {
   const id_structur = parseInt(req.params.structureId, 10);
-  const query = `SELECT nom_structur, date_creation FROM Structur WHERE id_structur = '${id_structure}' `;
+  const query = `SELECT nom_structur, date_creation, id_structur_mere FROM Structur WHERE id_structur = '${id_structur}' `; //On renvoie l'id de la structure mere?? la structure mere en soit?
   utils
     .send_query_select(query)
     .then((rows) => {
@@ -42,7 +42,7 @@ exports.updateStruct = (req, res, next) => {
   if (structureId !== req.auth.structureId) {
     return res.status(401).json({ message: "Unauthorized" });
   } else {
-    const query = `UPDATE Structur SET nom_structure = '${newName}' WHERE id = ${structureId}`;
+    const query = `UPDATE Structur SET nom_structure = '${NewName}' WHERE id = ${structureId}`; //on modifie ici que le nom, mais est-ce que c'est le seul truc à modifier?
     utils.send_query_update(
       query,
       res,
@@ -74,7 +74,10 @@ exports.addMember = (req, res, next) => {
       res,
       200,
       "Member added to structure successfully"
-    );
+    )
+    .catch((error) => {
+      res.status(500).json({ error });
+    });
   }
 };
 
@@ -90,14 +93,17 @@ exports.removeMember = (req, res, next) => {
       res,
       200,
       "Member deleted from structure successfully"
-    );
+    )
+    .catch((error) => {
+      res.status(500).json({ error });
+    });;
   }
 };
 
 exports.joinStruct = (req, res, next) => {
-  const userId = parseInt(req.params.userId, 10);
+  const userId = parseInt(req.params.userId, 10); //vraiment utile ici??
   const structureId = parseInt(req.params.structureId, 10);
-  if (structureId !== req.auth.structureId) {
+  if (structureId !== req.auth.structureId) { 
     return res.status(401).json({ message: "Unauthorized" });
   } else {
     const query = `INSERT INTO Participants_Struct (id_p_struct, date_join, id_structur, id_adherent) VALUES ( '0' , GETDATE(), '${structureId}' , '${adherentId}' )`;
@@ -105,9 +111,30 @@ exports.joinStruct = (req, res, next) => {
       query,
       res,
       200,
-      "Member added to structure successfully"
-    );
+      "Member added to structure from link successfully"
+    )
+    .catch((error) => {
+      res.status(500).json({ error });
+    });
   }
 };
 
-exports.joinHierarchy = (req, res, next) => {};
+exports.joinHierarchy = (req, res, next) => {
+  const structureId = parseInt(req.params.structureId, 10);
+  const structureIdMere = req.body.structureId;
+  if (structureId !== req.auth.structureId) { 
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+  else {
+    const query = `UPDATE Structur SET id_structur_mere=${structureIdMere} WHERE id ) ${structureId}`;
+    utils.send_query_insert(
+      query,
+      res,
+      200,
+      "Structure joined another successfully"
+    )
+    .catch((error) => {
+      res.status(500).json({ error });
+    });
+  }
+};

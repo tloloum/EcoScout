@@ -11,7 +11,7 @@ const auth_struct = require('../middleware/auth_struct');
 2. **GET** `/structures/{structureId}` - Pour récupérer les informations d'une structure.
 3. **PUT** `/structures/{structureId}` - Pour mettre à jour les informations d'une structure.
 4. **DELETE** `/structures/{structureId}` - Pour supprimer une structure.
-5. **POST** `/structures/{structureId}/members` - Pour ajouter un membre à la structure.
+5. **POST** `/structures/{structureId}/members` - Pour ajouter un membre à la structure. 
 6. **DELETE** `/structures/{structureId}/members/{memberId}` - Pour retirer un membre d'une structure.
 7. **POST** `/structures/{structureId}/join` - Pour rejoindre une structure via un lien d'invitation.
 8. **POST** `/structures/{structureId}/hierarchy` - Pour faire rejoindre une structure à une autre (gestion de la hiérarchie).
