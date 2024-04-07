@@ -39,6 +39,22 @@ exports.loginStruct = async (req, res, next) => {
   if (req.body.structureId == undefined) {
     return res.status(400).json({ message: "Missing required fields" });
   }
+  const structureId = req.body.structureId;
+  const userId = req.auth.userId;
+  const select_query = `SELECT id_owner FROM Structur WHERE id_structure = '${structureId}'`;
+  const rows = await utils.send_query_select(select_query);
+  if (rows.length === 0 || userId - rows[0].id_user !== 0) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+  res.status(200).json({
+    userId: userId,
+    structureId: structureId,
+    token: jwt.sign(
+      { userId: userId, structureId: structureId },
+      "RANDOM_TOKEN",
+      { expiresIn: "24h" }
+    ),
+  });
 };
 
 exports.getStruct = async (req, res, next) => {

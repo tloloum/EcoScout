@@ -73,10 +73,27 @@ describe("Structures API", () => {
       "Structure created successfully"
     );
   });
+  it("should login the struct successfully", async () => {
+    const selectionData = {
+      structureId: 1,
+    };
+
+    const response = await request(app)
+      .post("/structures/loginstruct")
+      .set("Authorization", `Bearer ${userToken}`)
+      .send(selectionData);
+
+    console.log(response);
+    expect(response.statusCode).toBe(200);
+    expect(response.body).toHaveProperty("token");
+    global.structureToken = response.body.token;
+  });
 
   it("should get a struct", async () => {
     const structureId = 1;
-    await request(app).get(`/structures/${structureId}`).expect(200);
+    const req = await request(app)
+      .get(`/structures/${structureId}`)
+      .expect(200);
   });
 
   it("should update a struct name", async () => {
