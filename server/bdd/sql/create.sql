@@ -118,4 +118,11 @@ CREATE TABLE Participants_Struct
     FOREIGN KEY (id_structure) REFERENCES Structur(id_structur) ON DELETE CASCADE,
     id_adherent INTEGER,
     FOREIGN KEY (id_adherent) REFERENCES Adherents(id_adherent) ON DELETE CASCADE
+);
+
+CREATE TABLE Nom_impact
+(
+    id_impact INT PRIMARY KEY AUTO_INCREMENT,
+    nom_impact VARCHAR(400) NOT NULL
 )
+
