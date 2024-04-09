@@ -2,7 +2,12 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import logo from "../assets/img/logo.jpeg";
 
-const Header = () => {
+const Header = ({isAuthenticated}) => {
+
+  if (!isAuthenticated) {
+    return null;
+  }
+
   return (
     <header className={"header"}>
       <div className={"logo"}>

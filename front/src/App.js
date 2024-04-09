@@ -8,9 +8,11 @@ import { AuthContext, AuthContextProvider } from "./contexts/Auth";
 import { ServerContextProvider } from "./contexts/Server";
 import Error404 from "./pages/Error404";
 import Home from "./pages/Home";
-import Login from "./pages/Login";
+import Login from "./pages/user/Login";
 import Profile from "./pages/Profile";
-import Register from "./pages/Register";
+import Register from "./pages/user/Register";
+import Welcome from "./pages/user/Welcome";
+import ChooseAdherant from "./pages/user/ChooseAdherent";
 
 const App = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -21,27 +23,32 @@ const App = () => {
     { id: 3, name: "Structure 3" },
   ];
 
+  const { isAuthenticated } = useContext(AuthContext);
+
   const closeSidebar = () => {
-    setIsSidebarOpen(false);
+    setIsSidebarOpen(!isSidebarOpen);
   };
 
   return (
     <ServerContextProvider>
       <AuthContextProvider>
         <BrowserRouter>
-          <Header />
+          <Header isAuthenticated={isAuthenticated} />
           {}
           <Sidebar
+            isAuthenticated={isAuthenticated}
             isOpen={isSidebarOpen}
             onClose={closeSidebar}
             structures={structures}
           />
 
           <Routes>
-            <Route exact path="/" element={<Home />} />
+            <Route exact path="/" element={<Welcome />} />
             <Route path="*" element={<Error404 />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/chooseadherant" element={<ChooseAdherant />} />
+            <Route path="/home" element={<Home />} />
             <Route
               path="/profile"
               element={<PrivateRoute component={<Profile />} />}

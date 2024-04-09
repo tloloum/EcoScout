@@ -1,0 +1,39 @@
+.home-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; // Utilise toute la hauteur de la fenêtre
+    text-align: center;
+    
+    h1 {
+      margin-bottom: 2rem;
+      color: #34495e;
+    }
+  
+    .actions {
+      display: flex;
+      gap: 1rem; // Espace entre les boutons
+  
+      button {
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+        color: #fff;
+        background-color: #3498db;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+  
+        &:hover {
+          background-color: #2980b9;
+        }
+  
+        &:focus {
+          outline: none; // Supprime l'outline par défaut sur le focus
+          box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.5); // Ajoute un effet de focus personnalisé
+        }
+      }
+    }
+  }
+  
