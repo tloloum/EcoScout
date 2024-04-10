@@ -13,6 +13,7 @@ import Profile from "./pages/Profile";
 import Register from "./pages/user/Register";
 import Welcome from "./pages/user/Welcome";
 import ChooseAdherant from "./pages/user/ChooseAdherent";
+import RegisterAdherent from "./pages/user/RegisterAdherent";
 
 const App = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -48,6 +49,7 @@ const App = () => {
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="/chooseadherant" element={<ChooseAdherant />} />
+            <Route path="/registerAdherent" element={<RegisterAdherent />} />
             <Route path="/home" element={<Home />} />
             <Route
               path="/profile"

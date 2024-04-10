@@ -6,14 +6,14 @@ const AuthAdContext = createContext({
   signOutAd: () => {},
   setTokenAd: () => {},
   setUserIdAd: () => {},
-  setAdherantId: () => {},
+  setAdherentId: () => {},
 });
 
 const AuthAdContextProvider = (props) => {
   const [isAuthenticatedAd, setIsAuthenticatedAd] = useState(false);
-  const [myTokenAd, setMyTokenAd] = useState(false);
-  const [myUserIdAd, setMyUserIdAd] = useState(false);
-  const [myAdherentId, setMyAdherentId] = useState(false);
+  const [myTokenAd, setMyTokenAd] = useState();
+  const [myUserIdAd, setMyUserIdAd] = useState();
+  const [myAdherentId, setMyAdherentId] = useState();
 
   const setTokenAd = (token) => {
     console.log("My token Ad:", token);
@@ -30,8 +30,8 @@ const AuthAdContextProvider = (props) => {
     setMyAdherentId(adherantId);
   };
 
-  const loginAd = (profile_id, profile_password) => {
-    console.log(profile_id, profile_password);
+  const loginAd = () => {
+    console.log(myAdherentId, myUserIdAd, myTokenAd);
     setIsAuthenticatedAd(true);
   };
 
