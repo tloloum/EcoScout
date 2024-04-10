@@ -9,7 +9,7 @@ Ce projet vise à développer une application informatique permettant d’incite
 
 # Requirement and installation 
 
-Vous pouvez clonez ce dépôts avec la commande suivante : 
+Vous pouvez cloner ce dépôt avec la commande suivante : 
 
 ```bash
 git clone https://github.com/tloloum/EcoScout.git
