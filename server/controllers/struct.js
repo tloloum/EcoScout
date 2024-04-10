@@ -1,4 +1,5 @@
 const utils = require("../bdd/utils/utils");
+const jwt = require("jsonwebtoken");
 
 const check_if_exists_struct = (nom) =>
   utils.check_if_exists("Structur", "nom_structure", nom);
@@ -41,12 +42,13 @@ exports.loginStruct = async (req, res, next) => {
   }
   const structureId = req.body.structureId;
   const userId = req.auth.userId;
-  const select_query = `SELECT id_owner FROM Structur WHERE id_structure = '${structureId}'`;
+  const select_query = `SELECT id_owner FROM Structur WHERE id_structur = '${structureId}'`;
   const rows = await utils.send_query_select(select_query);
-  if (rows.length === 0 || userId - rows[0].id_user !== 0) {
+  console.log(rows[0].id_owner, userId);
+  if (rows.length === 0 || userId - rows[0].id_owner !== 0) {
     return res.status(401).json({ message: "Unauthorized" });
   }
-  res.status(200).json({
+  res.status(201).json({
     userId: userId,
     structureId: structureId,
     token: jwt.sign(

@@ -18,8 +18,8 @@ const auth_struct = require("../middleware/auth_struct");
 */
 
 router.post("/create", auth, structCtrl.createStruct);
-router.post("loginstruct", auth, structCtrl.loginStruct); // renvoie le nouveau token
-router.get("/:userId/structures", auth, structCtrl.getStructsFromUser);
+router.post("/loginstruct", auth, structCtrl.loginStruct); // renvoie le nouveau token
+router.get("/:userId", auth, structCtrl.getStructsFromUser);
 
 router.get("/:structureId", auth_struct, structCtrl.getStruct);
 router.put("/:structureId", auth_struct, structCtrl.updateStruct);
