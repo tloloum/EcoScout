@@ -8,11 +8,12 @@ import { AuthContext, AuthContextProvider } from "./contexts/Auth";
 import { ServerContextProvider } from "./contexts/Server";
 import Error404 from "./pages/Error404";
 import Home from "./pages/Home";
-import Login from "./pages/user/Login";
 import Profile from "./pages/Profile";
+import Structures from "./pages/Structures";
+import ChooseAdherant from "./pages/user/ChooseAdherent";
+import Login from "./pages/user/Login";
 import Register from "./pages/user/Register";
 import Welcome from "./pages/user/Welcome";
-import ChooseAdherant from "./pages/user/ChooseAdherent";
 
 const App = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -49,6 +50,7 @@ const App = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/chooseadherant" element={<ChooseAdherant />} />
             <Route path="/home" element={<Home />} />
+            <Route path="/structures" element={<Structures />} />
             <Route
               path="/profile"
               element={<PrivateRoute component={<Profile />} />}

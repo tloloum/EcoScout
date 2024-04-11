@@ -22,22 +22,10 @@ const Create = () => {
     setShowForm(true);
   };
 
-  // const [formData, setFormData] = useState(defaultFormData);
-  // const handleChange = (e) => {
-  //   const { name, value } = e.target;
-  //   setFormData((prevData) => ({
-  //     ...prevData,
-  //     [name]: value,
-  //   }));
-  // };
   const handleUndo = () => {
     reset();
   };
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   handleUndo();
-  //   setShowForm(false);
-  // };
+
   const onSubmit = (data) => {
     console.log(data);
     handleUndo();
@@ -77,21 +65,27 @@ const Create = () => {
                       name="name"
                       placeholder="insérer le nom de la structure"
                     />
+                    {errors.region && (
+                      <span className="errorMsg">{errors.name.message}</span>
+                    )}
                   </label>
-                  <p>{errors.name?.message}</p>
+                  {/* <p className="errorMsg">{errors.name?.message}</p> */}
                   <br />
                   <label>
                     La région:
                     <input
-                      {...register("region", { required: "obligatoire" })}
+                      {...register("region", {
+                        required: " Ce champ est obligatoire",
+                      })}
                       type="region"
                       name="region"
                       placeholder="insérer la région"
                     />
                     {errors.region && (
-                      <span className="error">{errors.region.message}</span>
+                      <span className="errorMsg">{errors.region.message}</span>
                     )}
                   </label>
+                  {/* <p className="errorMsg">{errors.name?.message}</p> */}
                   <br />
                   <label>
                     Date de formation:
