@@ -13,6 +13,7 @@ import Structures from "./pages/Structures";
 import ChooseAdherant from "./pages/user/ChooseAdherent";
 import Login from "./pages/user/Login";
 import Register from "./pages/user/Register";
+import RegisterAdherent from "./pages/user/RegisterAdherent";
 import Welcome from "./pages/user/Welcome";
 
 const App = () => {
@@ -49,6 +50,7 @@ const App = () => {
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="/chooseadherant" element={<ChooseAdherant />} />
+            <Route path="/registerAdherent" element={<RegisterAdherent />} />
             <Route path="/home" element={<Home />} />
             <Route path="/structures" element={<Structures />} />
             <Route

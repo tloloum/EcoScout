@@ -51,6 +51,34 @@ const ChooseAdherent = () => {
     showAdherent();
   }, [myToken, myUserId]);
 
+  async function loginAdherent(adherentId) {
+    const serverAddress = getServerAddress();
+    console.log(serverAddress + "user/login-adherent");
+
+    const resultLoginAdherent = await fetch(serverAddress + "user/login-adherent", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + myToken,
+      },
+      body: JSON.stringify({
+        adherentId: adherentId,
+      }),
+    });
+
+    if (resultLoginAdherent.status !== 200) {
+      console.log("Erreur lors de la connexion de l'adhérent");
+      return;
+    } else {
+      const resultLoginAdherentContent = await resultLoginAdherent.json();
+      setTokenAd(resultLoginAdherentContent.token);
+      setUserIdAd(resultLoginAdherentContent.userId);
+      setAdherentId(adherentId);
+      loginAd();
+      navigate("/home");
+    }
+  }
+
   if (haveAd) {
     return (
       <div className="choose-adherant">
@@ -58,7 +86,7 @@ const ChooseAdherent = () => {
         <ul>
           {adherents.map((adherent) => (
             <li>
-              <button onClick={() => console.log(adherent.id_adherent)}>
+              <button onClick={() => loginAdherent(adherent.id_adherent)}>
                 {adherent.nom_ad} {adherent.prenom_ad}
               </button>
             </li>
@@ -72,7 +100,7 @@ const ChooseAdherent = () => {
         <h2>Creer un nouveau Profil</h2>
         <button
           className="create-profile"
-          onClick={() => navigate("/welcome")}
+          onClick={() => navigate("/registerAdherent")}
         ></button>
       </div>
     );
