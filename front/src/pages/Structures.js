@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import Create from "../components/Create";
+import JoinStructure from "../components/JoinStructure";
 import Navigation from "../components/Navigation";
 import { AuthAdContext } from "../contexts/AuthAd";
 
@@ -9,8 +10,18 @@ const Structures = () => {
   return (
     <div>
       <Navigation />
-      <h1>Structures</h1>
-      {!isAuthenticated && <Create />}
+      <div className="structure">
+        <h1>Structures</h1>
+        <div className="structure-container">
+          <div className="structure-top">
+            {!isAuthenticated && <Create />}
+            {!isAuthenticated && <JoinStructure />}
+          </div>
+          <div className="structure-bot">
+            <h2>Mes structures</h2>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
