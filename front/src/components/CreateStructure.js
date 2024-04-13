@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { RiCloseLine } from "react-icons/ri";
 
-const Create = () => {
+const CreateStructure = () => {
   const defaultFormData = {
     name: "",
     region: "",
@@ -115,4 +115,4 @@ const Create = () => {
   );
 };
 
-export default Create;
+export default CreateStructure;

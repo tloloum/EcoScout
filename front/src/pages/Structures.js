@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import Create from "../components/Create";
+import CreateStructure from "../components/CreateStructure";
 import JoinStructure from "../components/JoinStructure";
 import Navigation from "../components/Navigation";
 import { AuthAdContext } from "../contexts/AuthAd";
@@ -14,7 +14,7 @@ const Structures = () => {
         <h1>Structures</h1>
         <div className="structure-container">
           <div className="structure-top">
-            {!isAuthenticated && <Create />}
+            {!isAuthenticated && <CreateStructure />}
             {!isAuthenticated && <JoinStructure />}
           </div>
           <div className="structure-bot">
