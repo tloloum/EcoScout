@@ -1,14 +1,18 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import Navigation from "../components/Navigation";
+import { AuthAdContext } from "../contexts/AuthAd";
 
 const Home = () => {
+  const { getFirstNameAd } = useContext(AuthAdContext);
+
   return (
     <div>
       <Navigation />
       <main>
+        {console.log(getFirstNameAd())}
         <div className="home">
-          <h2>Bonjour!</h2>
+          <h2>Bonjour {getFirstNameAd()}!</h2>
           <div className="statistics-square">
             <Link to="/statistiques">
               <div className="square-content">

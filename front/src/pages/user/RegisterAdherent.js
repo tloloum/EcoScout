@@ -1,8 +1,8 @@
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/Auth";
-import { ServerContext } from "../../contexts/Server";
 import { AuthAdContext } from "../../contexts/AuthAd";
+import { ServerContext } from "../../contexts/Server";
 
 const RegisterAdherent = () => {
   const { myToken, myUserId } = useContext(AuthContext);
@@ -50,7 +50,7 @@ const RegisterAdherent = () => {
       setErreurMessage("Erreur lors de la création de l'adhérent");
       return;
     } else {
-        navigate("/chooseadherant");
+      navigate("/chooseadherant");
     }
   }
 

@@ -1,14 +1,20 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/Auth";
-import { ServerContext } from "../../contexts/Server";
 import { AuthAdContext } from "../../contexts/AuthAd";
+import { ServerContext } from "../../contexts/Server";
 
 const ChooseAdherent = () => {
   const { myToken, myUserId } = useContext(AuthContext);
   const { getServerAddress } = useContext(ServerContext);
-  const { setTokenAd, setUserIdAd, setAdherentId, loginAd } =
-    useContext(AuthAdContext);
+  const {
+    setTokenAd,
+    setUserIdAd,
+    setAdherentId,
+    loginAd,
+    setNameAd,
+    setFirstNameAd,
+  } = useContext(AuthAdContext);
 
   const navigate = useNavigate();
   const [adherents, setAdherents] = useState([]);
@@ -55,21 +61,26 @@ const ChooseAdherent = () => {
     const serverAddress = getServerAddress();
     console.log(serverAddress + "user/login-adherent");
 
-    const resultLoginAdherent = await fetch(serverAddress + "user/login-adherent", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + myToken,
-      },
-      body: JSON.stringify({
-        adherentId: adherentId,
-      }),
-    });
+    const resultLoginAdherent = await fetch(
+      serverAddress + "user/login-adherent",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + myToken,
+        },
+        body: JSON.stringify({
+          adherentId: adherentId,
+        }),
+      }
+    );
 
     if (resultLoginAdherent.status !== 200) {
       console.log("Erreur lors de la connexion de l'adhérent");
       return;
     } else {
+      /* Les fonctions de AuthAd ne sont pas activé*/
+      console.log("erreur");
       const resultLoginAdherentContent = await resultLoginAdherent.json();
       setTokenAd(resultLoginAdherentContent.token);
       setUserIdAd(resultLoginAdherentContent.userId);
@@ -86,7 +97,15 @@ const ChooseAdherent = () => {
         <ul>
           {adherents.map((adherent) => (
             <li>
-              <button onClick={() => loginAdherent(adherent.id_adherent)}>
+              <button
+                onClick={() => {
+                  console.log("Selection");
+                  setNameAd(adherent.nom_ad);
+                  setFirstNameAd(adherent.prenom_ad);
+                  console.log("22222");
+                  loginAdherent(adherent.id_adherent);
+                }}
+              >
                 {adherent.nom_ad} {adherent.prenom_ad}
               </button>
             </li>

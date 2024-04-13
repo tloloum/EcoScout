@@ -52,7 +52,10 @@ const App = () => {
             <Route path="/chooseadherant" element={<ChooseAdherant />} />
             <Route path="/registerAdherent" element={<RegisterAdherent />} />
             <Route path="/home" element={<Home />} />
-            <Route path="/structures" element={<Structures />} />
+            <Route
+              path="/structures"
+              element={<PrivateRoute component={<Structures />} />}
+            />
             <Route
               path="/profile"
               element={<PrivateRoute component={<Profile />} />}
