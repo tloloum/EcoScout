@@ -24,31 +24,11 @@ const CreateStructure = (props) => {
     setDateStructure(event.target.value);
   };
 
-  // const defaultFormData = {
-  //   name: "",
-  //   region: "",
-  //   date: "",
-  // };
-
-  // const {
-  //   register,
-  //   handleSubmit,
-  //   reset,
-  //   formState: { errors },
-  // } = useForm({
-  //   defaultValues: defaultFormData,
-  // });
-
-  // console.log(errors);
   const [showForm, setShowForm] = useState(false);
 
   const handleClick = () => {
     setShowForm(true);
   };
-
-  // const handleUndo = () => {
-  //   reset();
-  // };
 
   async function structureSubmit(event) {
     event.preventDefault();
@@ -76,25 +56,8 @@ const CreateStructure = (props) => {
       console.log(resultStructureContent);
     }
 
-    //   if (resultToken.status !== 200) {
-    //     setErreurMessage("Identifiant ou mot de passe incorrect");
-    //     return;
-    //   } else {
-    //     const resultTokenContent = await resultToken.json();
-    //     setUserId(resultTokenContent.userId);
-    //     setToken(resultTokenContent.token);
-    //     login(email, password);
-    //     navigate("/chooseadherant");
-    //   }
-    // }
     setShowForm(false);
   }
-
-  // const onSubmit = (data) => {
-  //   console.log(data);
-  //   handleUndo();
-  //   setShowForm(false);
-  // };
 
   const blueButton = () => {
     return (
@@ -152,43 +115,28 @@ const CreateStructure = (props) => {
                     <label>
                       Nom de la structure:
                       <input
-                        // {...register("name", {
-                        //   required: "Ce champ est obligatoire",
-                        // })}
                         type="text"
                         name="name"
                         placeholder="insérer le nom de la structure"
                         value={nameStructure}
                         onChange={handleNameStructureChange}
                       />
-                      {/* {errors.region && (
-                      <span className="errorMsg">{errors.name.message}</span>
-                    )} */}
                     </label>
-                    {/* <p className="errorMsg">{errors.name?.message}</p> */}
                     <br />
                     <label>
                       La région:
                       <input
-                        // {...register("region", {
-                        //   required: " Ce champ est obligatoire",
-                        // })}
                         type="region"
                         name="region"
                         placeholder="insérer la région"
                         value={regionStructure}
                         onChange={handleRegionStructureChange}
                       />
-                      {/* {errors.region && (
-                      <span className="errorMsg">{errors.region.message}</span>
-                    )} */}
                     </label>
-                    {/* <p className="errorMsg">{errors.name?.message}</p> */}
                     <br />
                     <label>
                       Date de formation:
                       <input
-                        // {...register("date")}
                         type="date"
                         name="date"
                         placeholder="insérer la date de création"
@@ -199,36 +147,13 @@ const CreateStructure = (props) => {
                     <br />
                     <div className="modalActions">
                       <div className="actionsContainer">
-                        <button
-                          type="submit"
-                          className="submitBtn"
-                          // onClick={structureSubmit(handleSubmit(onSubmit))}
-                        >
+                        <button type="submit" className="submitBtn">
                           Soumettre
                         </button>
-                        {/* <button
-                        className="undoBtn"
-                        onClick={handleUndo}
-                      >
-                        Annuler
-                      </button> */}
                       </div>
                     </div>
                   </form>
                 </div>
-                {/* <div className="modalActions">
-                <div className="actionsContainer">
-                  <button
-                    className="submitBtn"
-                    onClick={structureSubmit(handleSubmit(onSubmit))}
-                  >
-                    Soumettre
-                  </button>
-                  <button className="undoBtn" onClick={handleUndo}>
-                    Annuler
-                  </button>
-                </div>
-              </div> */}
               </div>
             </div>
           </>
@@ -241,4 +166,3 @@ const CreateStructure = (props) => {
 };
 
 export default CreateStructure;
-//export { CreateStructure, buttonAction };
