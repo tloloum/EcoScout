@@ -23,7 +23,7 @@ CREATE TABLE Structur /* car Structure est un truc déja implémenté*/
     date_creation DATE NOT NULL,
     id_structur_mere INTEGER UNSIGNED,
     FOREIGN KEY (id_structur_mere) REFERENCES Structur(id_structur) ON DELETE CASCADE, 
-    id_owner INTEGER NOT NULL UNIQUE,
+    id_owner INTEGER NOT NULL,
     FOREIGN KEY (id_owner) REFERENCES Utilisateurs(id_user) ON DELETE CASCADE
 
 );
