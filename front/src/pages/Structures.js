@@ -14,7 +14,7 @@ const Structures = () => {
         <h1>Structures</h1>
         <div className="structure-container">
           <div className="structure-top">
-            {!isAuthenticated && <CreateStructure />}
+            {!isAuthenticated && <CreateStructure argument={0} />}
             {!isAuthenticated && <JoinStructure />}
           </div>
           <div className="structure-bot">

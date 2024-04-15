@@ -90,14 +90,16 @@ const ChooseAdherent = () => {
     }
   }
 
-  if (haveAd) {
-    return (
+  // if (haveAd) {
+  return (
+    <div>
       <div className="choose-adherant">
         <h2>Choisissez un adhérent</h2>
         <ul>
           {adherents.map((adherent) => (
             <li>
               <button
+                className="choose-adherant-container"
                 onClick={() => {
                   console.log("Selection");
                   setNameAd(adherent.nom_ad);
@@ -110,20 +112,58 @@ const ChooseAdherent = () => {
               </button>
             </li>
           ))}
+          <li>
+            <button
+              className="choose-adherant-container"
+              id="create-profile"
+              onClick={() => navigate("/registerAdherent")}
+            ></button>
+          </li>
         </ul>
       </div>
-    );
-  } else {
-    return (
-      <div className="no-profile">
-        <h2>Creer un nouveau Profil</h2>
-        <button
-          className="create-profile"
-          onClick={() => navigate("/registerAdherent")}
-        ></button>
+      <div className="choose-adherant">
+        <h2>Choisissez une structure</h2>
+        <ul>
+          {adherents.map((adherent) => (
+            <li>
+              <button
+                className="choose-adherant-container"
+                onClick={() => {
+                  console.log("Selection");
+                  setNameAd(adherent.nom_ad);
+                  setFirstNameAd(adherent.prenom_ad);
+                  console.log("22222");
+                  loginAdherent(adherent.id_adherent);
+                }}
+              >
+                {adherent.nom_ad} {adherent.prenom_ad}
+              </button>
+            </li>
+          ))}
+          <li>
+            <button
+              className="choose-adherant-container"
+              id="create-profile"
+              onClick={() => navigate("/registerStructure")}
+            ></button>
+          </li>
+        </ul>
       </div>
-    );
-  }
+    </div>
+  );
+  // }
+  // else {
+  //   return (
+  //     <div className="no-profile">
+  //       {/* <div className="no-profile"> */}
+  //       <h2>Creer un nouveau Profil</h2>
+  //       <button
+  //         id="create-profile"
+  //         onClick={() => navigate("/registerAdherent")}
+  //       ></button>
+  //     </div>
+  //   );
+  // }
 };
 
 export default ChooseAdherent;

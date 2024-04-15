@@ -14,6 +14,7 @@ import ChooseAdherant from "./pages/user/ChooseAdherent";
 import Login from "./pages/user/Login";
 import Register from "./pages/user/Register";
 import RegisterAdherent from "./pages/user/RegisterAdherent";
+import RegisterStructure from "./pages/user/RegisterStructure";
 import Welcome from "./pages/user/Welcome";
 
 const App = () => {
@@ -49,9 +50,20 @@ const App = () => {
             <Route path="*" element={<Error404 />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/chooseadherant" element={<ChooseAdherant />} />
-            <Route path="/registerAdherent" element={<RegisterAdherent />} />
             <Route path="/home" element={<Home />} />
+
+            <Route
+              path="/chooseadherant"
+              element={<PrivateRoute component={<ChooseAdherant />} />}
+            />
+            <Route
+              path="/registerAdherent"
+              element={<PrivateRoute component={<RegisterAdherent />} />}
+            />
+            <Route
+              path="/registerStructure"
+              element={<PrivateRoute component={<RegisterStructure />} />}
+            />
             <Route
               path="/structures"
               element={<PrivateRoute component={<Structures />} />}
