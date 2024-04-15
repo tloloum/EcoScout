@@ -1,12 +1,9 @@
 import React, { useContext, useState } from "react";
 import { RiCloseLine } from "react-icons/ri";
-import { AuthContext } from "../contexts/Auth";
 import { ServerContext } from "../contexts/Server";
 
-const JoinStructure = () => {
+const InfoStructure = () => {
   const { getServerAddress } = useContext(ServerContext);
-
-  const { myToken } = useContext(AuthContext);
 
   const [idStructure, setIdStructure] = useState("");
 
@@ -23,11 +20,11 @@ const JoinStructure = () => {
   async function structureSubmit(event) {
     event.preventDefault();
     const serverAddress = getServerAddress();
-    console.log(serverAddress + "/structures/" + idStructure + "/join/");
+    console.log(serverAddress + "structures/" + idStructure);
 
     // Recherche de la structure :
     const resultStructure = await fetch(
-      serverAddress + "/structures/" + idStructure + "/join/",
+      serverAddress + "structures/" + idStructure,
       {
         method: "GET",
         headers: {
@@ -56,7 +53,7 @@ const JoinStructure = () => {
     <div>
       <main>
         <button className="primaryBtn" onClick={handleClick}>
-          Rejoindre une structure
+          Information d'une structure
         </button>
         {showForm && (
           <>
@@ -64,7 +61,7 @@ const JoinStructure = () => {
             <div className="centered">
               <div className="modal">
                 <div className="modalHeader">
-                  <h5 className="heading">Rejoindre une structure</h5>
+                  <h5 className="heading">Information d'une structure</h5>
                 </div>
                 <button
                   className="closeBtn"
@@ -113,4 +110,4 @@ const JoinStructure = () => {
   );
 };
 
-export default JoinStructure;
+export default InfoStructure;
