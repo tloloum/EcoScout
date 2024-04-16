@@ -55,9 +55,9 @@ const ListOfAdherents = (props) => {
       }
     }
     showAdherents();
-  }, [myToken, myUserId]);
+  }, [getServerAddress, myToken, myUserId]);
 
-  async function loginAdherent(adherentId) {
+  async function loginAdherent(adherentId, nom, prenom) {
     const serverAddress = getServerAddress();
     console.log(serverAddress + "user/login-adherent");
 
@@ -83,6 +83,8 @@ const ListOfAdherents = (props) => {
       const resultLoginAdherentContent = await resultLoginAdherent.json();
       setTokenAd(resultLoginAdherentContent.token);
       setUserIdAd(resultLoginAdherentContent.userId);
+      setNameAd(nom);
+      setFirstNameAd(prenom);
       setAdherentId(adherentId);
       loginAd();
       navigate("/home");
@@ -115,9 +117,11 @@ const ListOfAdherents = (props) => {
             <button
               className="choose-adherant-container"
               onClick={() => {
-                setNameAd(adherent.nom_ad);
-                setFirstNameAd(adherent.prenom_ad);
-                loginAdherent(adherent.id_adherent);
+                loginAdherent(
+                  adherent.id_adherent,
+                  adherent.nom_ad,
+                  adherent.prenom_ad
+                );
               }}
             >
               {adherent.nom_ad} {adherent.prenom_ad}

@@ -54,7 +54,7 @@ const ListOfStructures = (props) => {
     }
 
     showStructures();
-  }, [myToken, myUserId]);
+  }, [getServerAddress, myToken, myUserId]);
 
   async function loginStructure(structureId) {
     const serverAddress = getServerAddress();

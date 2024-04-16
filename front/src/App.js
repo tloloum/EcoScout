@@ -5,6 +5,8 @@ import Header from "./components/Head";
 import Sidebar from "./components/Sidebar";
 
 import { AuthContext, AuthContextProvider } from "./contexts/Auth";
+import { AuthAdContextProvider } from "./contexts/AuthAd";
+import { AuthStContextProvider } from "./contexts/AuthSt";
 import { ServerContextProvider } from "./contexts/Server";
 import Error404 from "./pages/Error404";
 import Home from "./pages/Home";
@@ -35,45 +37,49 @@ const App = () => {
   return (
     <ServerContextProvider>
       <AuthContextProvider>
-        <BrowserRouter>
-          <Header isAuthenticated={isAuthenticated} />
-          {}
-          <Sidebar
-            isAuthenticated={isAuthenticated}
-            isOpen={isSidebarOpen}
-            onClose={closeSidebar}
-            structures={structures}
-          />
+        <AuthAdContextProvider>
+          <AuthStContextProvider>
+            <BrowserRouter>
+              <Header isAuthenticated={isAuthenticated} />
+              {}
+              <Sidebar
+                isAuthenticated={isAuthenticated}
+                isOpen={isSidebarOpen}
+                onClose={closeSidebar}
+                structures={structures}
+              />
 
-          <Routes>
-            <Route exact path="/" element={<Welcome />} />
-            <Route path="*" element={<Error404 />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/home" element={<Home />} />
+              <Routes>
+                <Route exact path="/" element={<Welcome />} />
+                <Route path="*" element={<Error404 />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/home" element={<Home />} />
 
-            <Route
-              path="/choose"
-              element={<PrivateRoute component={<Choose />} />}
-            />
-            <Route
-              path="/registerAdherent"
-              element={<PrivateRoute component={<RegisterAdherent />} />}
-            />
-            <Route
-              path="/registerStructure"
-              element={<PrivateRoute component={<RegisterStructure />} />}
-            />
-            <Route
-              path="/structures"
-              element={<PrivateRoute component={<Structures />} />}
-            />
-            <Route
-              path="/profile"
-              element={<PrivateRoute component={<Profile />} />}
-            />
-          </Routes>
-        </BrowserRouter>
+                <Route
+                  path="/choose"
+                  element={<PrivateRoute component={<Choose />} />}
+                />
+                <Route
+                  path="/registerAdherent"
+                  element={<PrivateRoute component={<RegisterAdherent />} />}
+                />
+                <Route
+                  path="/registerStructure"
+                  element={<PrivateRoute component={<RegisterStructure />} />}
+                />
+                <Route
+                  path="/structures"
+                  element={<PrivateRoute component={<Structures />} />}
+                />
+                <Route
+                  path="/profile"
+                  element={<PrivateRoute component={<Profile />} />}
+                />
+              </Routes>
+            </BrowserRouter>
+          </AuthStContextProvider>
+        </AuthAdContextProvider>
       </AuthContextProvider>
     </ServerContextProvider>
   );
