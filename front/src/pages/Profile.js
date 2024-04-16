@@ -52,7 +52,7 @@ const Profile = () => {
 
   useEffect(() => {
     showInfos();
-  });
+  }, []);
 
   const handleClick = () => {
     setShowForm(true);
@@ -96,6 +96,7 @@ const Profile = () => {
       console.log(resultModificationContent);
     }
     setShowForm(false);
+    showInfos();
   }
 
   return (
