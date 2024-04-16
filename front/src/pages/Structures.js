@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import CreateStructure from "../components/CreateStructure";
 import InfoStructure from "../components/InfoStructure";
 import JoinStructure from "../components/JoinStructure";
+import ListOfStructures from "../components/ListOfStructures";
 import Navigation from "../components/Navigation";
 import { AuthAdContext } from "../contexts/AuthAd";
 
@@ -21,6 +22,7 @@ const Structures = () => {
           </div>
           <div className="structure-bot">
             <h2>Mes structures</h2>
+            <ListOfStructures buttonNewStructure={false} />
           </div>
         </div>
       </div>

@@ -24,7 +24,7 @@ const AuthContextProvider = (props) => {
   };
 
   const login = (profile_id, profile_password) => {
-    console.log(profile_id, profile_password);
+    // console.log(profile_id, profile_password);
     setIsAuthenticated(true);
   };
 
