@@ -113,7 +113,7 @@ const ListOfAdherents = (props) => {
     <div className="choose-adherant">
       <ul>
         {adherents.map((adherent) => (
-          <li>
+          <li key={adherent.id_adherent}>
             <button
               className="choose-adherant-container"
               onClick={() => {

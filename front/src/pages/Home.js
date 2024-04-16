@@ -10,7 +10,6 @@ const Home = () => {
     <div>
       <Navigation />
       <main>
-        {console.log(getFirstNameAd())}
         <div className="home">
           <h2>Bonjour {getFirstNameAd()}!</h2>
           <div className="statistics-square">

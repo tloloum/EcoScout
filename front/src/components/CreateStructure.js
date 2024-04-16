@@ -78,8 +78,6 @@ const CreateStructure = (props) => {
 
   const chooseButton = (props) => {
     const numId = props.argument;
-    console.log(numId);
-    console.log(typeof numId);
 
     if (numId === 0) {
       return blueButton();

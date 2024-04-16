@@ -55,7 +55,7 @@ const AuthAdContextProvider = (props) => {
   };
 
   const loginAd = () => {
-    console.log(myAdherentId, myUserIdAd, myTokenAd);
+    // console.log(myAdherentId, myUserIdAd, myTokenAd);
     setIsAuthenticatedAd(true);
   };
 

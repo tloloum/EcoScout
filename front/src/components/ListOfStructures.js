@@ -110,7 +110,7 @@ const ListOfStructures = (props) => {
     <div className="choose-adherant">
       <ul>
         {structures.map((structure) => (
-          <li>
+          <li key={structure.id_structur}>
             <button
               className="choose-adherant-container"
               onClick={() => {
