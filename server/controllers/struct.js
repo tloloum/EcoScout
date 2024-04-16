@@ -4,18 +4,29 @@ const jwt = require("jsonwebtoken");
 const check_if_exists_struct = (nom) =>
   utils.check_if_exists("Structur", "nom_structure", nom);
 
+// const getDateDuJour = () => {
+//   const aujourdhui = new Date();
+//   const annee = aujourdhui.getFullYear();
+//   const mois = String(aujourdhui.getMonth() + 1).padStart(2, "0");
+//   const jour = String(aujourdhui.getDate()).padStart(2, "0");
+//   const date = `${annee}-${mois}-${jour}`;
+//   console.log(date);
+//   return date;
+// };
+
 exports.createStruct = async (req, res, next) => {
   const nom_structure = req.body.nom_structure;
-  const date_creation = "Date du jour"; // A voir comment on fait ça propre
+  const date_creation = req.body.date_creation; //getDateDuJour(); //"Date du jour"; // A voir comment on fait ça propre
   const idUser = parseInt(req.auth.userId, 10); //j'ai le droit de faire ça??
   console.log("structure creation");
+  console.log(date_creation);
 
   if (await check_if_exists_struct(nom_structure))
     return res
       .status(400)
       .json({ message: "A structure with the same name already exists" });
   else {
-    const query = `INSERT INTO Structur (id_structur, nom_structure, date_creation, id_structur_mere, id_owner) VALUES ('0', '${nom_structure}', '2022-01-10 10:17:36', NULL, '${idUser}')`;
+    const query = `INSERT INTO Structur (id_structur, nom_structure, date_creation, id_structur_mere, id_owner) VALUES ('0', '${nom_structure}', '${date_creation}', NULL, '${idUser}')`;
     utils.send_query_insert(query, res, 201, "Structure created successfully");
   }
 };

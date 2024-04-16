@@ -22,7 +22,7 @@ router.post("/register", userCtrl.register);
 router.post("/login", userCtrl.login);
 //Création d'un adherent
 //Necessite d'être connecté => token utilisateur
-//Entrée: nom_ad, prenom_ad 
+//Entrée: nom_ad, prenom_ad
 router.post("/create-adherent", auth, userCtrl.createAdherent);
 //Connexion d'un adherent
 //Necessite d'être connecté => token utilisateur
@@ -41,7 +41,11 @@ router.get("/:userId/adherent/:adherentId", auth_ad, userCtrl.getAdherent);
 router.put("/:userId/adherent/:adherentId", auth_ad, userCtrl.updateAdherent);
 //Suppression d'un adhérent
 //Necessite d'être connecté => token adhérent
-router.delete("/:userId/adherent/:adherentId", auth_ad, userCtrl.deleteAdherent);
+router.delete(
+  "/:userId/adherent/:adherentId",
+  auth_ad,
+  userCtrl.deleteAdherent
+);
 
 router.use((req, res, next) => {
   console.log("Requete d'authentification");
