@@ -1,6 +1,6 @@
-# PDF
+# node
 
-# *.pdf
+*/node_modules
 
 # Texlive 
 
@@ -11,3 +11,5 @@
 *.synctex.gz
 *.out
 *.toc
+
+
