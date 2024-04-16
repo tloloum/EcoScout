@@ -1,9 +1,16 @@
 import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import { AuthContext } from "../contexts/Auth";
+import { AuthAdContext } from "../contexts/AuthAd";
 
 const Navigation = () => {
   const { isAuthenticated, signOut } = useContext(AuthContext);
+  const { setFirstNameAd } = useContext(AuthAdContext);
+
+  const buttonSignOut = () => {
+    setFirstNameAd("");
+    signOut();
+  };
 
   return (
     <div className="navigation">
@@ -41,7 +48,7 @@ const Navigation = () => {
             </NavLink>
 
             <li>
-              <button onClick={signOut}>Déconnexion</button>
+              <button onClick={buttonSignOut}>Déconnexion</button>
             </li>
           </>
         )}
