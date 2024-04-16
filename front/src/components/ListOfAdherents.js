@@ -7,14 +7,8 @@ import { ServerContext } from "../contexts/Server";
 const ListOfAdherents = (props) => {
   const { myToken, myUserId } = useContext(AuthContext);
   const { getServerAddress } = useContext(ServerContext);
-  const {
-    setTokenAd,
-    setUserIdAd,
-    setAdherentId,
-    loginAd,
-    setNameAd,
-    setFirstNameAd,
-  } = useContext(AuthAdContext);
+  const { setTokenAd, setUserIdAd, setAdherentId, loginAd, setFirstNameAd } =
+    useContext(AuthAdContext);
 
   const navigate = useNavigate();
   const [adherents, setAdherents] = useState([]);
@@ -57,7 +51,7 @@ const ListOfAdherents = (props) => {
     showAdherents();
   }, [getServerAddress, myToken, myUserId]);
 
-  async function loginAdherent(adherentId, nom, prenom) {
+  async function loginAdherent(adherentId, prenom) {
     const serverAddress = getServerAddress();
     console.log(serverAddress + "user/login-adherent");
 
@@ -83,7 +77,6 @@ const ListOfAdherents = (props) => {
       const resultLoginAdherentContent = await resultLoginAdherent.json();
       setTokenAd(resultLoginAdherentContent.token);
       setUserIdAd(resultLoginAdherentContent.userId);
-      setNameAd(nom);
       setFirstNameAd(prenom);
       setAdherentId(adherentId);
       loginAd();
@@ -117,11 +110,7 @@ const ListOfAdherents = (props) => {
             <button
               className="choose-adherant-container"
               onClick={() => {
-                loginAdherent(
-                  adherent.id_adherent,
-                  adherent.nom_ad,
-                  adherent.prenom_ad
-                );
+                loginAdherent(adherent.id_adherent, adherent.prenom_ad);
               }}
             >
               {adherent.nom_ad} {adherent.prenom_ad}

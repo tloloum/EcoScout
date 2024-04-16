@@ -7,9 +7,7 @@ const AuthAdContext = createContext({
   setTokenAd: () => {},
   setUserIdAd: () => {},
   setAdherentId: () => {},
-  getNameAd: () => {},
   getFirstNameAd: () => {},
-  setNameAd: () => {},
   setFirstNameAd: () => {},
 });
 
@@ -18,7 +16,6 @@ const AuthAdContextProvider = (props) => {
   const [myTokenAd, setMyTokenAd] = useState();
   const [myUserIdAd, setMyUserIdAd] = useState();
   const [myAdherentId, setMyAdherentId] = useState();
-  const [myNameAd, setMyNameAd] = useState("");
   const [myFirstNameAd, setMyFirstNameAd] = useState("");
 
   const setTokenAd = (token) => {
@@ -31,18 +28,9 @@ const AuthAdContextProvider = (props) => {
     setMyUserIdAd(userId);
   };
 
-  const setNameAd = (nameAd) => {
-    console.log("My name:", nameAd);
-    setMyNameAd(nameAd);
-  };
-
   const setFirstNameAd = (firstNameAd) => {
     console.log("My first name:", firstNameAd);
     setMyFirstNameAd(firstNameAd);
-  };
-
-  const getNameAd = () => {
-    return myNameAd;
   };
 
   const getFirstNameAd = () => {
@@ -76,9 +64,7 @@ const AuthAdContextProvider = (props) => {
         myTokenAd,
         myUserIdAd,
         myAdherentId,
-        getNameAd,
         getFirstNameAd,
-        setNameAd,
         setFirstNameAd,
       }}
     >
