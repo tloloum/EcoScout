@@ -10,7 +10,7 @@ import Error404 from "./pages/Error404";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import Structures from "./pages/Structures";
-import ChooseAdherant from "./pages/user/ChooseAdherent";
+import Choose from "./pages/user/Choose";
 import Login from "./pages/user/Login";
 import Register from "./pages/user/Register";
 import RegisterAdherent from "./pages/user/RegisterAdherent";
@@ -53,8 +53,8 @@ const App = () => {
             <Route path="/home" element={<Home />} />
 
             <Route
-              path="/chooseadherant"
-              element={<PrivateRoute component={<ChooseAdherant />} />}
+              path="/choose"
+              element={<PrivateRoute component={<Choose />} />}
             />
             <Route
               path="/registerAdherent"

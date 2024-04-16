@@ -47,6 +47,7 @@ const RegisterStructure = () => {
       },
       body: JSON.stringify({
         nom_structure: nameStructure,
+        date_creation: dateStructure,
       }),
     });
     // const resultAdherent = await fetch(serverAddress + "user/create-adherent", {
@@ -66,7 +67,7 @@ const RegisterStructure = () => {
       setErreurMessage("Erreur lors de la création de la structure");
       return;
     } else {
-      navigate("/chooseadherant");
+      navigate("/choose");
     }
   }
 

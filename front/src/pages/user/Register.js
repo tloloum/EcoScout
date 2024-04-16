@@ -63,7 +63,7 @@ const Register = () => {
         setUserId(resultTokenContent.userId);
         setToken(resultTokenContent.token);
         login(email, password);
-        navigate("/chooseadherant");
+        navigate("/choose");
       }
     }
   }

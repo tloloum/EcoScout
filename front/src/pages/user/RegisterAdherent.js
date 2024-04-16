@@ -50,7 +50,7 @@ const RegisterAdherent = () => {
       setErreurMessage("Erreur lors de la création de l'adhérent");
       return;
     } else {
-      navigate("/chooseadherant");
+      navigate("/choose");
     }
   }
 

@@ -35,6 +35,8 @@ const CreateStructure = (props) => {
     const serverAddress = getServerAddress();
     console.log(serverAddress + "structures");
 
+    const formattedDate = "'" + dateStructure + "'";
+
     // Creation du compte :
     const resultStructure = await fetch(serverAddress + "structures/create", {
       method: "POST",
@@ -44,6 +46,7 @@ const CreateStructure = (props) => {
       },
       body: JSON.stringify({
         nom_structure: nameStructure,
+        date_creation: formattedDate,
       }),
     });
 

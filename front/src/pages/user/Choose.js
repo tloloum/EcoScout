@@ -2,9 +2,10 @@ import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/Auth";
 import { AuthAdContext } from "../../contexts/AuthAd";
+import { AuthStContext } from "../../contexts/AuthSt";
 import { ServerContext } from "../../contexts/Server";
 
-const ChooseAdherent = () => {
+const Choose = () => {
   const { myToken, myUserId } = useContext(AuthContext);
   const { getServerAddress } = useContext(ServerContext);
   const {
@@ -15,19 +16,31 @@ const ChooseAdherent = () => {
     setNameAd,
     setFirstNameAd,
   } = useContext(AuthAdContext);
+  const {
+    setTokenSt,
+    setUserIdSt,
+    setStructureId,
+    loginSt,
+    setNameSt,
+    setDateSt,
+  } = useContext(AuthStContext);
 
   const navigate = useNavigate();
   const [adherents, setAdherents] = useState([]);
+  const [structures, setStructures] = useState([]);
 
   const [haveAd, sethaveAd] = useState(false);
 
   useEffect(() => {
-    async function showAdherent() {
+    const serverAddress = getServerAddress();
+
+    // Partie recherche des Adherents
+
+    async function showAdherents() {
       if (!myToken || !myUserId) {
         return;
       }
 
-      const serverAddress = getServerAddress();
       console.log(serverAddress + "user/" + myUserId + "/adherents");
 
       const resultAdherent = await fetch(
@@ -49,12 +62,43 @@ const ChooseAdherent = () => {
         console.log(resultAdherentContent);
         if (resultAdherentContent.length > 0) {
           setAdherents(resultAdherentContent);
-          sethaveAd(true);
+          //sethaveAd(true);
         }
       }
     }
 
-    showAdherent();
+    // Partie recherche des Structures
+
+    async function showStructures() {
+      if (!myToken || !myUserId) {
+        return;
+      }
+
+      const resultStructure = await fetch(
+        serverAddress + "structures/user/" + myUserId,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + myToken,
+          },
+        }
+      );
+
+      if (resultStructure.status !== 200) {
+        console.log("Erreur lors de la récupération des structures");
+        return;
+      } else {
+        const resultStructureContent = await resultStructure.json();
+        console.log(resultStructureContent);
+        if (resultStructureContent.length > 0) {
+          setStructures(resultStructureContent);
+        }
+      }
+    }
+
+    showAdherents();
+    showStructures();
   }, [myToken, myUserId]);
 
   async function loginAdherent(adherentId) {
@@ -86,6 +130,39 @@ const ChooseAdherent = () => {
       setUserIdAd(resultLoginAdherentContent.userId);
       setAdherentId(adherentId);
       loginAd();
+      navigate("/home");
+    }
+  }
+
+  async function loginStructure(structureId) {
+    const serverAddress = getServerAddress();
+    console.log(serverAddress + "structures/loginstruct");
+
+    const resultLoginStructure = await fetch(
+      serverAddress + "structures/loginstruct",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + myToken,
+        },
+        body: JSON.stringify({
+          structureId: structureId,
+        }),
+      }
+    );
+
+    if (resultLoginStructure.status !== 200) {
+      console.log("Erreur lors de la connexion de la structure");
+      return;
+    } else {
+      /* Les fonctions de AuthSt ne sont pas activé*/
+      console.log("erreur");
+      const resultLoginStructureContent = await resultLoginStructure.json();
+      setTokenSt(resultLoginStructureContent.token);
+      setUserIdSt(resultLoginStructureContent.userId);
+      setStructureId(structureId);
+      loginSt();
       navigate("/home");
     }
   }
@@ -124,19 +201,19 @@ const ChooseAdherent = () => {
       <div className="choose-adherant">
         <h2>Choisissez une structure</h2>
         <ul>
-          {adherents.map((adherent) => (
+          {structures.map((structure) => (
             <li>
               <button
                 className="choose-adherant-container"
                 onClick={() => {
                   console.log("Selection");
-                  setNameAd(adherent.nom_ad);
-                  setFirstNameAd(adherent.prenom_ad);
+                  setNameSt(structure.nom_structure);
+                  setDateSt(structure.date_creation);
                   console.log("22222");
-                  loginAdherent(adherent.id_adherent);
+                  loginStructure(structure.id_structur);
                 }}
               >
-                {adherent.nom_ad} {adherent.prenom_ad}
+                {structure.nom_structure}
               </button>
             </li>
           ))}
@@ -166,4 +243,4 @@ const ChooseAdherent = () => {
   // }
 };
 
-export default ChooseAdherent;
+export default Choose;
