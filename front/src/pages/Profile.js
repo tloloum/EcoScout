@@ -2,11 +2,13 @@ import React, { useContext, useEffect, useState } from "react";
 import { RiCloseLine } from "react-icons/ri";
 import Navigation from "../components/Navigation";
 import { AuthContext } from "../contexts/Auth";
+import { AuthAdContext } from "../contexts/AuthAd";
 import { ServerContext } from "../contexts/Server";
 
 const Profile = () => {
   const { myToken, myUserId } = useContext(AuthContext);
   const { getServerAddress } = useContext(ServerContext);
+  const { myAdherentId } = useContext(AuthAdContext);
   const [Name, setName] = useState("");
   const [FirstName, setFirstName] = useState("");
   const [newName, setNewName] = useState("");
@@ -37,9 +39,14 @@ const Profile = () => {
     } else {
       const resultInfoContent = await resultInfos.json();
       console.log(resultInfoContent);
-      setName(resultInfoContent[0].nom_ad);
-      setFirstName(resultInfoContent[0].prenom_ad);
-      setAdhId(resultInfoContent[0].id_adherent);
+
+      for (let i = 0; i < resultInfoContent.length; i++) {
+        if (resultInfoContent[i].id_adherent === myAdherentId) {
+          setName(resultInfoContent[i].nom_ad);
+          setFirstName(resultInfoContent[i].prenom_ad);
+          setAdhId(resultInfoContent[i].id_adherent);
+        }
+      }
     }
   }
 
@@ -60,6 +67,8 @@ const Profile = () => {
   };
 
   async function updateInfos() {
+    // TODO : Bug à réparer lors de la mise à jour du profil
+
     console.log(`Nouveau nom : ${newName}`);
     console.log(`Nouveau nom : ${newFirstName}`);
 

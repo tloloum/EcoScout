@@ -44,7 +44,7 @@ const Login = () => {
       return;
     } else {
       const resultTokenContent = await resultToken.json();
-      // console.log(resultTokenContent);
+      console.log(resultTokenContent);
       setUserId(resultTokenContent.userId);
       setToken(resultTokenContent.token);
       login(email, password);
