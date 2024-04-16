@@ -7,8 +7,16 @@
 *.swp
 *.swo
 
+# Fichiers latex
+*.aux
+*.out
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.toc
 
 # Dossiers et fichiers de dépendances
+front/node_modules/
 server/node_modules/
 /vendor/
 /bower_components/
