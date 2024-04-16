@@ -12,32 +12,27 @@ const Home = () => {
       <main>
         <div className="home">
           <h2>Bonjour {getFirstNameAd()}!</h2>
-          <div className="statistics-square">
-            <Link to="/statistiques">
+          <div className="home-container">
+            <Link to="/statistiques" className="home-container-square">
               <div className="square-content">
                 {/*statistics data */}
                 <p>Statistics</p>
               </div>
             </Link>
-          </div>
-          <div className="events-square">
-            <Link to="/evenements">
+            <Link to="/evenements" className="home-container-square">
               <div className="square-content">
                 {/* events data */}
                 <p>Évènements</p>
               </div>
             </Link>
-          </div>
-          <div className="badges-square">
-            <Link to="/badges">
+
+            <Link to="/badges" className="home-container-square">
               <div className="square-content">
                 {/* badges data */}
                 <p>Badges</p>
               </div>
             </Link>
-          </div>
-          <div className="structures-square">
-            <Link to="/structures">
+            <Link to="/structures" className="home-container-square">
               <div className="square-content">
                 {/* structures data */}
                 <p>Structures</p>
