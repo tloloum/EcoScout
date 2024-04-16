@@ -36,7 +36,7 @@ exports.getStructsFromUser = async (req, res, next) => {
   if (userId !== req.auth.userId) {
     return res.status(401).json({ message: "Unauthorized" });
   }
-  const select_query = `SELECT id_structur, nom_structure, date_creation, id_structur_mere FROM structur WHERE id_owner = '${userId}'`;
+  const select_query = `SELECT id_structur, nom_structure, date_creation, id_structur_mere FROM Structur WHERE id_owner = '${userId}'`;
   utils
     .send_query_select(select_query)
     .then((rows) => {
