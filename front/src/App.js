@@ -55,7 +55,6 @@ const App = () => {
                 <Route path="/register" element={<Register />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/home" element={<Home />} />
-
                 <Route
                   path="/choose"
                   element={<PrivateRoute component={<Choose />} />}
@@ -72,10 +71,15 @@ const App = () => {
                   path="/structures"
                   element={<PrivateRoute component={<Structures />} />}
                 />
-                <Route
+                {/*################################*/}
+                {/*A enlever une fois que le bug de modification de profil sera terminé */}
+                <Route path="/profile" element={<Profile />} />{" "}
+                {/*Forme normale*/}
+                {/* <Route
                   path="/profile"
                   element={<PrivateRoute component={<Profile />} />}
-                />
+                /> */}
+                {/*################################*/}
               </Routes>
             </BrowserRouter>
           </AuthStContextProvider>
