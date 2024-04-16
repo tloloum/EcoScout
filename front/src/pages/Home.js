@@ -62,7 +62,7 @@ const Home = () => {
         <Link to="/" className="home-container-square">
           <div className="square-content">
             {/* structures data */}
-            <p>Accueil</p>
+            <p>Menu principal</p>
           </div>
         </Link>
       </div>
