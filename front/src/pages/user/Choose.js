@@ -150,8 +150,9 @@ const Choose = () => {
       }
     );
 
-    if (resultLoginStructure.status !== 200) {
+    if (resultLoginStructure.status !== 201) {
       console.log("Erreur lors de la connexion de la structure");
+      console.log(resultLoginStructure.status);
       return;
     } else {
       /* Les fonctions de AuthSt ne sont pas activé*/
@@ -176,10 +177,8 @@ const Choose = () => {
               <button
                 className="choose-adherant-container"
                 onClick={() => {
-                  console.log("Selection");
                   setNameAd(adherent.nom_ad);
                   setFirstNameAd(adherent.prenom_ad);
-                  console.log("22222");
                   loginAdherent(adherent.id_adherent);
                 }}
               >
@@ -204,10 +203,8 @@ const Choose = () => {
               <button
                 className="choose-adherant-container"
                 onClick={() => {
-                  console.log("Selection");
                   setNameSt(structure.nom_structure);
                   setDateSt(structure.date_creation);
-                  console.log("22222");
                   loginStructure(structure.id_structur);
                 }}
               >
