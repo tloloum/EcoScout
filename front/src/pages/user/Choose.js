@@ -29,8 +29,6 @@ const Choose = () => {
   const [adherents, setAdherents] = useState([]);
   const [structures, setStructures] = useState([]);
 
-  const [haveAd, sethaveAd] = useState(false);
-
   useEffect(() => {
     const serverAddress = getServerAddress();
 
