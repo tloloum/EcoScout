@@ -55,7 +55,6 @@ exports.loginStruct = async (req, res, next) => {
   const userId = req.auth.userId;
   const select_query = `SELECT id_owner FROM Structur WHERE id_structur = '${structureId}'`;
   const rows = await utils.send_query_select(select_query);
-  console.log(rows[0].id_owner, userId);
   if (rows.length === 0 || userId - rows[0].id_owner !== 0) {
     return res.status(401).json({ message: "Unauthorized" });
   }
@@ -72,10 +71,6 @@ exports.loginStruct = async (req, res, next) => {
 
 exports.getStruct = async (req, res, next) => {
   const id_structur = parseInt(req.params.structureId, 10);
-<<<<<<< HEAD
-  // console.log(req.auth.structureId + " bfyjuzf" + id_structur);
-=======
->>>>>>> origin/back
   const query = `SELECT nom_structure, date_creation, id_structur_mere FROM Structur WHERE id_structur = '${id_structur}' `; //On renvoie l'id de la structure mere?? la structure mere en soit?
   utils
     .send_query_select(query)
@@ -93,14 +88,12 @@ exports.getStruct = async (req, res, next) => {
 exports.updateStruct = (req, res, next) => {
   const userId = parseInt(req.params.userId, 10);
   const structureId = parseInt(req.params.structureId, 10);
-  console.log(req.auth.structureId + " test");
   const NewName = req.body.newname;
-
-  if (structureId !== req.auth.structureId) {
+  if (structureId !== req.auth.structureId && userId!==req.auth.userId) {
     return res.status(401).json({ message: "Unauthorized" });
   } else {
-    const query = `UPDATE Structur SET nom_structure = '${NewName}' WHERE id = ${structureId}`; //on modifie ici que le nom, mais est-ce que c'est le seul truc à modifier?
-    utils.send_query_update(
+    const query = `UPDATE Structur SET nom_structure = '${NewName}' WHERE id_structur = ${structureId}`; //on modifie ici que le nom, mais est-ce que c'est le seul truc à modifier?
+    utils.send_query_insert(
       query,
       res,
       200,
