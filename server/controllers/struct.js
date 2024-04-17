@@ -16,7 +16,7 @@ const check_if_exists_struct = (nom) =>
 
 exports.createStruct = async (req, res, next) => {
   const nom_structure = req.body.nom_structure;
-  const date_creation = req.body.date_creation; //getDateDuJour(); //"Date du jour"; // A voir comment on fait ça propre
+  const date_creation = new Date().toISOString().slice(0, 19).replace('T', ' ');
   const idUser = parseInt(req.auth.userId, 10); //j'ai le droit de faire ça??
   console.log("structure creation");
   console.log(date_creation);
