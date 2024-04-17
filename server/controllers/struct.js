@@ -72,13 +72,16 @@ exports.loginStruct = async (req, res, next) => {
 
 exports.getStruct = async (req, res, next) => {
   const id_structur = parseInt(req.params.structureId, 10);
+<<<<<<< HEAD
   // console.log(req.auth.structureId + " bfyjuzf" + id_structur);
+=======
+>>>>>>> origin/back
   const query = `SELECT nom_structure, date_creation, id_structur_mere FROM Structur WHERE id_structur = '${id_structur}' `; //On renvoie l'id de la structure mere?? la structure mere en soit?
   utils
     .send_query_select(query)
     .then((rows) => {
       res.status(200).json({
-        nom_structur: rows[0].nom_structur,
+        nom_structure: rows[0].nom_structure,
         date_creation: rows[0].date_creation,
       });
     })
