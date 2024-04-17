@@ -100,6 +100,7 @@ describe("Structures API", () => {
   it("should update a struct name", async () => {
     const structureId = 1;
     const updatename = "update";
+    const userId = 1;
 
     const response = await request(app)
       .put(`/user/${userId}/structure/${structureId}`)
@@ -112,7 +113,7 @@ describe("Structures API", () => {
       "Structure updated successfully"
     );
     const getResponse = await request(app)
-      .get(`/structure/${structureId}`)
+      .get(`/user/${userId}/structure/${structureId}`)
       .expect(200);
     expect(getResponse.body).toHaveProperty("nom_st", "updated_nom");
   });

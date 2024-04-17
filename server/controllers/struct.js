@@ -89,16 +89,11 @@ exports.updateStruct = (req, res, next) => {
   const userId = parseInt(req.params.userId, 10);
   const structureId = parseInt(req.params.structureId, 10);
   const NewName = req.body.newname;
-  if (structureId !== req.auth.structureId && userId!==req.auth.userId) {
+  if (structureId !== req.auth.structureId && userId !== req.auth.userId) {
     return res.status(401).json({ message: "Unauthorized" });
   } else {
     const query = `UPDATE Structur SET nom_structure = '${NewName}' WHERE id_structur = ${structureId}`; //on modifie ici que le nom, mais est-ce que c'est le seul truc à modifier?
-    utils.send_query_insert(
-      query,
-      res,
-      200,
-      "Structure name updated successfully"
-    );
+    utils.send_query_insert(query, res, 200, "Structure updated successfully");
   }
 };
 
