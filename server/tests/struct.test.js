@@ -83,16 +83,17 @@ describe("Structures API", () => {
       .set("Authorization", `Bearer ${userToken}`)
       .send(selectionData);
 
-    console.log(response);
-    expect(response.statusCode).toBe(200);
+    expect(response.statusCode).toBe(201);
     expect(response.body).toHaveProperty("token");
     global.structureToken = response.body.token;
+    console.log(structureToken);
   });
 
   it("should get a struct", async () => {
     const structureId = 1;
     const req = await request(app)
       .get(`/structures/${structureId}`)
+      .set("Authorization", `Bearer ${structureToken}`)
       .expect(200);
   });
 
@@ -101,7 +102,8 @@ describe("Structures API", () => {
     const updatename = "update";
 
     const response = await request(app)
-      .put(`/structure/${structureId}`)
+      .put(`/user/${userId}/structure/${structureId}`)
+      .set("Authorization", `Bearer ${structureToken}`)
       .send(updatename)
       .expect(200);
 
@@ -113,5 +115,17 @@ describe("Structures API", () => {
       .get(`/structure/${structureId}`)
       .expect(200);
     expect(getResponse.body).toHaveProperty("nom_st", "updated_nom");
+  });
+
+  it("should delete a struct", async () => {
+    const structureId = 1;
+    const response = await request(app)
+      .delete(`/structure/${structureId}`)
+      .set("Authorization", `Bearer ${structureToken}`)
+      .expect(200);
+    expect(response.body).toHaveProperty(
+      "message",
+      "Structure deleted successfully"
+    );
   });
 });

@@ -4,7 +4,6 @@ const express = require("express");
 const router = express.Router();
 const structCtrl = require("../controllers/struct");
 const auth = require("../middleware/auth_struct");
-const auth_struct = require("../middleware/auth_struct");
 
 /*
 1. **POST** `/structures` - Pour créer une nouvelle structure.
@@ -22,17 +21,13 @@ router.post("/create", auth, structCtrl.createStruct);
 router.post("/loginstruct", auth, structCtrl.loginStruct); // renvoie le nouveau token
 router.get("/user/:userId", auth, structCtrl.getStructsFromUser);
 
-router.get("/:structureId", auth_struct, structCtrl.getStruct);
-router.put("/:structureId", auth_struct, structCtrl.updateStruct);
-router.delete("/:structureId", auth_struct, structCtrl.deleteStruct);
-router.post("/:structureId/members", auth_struct, structCtrl.addMember);
-router.delete(
-  "/:structureId/members/:memberId",
-  auth_struct,
-  structCtrl.removeMember
-);
-router.post("/:structureId/join", auth_struct, structCtrl.joinStruct);
-router.post("/:structureId/hierarchy", auth_struct, structCtrl.joinHierarchy);
+router.get("/:structureId", auth, structCtrl.getStruct);
+router.put("/:userId/structure/:structureId", auth, structCtrl.updateStruct);
+router.delete("/:structureId", auth, structCtrl.deleteStruct);
+router.post("/:structureId/members", auth, structCtrl.addMember);
+router.delete("/:structureId/members/:memberId", auth, structCtrl.removeMember);
+router.post("/:structureId/join", auth, structCtrl.joinStruct);
+router.post("/:structureId/hierarchy", auth, structCtrl.joinHierarchy);
 
 router.use((req, res, next) => {
   console.log("Requete de structure");

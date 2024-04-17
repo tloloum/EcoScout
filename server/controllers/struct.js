@@ -16,7 +16,7 @@ const check_if_exists_struct = (nom) =>
 
 exports.createStruct = async (req, res, next) => {
   const nom_structure = req.body.nom_structure;
-  const date_creation = new Date().toISOString().slice(0, 19).replace('T', ' ');
+  const date_creation = new Date().toISOString().slice(0, 19).replace("T", " ");
   const idUser = parseInt(req.auth.userId, 10); //j'ai le droit de faire ça??
   console.log("structure creation");
   console.log(date_creation);
@@ -72,7 +72,8 @@ exports.loginStruct = async (req, res, next) => {
 
 exports.getStruct = async (req, res, next) => {
   const id_structur = parseInt(req.params.structureId, 10);
-  const query = `SELECT nom_structur, date_creation, id_structur_mere FROM Structur WHERE id_structur = '${id_structur}' `; //On renvoie l'id de la structure mere?? la structure mere en soit?
+  // console.log(req.auth.structureId + " bfyjuzf" + id_structur);
+  const query = `SELECT nom_structure, date_creation, id_structur_mere FROM Structur WHERE id_structur = '${id_structur}' `; //On renvoie l'id de la structure mere?? la structure mere en soit?
   utils
     .send_query_select(query)
     .then((rows) => {
@@ -87,7 +88,9 @@ exports.getStruct = async (req, res, next) => {
 };
 
 exports.updateStruct = (req, res, next) => {
+  const userId = parseInt(req.params.userId, 10);
   const structureId = parseInt(req.params.structureId, 10);
+  console.log(req.auth.structureId + " test");
   const NewName = req.body.newname;
 
   if (structureId !== req.auth.structureId) {
