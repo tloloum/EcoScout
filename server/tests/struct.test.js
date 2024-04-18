@@ -144,18 +144,6 @@ describe("Structures API", () => {
     //   .expect(200);
     // expect(getResponse.body).toHaveProperty("nom_structur", "update");
   });
-
-  it("should delete a struct", async () => {
-    const structureId = 1;
-    const response = await request(app)
-      .delete(`/structures/${structureId}`)
-      .set("Authorization", `Bearer ${structureToken}`)
-      .expect(200);
-    expect(response.body).toHaveProperty(
-      "message",
-      "Structure deleted successfully"
-    );
-  });
   // router.post("/:structureId/members", auth_struct, structCtrl.addMember);
   it("should add a member to struct", async () => {
     const adherentData = {
@@ -174,12 +162,23 @@ describe("Structures API", () => {
       );
     const structureId= 1;
     const adherentId={
-      "adherentId": 3,
+      "adherentId": 1,
     };
     const res = await request(app)
       .post(`/structures/${structureId}/members`).send(adherentId)
       .set("Authorization", `Bearer ${structureToken}`)
       .expect(200);
-    expect(res).toHaveProperty("Member added to structure successfully")
-  })
+    expect(res.body).toHaveProperty("message","Member added to structure successfully");
+  });
+  it("should delete a struct", async () => {
+    const structureId = 1;
+    const response = await request(app)
+      .delete(`/structures/${structureId}`)
+      .set("Authorization", `Bearer ${structureToken}`)
+      .expect(200);
+    expect(response.body).toHaveProperty(
+      "message",
+      "Structure deleted successfully"
+    );
+  });
 });
