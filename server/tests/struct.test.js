@@ -81,7 +81,10 @@ describe("Structures API", () => {
         nom_structure: "StructTest1",
       })
       .expect(400);
-    expect(res.body).toHaveProperty("message", "A structure with the same name already exists");
+    expect(res.body).toHaveProperty(
+      "message",
+      "A structure with the same name already exists"
+    );
   });
   it("should login the struct successfully", async () => {
     const selectionData = {
@@ -109,7 +112,7 @@ describe("Structures API", () => {
       .send(selectionData);
 
     expect(response.statusCode).toBe(401);
-  })
+  });
   it("should get a struct", async () => {
     const structureId = 1;
     const req = await request(app)
@@ -118,12 +121,12 @@ describe("Structures API", () => {
       .expect(200);
   });
   it("should get a struct from a user", async () => {
-    const userId=1;
-    const req= await request (app)
+    const userId = 1;
+    const req = await request(app)
       .get(`/structures/user/${userId}`)
       .set("Authorization", `Bearer ${structureToken}`)
       .expect(200);
-  })
+  });
   it("should update a struct name", async () => {
     const structureId = 1;
     const newname = "update";
@@ -151,35 +154,42 @@ describe("Structures API", () => {
       prenom_ad: "test_ad_prenom",
     };
 
-    const response= await request(app)
+    const response = await request(app)
       .post("/user/create-adherent")
       .set("Authorization", `Bearer ${userToken}`)
       .send(adherentData);
     expect(response.statusCode).toBe(201);
     expect(response.body).toHaveProperty(
-        "message",
-        "Adherent inserted successfully"
-      );
-    const structureId= 1;
-    const adherentId={
-      "adherentId": 1,
+      "message",
+      "Adherent inserted successfully"
+    );
+    const structureId = 1;
+    const adherentId = {
+      adherentId: 1,
     };
     const res = await request(app)
-      .post(`/structures/${structureId}/members`).send(adherentId)
+      .post(`/structures/${structureId}/members`)
+      .send(adherentId)
       .set("Authorization", `Bearer ${structureToken}`)
       .expect(200);
-    expect(res.body).toHaveProperty("message","Member added to structure successfully");
+    expect(res.body).toHaveProperty(
+      "message",
+      "Member added to structure successfully"
+    );
   });
   it("should delete an adherent from a struct", async () => {
-    const structureId=1;
-    const adherentId=1;
+    const structureId = 1;
+    const adherentId = 1;
     const response = await request(app)
       .post(`/structures/${structureId}/members/${adherentId}`)
       .set("Authorization", `Bearer ${structureToken}`)
       .expect(200);
     console.log(response.statusCode);
-    expect(response.body).toHaveProperty("message", "Member deleted from struct successfully");
-  })
+    expect(response.body).toHaveProperty(
+      "message",
+      "Member deleted from struct successfully"
+    );
+  });
   it("should delete a struct", async () => {
     const structureId = 1;
     const response = await request(app)
@@ -190,5 +200,12 @@ describe("Structures API", () => {
       "message",
       "Structure deleted successfully"
     );
+  });
+  it("should add a hierarchy", async () => {
+    const structureId = 1;
+    const structuremèreId = 2;
+    const response = await request(app)
+      .post(`structures/${structureId}/hierachy`)
+      .expect(200);
   });
 });

@@ -122,9 +122,9 @@ exports.addMember = (req, res, next) => {
         200,
         "Member added to structure successfully"
       )
-      .catch((error) => { 
+      .catch((error) => {
         res.status(500).json({ error });
-      }); 
+      });
   }
 };
 
@@ -145,11 +145,12 @@ exports.removeMember = (req, res, next) => {
       )
       .catch((error) => {
         res.status(500).json({ error });
-      })
+      });
   }
 };
 
 exports.joinStruct = (req, res, next) => {
+  // sans doute demander un body pour prendre le nouvelle arriavnt dans la structure
   const userId = parseInt(req.params.userId, 10); //vraiment utile ici??
   const structureId = parseInt(req.params.structureId, 10);
   if (structureId !== req.auth.structureId) {
