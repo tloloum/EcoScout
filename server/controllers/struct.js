@@ -110,10 +110,12 @@ exports.deleteStruct = (req, res, next) => {
 exports.addMember = (req, res, next) => {
   const structureId = parseInt(req.params.structureId, 10);
   const adherentId = parseInt(req.body.adherentId, 10);
+  const date_creation = new Date().toISOString().slice(0, 19).replace("T", " ");
+  console.log("adId " + adherentId + " structureId " + structureId);
   if (structureId !== req.auth.structureId) {
     return res.status(401).json({ message: "Unauthorized" });
   } else {
-    const query = `INSERT INTO Participants_Struct (id_p_struct, date_join, id_structur, id_adherent) VALUES ( '0' , GETDATE(), '${structureId}' , '${adherentId}' )`;
+    const query = `INSERT INTO Participants_Struct (id_p_struct, date_join, id_structure, id_adherent) VALUES ( '0' , '${date_creation}', '${structureId}' , '${adherentId}' )`;
     utils
       .send_query_insert(
         query,
@@ -153,7 +155,7 @@ exports.joinStruct = (req, res, next) => {
   if (structureId !== req.auth.structureId) {
     return res.status(401).json({ message: "Unauthorized" });
   } else {
-    const query = `INSERT INTO Participants_Struct (id_p_struct, date_join, id_structur, id_adherent) VALUES ( '0' , GETDATE(), '${structureId}' , '${adherentId}' )`;
+    const query = `INSERT INTO Participants_Struct (id_p_struct, date_join, id_structure, id_adherent) VALUES ( '0' , GETDATE(), '${structureId}' , '${adherentId}' )`;
     utils
       .send_query_insert(
         query,
