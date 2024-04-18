@@ -111,7 +111,6 @@ exports.addMember = (req, res, next) => {
   const structureId = parseInt(req.params.structureId, 10);
   const adherentId = parseInt(req.body.adherentId, 10);
   const date_creation = new Date().toISOString().slice(0, 19).replace("T", " ");
-  console.log("adId " + adherentId + " structureId " + structureId);
   if (structureId !== req.auth.structureId) {
     return res.status(401).json({ message: "Unauthorized" });
   } else {
@@ -123,9 +122,9 @@ exports.addMember = (req, res, next) => {
         200,
         "Member added to structure successfully"
       )
-      .catch((error) => {
-        res.status(500).json({ error });
-      });
+      // .catch((error) => { 
+      //   res.status(500).json({ error });
+      // }); Trop bizarre j'ai mis ça en commentaire et ca marche? problème de modification de l'entête http après un premier envoi
   }
 };
 
