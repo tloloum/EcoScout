@@ -102,7 +102,6 @@ describe("Structures API", () => {
       .get(`/structures/user/${userId}`)
       .set("Authorization", `Bearer ${structureToken}`)
       .expect(200);
-    console.log(req.body);
   })
   it("should update a struct name", async () => {
     const structureId = 1;
@@ -136,4 +135,18 @@ describe("Structures API", () => {
       "Structure deleted successfully"
     );
   });
+  // router.post("/:structureId/members", auth_struct, structCtrl.addMember);
+  it("should add a member to struct", async () => {
+    await request(app).post("/user/register").send({
+      mail: "testMail3@mail.mail",
+      password: "password123",
+    });
+    const structureId= 1;
+    const response = await request(app)
+      .post(`/structures/${structureId}/members`).send({
+        "adherendId":2
+      })
+      .set("Authorization", `Bearer ${structureToken}`)
+      .expect(200);
+  })
 });
