@@ -170,6 +170,16 @@ describe("Structures API", () => {
       .expect(200);
     expect(res.body).toHaveProperty("message","Member added to structure successfully");
   });
+  it("should delete an adherent from a struct", async () => {
+    const structureId=1;
+    const adherentId=1;
+    const response = await request(app)
+      .post(`/structures/${structureId}/members/${adherentId}`)
+      .set("Authorization", `Bearer ${structureToken}`)
+      .expect(200);
+    console.log(response.statusCode);
+    expect(response.body).toHaveProperty("message", "Member deleted from struct successfully");
+  })
   it("should delete a struct", async () => {
     const structureId = 1;
     const response = await request(app)

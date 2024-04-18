@@ -26,7 +26,7 @@ router.get("/:structureId", auth, structCtrl.getStruct);
 router.put("/:userId/structure/:structureId", auth_struct, structCtrl.updateStruct);
 router.delete("/:structureId", auth_struct, structCtrl.deleteStruct);
 router.post("/:structureId/members", auth_struct, structCtrl.addMember);
-router.delete("/:structureId/members/:memberId", auth_struct, structCtrl.removeMember);
+router.delete("/:structureId/members/:adherentId", auth_struct, structCtrl.removeMember);
 router.post("/:structureId/join", auth_struct, structCtrl.joinStruct);
 router.post("/:structureId/hierarchy", auth_struct, structCtrl.joinHierarchy);
 

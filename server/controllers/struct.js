@@ -122,15 +122,16 @@ exports.addMember = (req, res, next) => {
         200,
         "Member added to structure successfully"
       )
-      // .catch((error) => { 
-      //   res.status(500).json({ error });
-      // }); Trop bizarre j'ai mis ça en commentaire et ca marche? problème de modification de l'entête http après un premier envoi
+      .catch((error) => { 
+        res.status(500).json({ error });
+      }); 
   }
 };
 
 exports.removeMember = (req, res, next) => {
   const structureId = parseInt(req.params.structureId, 10);
   const adherentId = parseInt(req.params.adherentId, 10);
+  console.log(adherentId);
   if (structureId !== req.auth.structureId) {
     return res.status(401).json({ message: "Unauthorized" });
   } else {
@@ -144,7 +145,7 @@ exports.removeMember = (req, res, next) => {
       )
       .catch((error) => {
         res.status(500).json({ error });
-      });
+      })
   }
 };
 
