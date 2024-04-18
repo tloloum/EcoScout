@@ -73,6 +73,16 @@ describe("Structures API", () => {
       "Structure created successfully"
     );
   });
+  it("should not create a new struct with existing name", async () => {
+    const res = await request(app)
+      .post("/structures/create")
+      .set("Authorization", `Bearer ${userToken}`)
+      .send({
+        nom_structure: "StructTest1",
+      })
+      .expect(400);
+    expect(res.body).toHaveProperty("message", "A structure with the same name already exists");
+  });
   it("should login the struct successfully", async () => {
     const selectionData = {
       structureId: 1,
@@ -88,7 +98,18 @@ describe("Structures API", () => {
     global.structureToken = response.body.token;
     console.log(structureToken);
   });
+  it("should not login with wrong login info", async () => {
+    const selectionData = {
+      structureId: 1,
+    };
 
+    const response = await request(app)
+      .post("/structures/loginstruct")
+      .set("Authorization", `Bearer adzjs`)
+      .send(selectionData);
+
+    expect(response.statusCode).toBe(401);
+  })
   it("should get a struct", async () => {
     const structureId = 1;
     const req = await request(app)
