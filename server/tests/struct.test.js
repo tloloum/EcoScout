@@ -201,11 +201,15 @@ describe("Structures API", () => {
       "Structure deleted successfully"
     );
   });
-  // it("should add a hierarchy", async () => {
-  //   const structureId = 1;
-  //   const structuremèreId = 2;
-  //   const response = await request(app)
-  //     .post(`structures/${structureId}/hierachy`)
-  //     .expect(200);
-  // });
+  it("should add a hierarchy", async () => {
+    const structureId = 1;
+    const structuremèreId = 2;
+    const response = await request(app)
+      .post(`structures/${structureId}/hierachy`)
+      .expect(200);
+    expect(response.body).toHaveProperty(
+      "message",
+      "Structure joined another successfully"
+    );
+  });
 });
