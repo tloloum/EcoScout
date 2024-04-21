@@ -1,15 +1,18 @@
 import React, { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import { AuthContext } from "../contexts/Auth";
 import { AuthAdContext } from "../contexts/AuthAd";
 
 const Navigation = () => {
   const { isAuthenticated, signOut } = useContext(AuthContext);
-  const { setFirstNameAd } = useContext(AuthAdContext);
+  const { signOutAd } = useContext(AuthAdContext);
+  const navigate = useNavigate();
 
   const buttonSignOut = () => {
-    setFirstNameAd("");
+    signOutAd()
     signOut();
+    navigate("/");
   };
 
   return (

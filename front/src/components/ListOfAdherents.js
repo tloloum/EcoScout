@@ -80,7 +80,7 @@ const ListOfAdherents = (props) => {
       setFirstNameAd(prenom);
       setAdherentId(adherentId);
       loginAd();
-      navigate("/home");
+      navigate("/homead");
     }
   }
 

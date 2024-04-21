@@ -1,13 +1,21 @@
-import React from "react";
+import React, {useState} from "react";
 
-const Sidebar = ({ isOpen, onClose, structures, isAuthenticated }) => {
-  if (!isAuthenticated) {
-    return null;
-  }
+const Sidebar = () => {
+  const [isOpen, setIsOpen] = useState(true);
+
+  const switchSidebar = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const structures = [
+    { id: 1, name: "Structure 1" },
+    { id: 2, name: "Structure 2" },
+    { id: 3, name: "Structure 3" },
+  ];
 
   return (
     <aside className={`sidebar ${isOpen ? "open" : "closed"}`}>
-      <div className="toggle-button" onClick={onClose}>
+      <div className="toggle-button" onClick={switchSidebar}>
         {isOpen ? "←" : "→"}
       </div>
       <ul>
