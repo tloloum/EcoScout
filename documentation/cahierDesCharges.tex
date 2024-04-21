@@ -1,0 +1,61 @@
+\documentclass{article}
+
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{awesomebox}
+\usepackage{lastpage}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{tabularx}
+\usepackage{pdfpages}
+
+
+
+\newcommand\gauchedroite[2]{\noindent{}#1\hfill#2}
+
+
+
+%%%%%%% Définition des marges et bordure %%%%%%%%%
+\usepackage[left=3cm,right=3cm,top=2cm,bottom=4cm]{geometry}
+
+
+
+%%%%%%%% Pied de page %%%%%%%%%
+
+\usepackage{fancyhdr}
+
+\pagestyle{fancy}
+\fancyhf{} % Efface les en-têtes et pieds de page précédemment définis
+
+\rfoot{Page \thepage/\pageref{LastPage}}
+
+\renewcommand{\headrulewidth}{0pt} % Ligne en haut de la page
+\renewcommand{\footrulewidth}{0.4pt} % Ligne en bas de la page
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+\input{parts/presentation.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\section{Présentation du projet}
+\input{parts/introduction.tex}
+
+\newpage
+
+\newgeometry{left=2cm, right=2cm, top=2cm, bottom=2cm}
+\section{Spécifications Fonctionnelles Détaillées}
+\input{parts/SFD.tex}
+\restoregeometry
+
+\section{Pages de l'application}
+\input{parts/pages.tex}
+
+\newpage
+\includepdf{./pictures/vues_app.pdf}
+
+\end{document}
