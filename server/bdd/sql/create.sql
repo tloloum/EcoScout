@@ -123,6 +123,21 @@ CREATE TABLE Participants_Struct
 CREATE TABLE Nom_impact
 (
     id_impact INT PRIMARY KEY AUTO_INCREMENT,
-    nom_impact VARCHAR(400) NOT NULL
+    nom_impact VARCHAR(400) NOT NULL,
+    total_poste_non_decompose FLOAT NOT NULL,
+    unite VARCHAR(255) NOT NULL
 )
+
+CREATE TABLE Impact
+(
+    id_impact_event INTEGER PRIMARY KEY AUTO_INCREMENT,
+    id_impact INTEGER UNSIGNED,
+    FOREIGN KEY (id_impact) REFERENCES Nom_impact(id_impact) ON DELETE CASCADE,
+    valeur FLOAT NOT NULL,
+    nombre_personnes INTEGER NOT NULL,
+    id_evenement INTEGER UNSIGNED,
+    FOREIGN KEY (id_evenement) REFERENCES Evenements(id_evenement) ON DELETE CASCADE,
+    id_adherent INTEGER,
+    FOREIGN KEY (id_adherent) REFERENCES Adherents(id_adherent) ON DELETE CASCADE
+);
 
