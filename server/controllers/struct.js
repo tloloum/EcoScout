@@ -89,6 +89,15 @@ exports.updateStruct = (req, res, next) => {
   const userId = parseInt(req.params.userId, 10);
   const structureId = parseInt(req.params.structureId, 10);
   const NewName = req.body.newname;
+  console.log(
+    req.auth.structureId +
+      " " +
+      req.auth.userId +
+      " " +
+      userId +
+      " " +
+      structureId
+  );
   if (structureId !== req.auth.structureId && userId !== req.auth.userId) {
     return res.status(401).json({ message: "Unauthorized" });
   } else {
@@ -135,7 +144,7 @@ exports.removeMember = (req, res, next) => {
   if (structureId !== req.auth.structureId) {
     return res.status(401).json({ message: "Unauthorized" });
   } else {
-    const query = `DELETE FROM Participants_Struct WHERE id_structure=${structureId} AND id_adherent=${adherentId}`;
+    const query = `DELETE FROM Participants_Struct WHERE id_structure = '${structureId}' AND id_adherent = '${adherentId}'`;
     utils
       .send_query_insert(
         query,
@@ -173,10 +182,17 @@ exports.joinStruct = (req, res, next) => {
 exports.joinHierarchy = (req, res, next) => {
   const structureId = parseInt(req.params.structureId, 10);
   const structureIdMere = req.body.structureId;
+  console.log(
+    req.auth.structureId +
+      "fafzaa " +
+      structureId +
+      "fahioahfa " +
+      structureIdMere
+  );
   if (structureId !== req.auth.structureId) {
     return res.status(401).json({ message: "Unauthorized" });
   } else {
-    const query = `UPDATE Structur SET id_structur_mere=${structureIdMere} WHERE id ) ${structureId}`;
+    const query = `UPDATE Structur SET id_structur_mere = '${structureIdMere}' WHERE id_structur = '${structureId}'`;
     utils
       .send_query_insert(
         query,

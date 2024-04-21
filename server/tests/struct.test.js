@@ -127,6 +127,14 @@ describe("Structures API", () => {
       .set("Authorization", `Bearer ${structureToken}`)
       .expect(200);
   });
+  it("should not get a struct from a user with wrong token", async () => {
+    const userId = 1;
+    const req = await request(app)
+      .get(`/structures/user/${userId}`)
+      .set("Authorization", `Bearer ad`)
+      .expect(401);
+  });
+
   it("should update a struct name", async () => {
     const structureId = 1;
     const newname = "update";
@@ -201,12 +209,44 @@ describe("Structures API", () => {
       "Structure deleted successfully"
     );
   });
+  it("should not delete a struct with wrong token", async () => {
+    const structureId = 1;
+    const response = await request(app)
+      .delete(`/structures/${structureId}`)
+      .set("Authorization", `Bearer adzjs`)
+      .expect(401);
+  });
+  it("should not delete a struct with wrong id", async () => {
+    const structureId = 100;
+    const response = await request(app)
+      .delete(`/structures/${structureId}`)
+      .set("Authorization", `Bearer ${global.structureToken}`)
+      .expect(401);
+  });
+
+  // it("should join a struct", async () => {
+  //   const structureId = 1;
+  //   const adherentId = 1;
+  //   const response = await request(app)
+  //     .post(`/structures/${structureId}/join`)
+  //     .set("Authorization", `Bearer ${global.structureToken}`)
+  //     .send(adherentId)
+  //     .expect(200);
+  //   expect(response.body).toHaveProperty(
+  //     "message",
+  //     "Member added to structure from link successfully"
+  //   );
+  // });
+
   it("should add a hierarchy", async () => {
     const structureId = 1;
-    const structuremèreId = 2;
+    const structuremereId = 2;
     const response = await request(app)
-      .post(`structures/${structureId}/hierachy`)
+      .put(`structures/${structureId}/hierarchy`)
+      .set("Authorization", `Bearer ${global.structureToken}`)
+      // .send(structuremereId)
       .expect(200);
+
     expect(response.body).toHaveProperty(
       "message",
       "Structure joined another successfully"
