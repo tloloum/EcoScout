@@ -114,7 +114,7 @@ describe("Structures API", () => {
   it("should get a struct", async () => {
     const structureId = 1;
     const req = await request(app)
-      .get(`/structures/${structureId}`)
+      .get(`/structures`)
       .set("Authorization", `Bearer ${structureToken}`)
       .expect(200);
   });

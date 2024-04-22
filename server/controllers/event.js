@@ -2,6 +2,9 @@ const connection = require("../bdd/utils/connection.js");
 const utils = require("../bdd/utils/utils");
 
 exports.createEvent = (req, res, next) => {
+  if (!req.auth.structureId) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
   const structId = req.auth.structureId;
   const nom_evenement = req.body.nom_evenement;
   const date_debut = req.body.date_debut;
@@ -11,41 +14,50 @@ exports.createEvent = (req, res, next) => {
   if (!nom_evenement || !date_debut || !lieu || !descr || !duree_evenement) {
     return res.status(400).json({ message: "Missing required fields" });
   }
-  const query = `INSERT INTO Evenements (id_evenement, nom_evenement, lieu, durée_evenement, descr, date_debut) VALUES ('0', '${nom_evenement}', '${lieu}', '${duree_evenement}', '${descr}', '${date_debut}')`;
+  const query = `INSERT INTO Evenements (nom_evenement, lieu, duree_evenement, descr, date_debut) VALUES ('${nom_evenement}', '${lieu}', '${duree_evenement}', '${descr}', '${date_debut}')`;
   connection.query(query, (error) => {
     if (error) {
       throw error;
     } else {
-      const id_evenement = `SELECT id_evenement FROM Evenements WHERE nom_evenement = '${nom_evenement}' AND lieu = '${lieu}' AND durée_evenement = '${duree_evenement}' AND descr = '${descr}' AND date_debut = '${date_debut}'`;
-      const query2 = `INSERT INTO Organisateurs (id_structure, id_evenement) VALUES ('${structId}', '${id_evenement}')`;
-      connection.query(query2, (error) => {
+      const query_id = `SELECT id_evenement FROM Evenements WHERE nom_evenement = '${nom_evenement}' AND lieu = '${lieu}' AND duree_evenement = '${duree_evenement}' AND descr = '${descr}' AND date_debut = '${date_debut}'`;
+      connection.query(query_id, (error, rows) => {
         if (error) {
-          const query_del = `DELETE FROM Evenements WHERE nom_evenement = '${nom_evenement}' AND lieu = '${lieu}' AND durée_evenement = '${duree_evenement}' AND descr = '${descr}' AND date_debut = '${date_debut}'`;
-          connection.query(query_del, (error) => {
-            if (error) {
-              throw error;
-            }
-          });
           throw error;
         } else {
-          const query3 = `INSERT INTO Participants (id_structure, id_evenement) VALUES ('${structId}', '${id_evenement}')`;
-          connection.query(query3, (error) => {
+          const id_evenement = rows[0].id_evenement;
+          const query2 = `INSERT INTO Organisateurs (id_structure, id_evenement) VALUES ('${structId}', '${id_evenement}')`;
+          connection.query(query2, (error) => {
             if (error) {
-              const query_del = `DELETE FROM Evenements WHERE nom_evenement = '${nom_evenement}' AND lieu = '${lieu}' AND durée_evenement = '${duree_evenement}' AND descr = '${descr}' AND date_debut = '${date_debut}'`;
-              const query_del2 = `DELETE FROM Organisateurs WHERE id_evenement = '${id_evenement}'`;
+              const query_del = `DELETE FROM Evenements WHERE nom_evenement = '${nom_evenement}' AND lieu = '${lieu}' AND duree_evenement = '${duree_evenement}' AND descr = '${descr}' AND date_debut = '${date_debut}'`;
               connection.query(query_del, (error) => {
-                if (error) {
-                  throw error;
-                }
-              });
-              connection.query(query_del2, (error) => {
                 if (error) {
                   throw error;
                 }
               });
               throw error;
             } else {
-              res.status(201).json({ message: "Event created successfully" });
+              const query3 = `INSERT INTO Participants (id_structure, id_evenement) VALUES ('${structId}', '${id_evenement}')`;
+              connection.query(query3, (error) => {
+                if (error) {
+                  const query_del = `DELETE FROM Evenements WHERE nom_evenement = '${nom_evenement}' AND lieu = '${lieu}' AND duree_evenement = '${duree_evenement}' AND descr = '${descr}' AND date_debut = '${date_debut}'`;
+                  const query_del2 = `DELETE FROM Organisateurs WHERE id_evenement = '${id_evenement}'`;
+                  connection.query(query_del, (error) => {
+                    if (error) {
+                      throw error;
+                    }
+                  });
+                  connection.query(query_del2, (error) => {
+                    if (error) {
+                      throw error;
+                    }
+                  });
+                  throw error;
+                } else {
+                  res
+                    .status(201)
+                    .json({ message: "Event created successfully" });
+                }
+              });
             }
           });
         }
@@ -55,6 +67,9 @@ exports.createEvent = (req, res, next) => {
 };
 
 exports.getEventStruct = (req, res, next) => {
+  if (!req.auth.structureId) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
   const structId = req.auth.structureId;
   const query = `SELECT * FROM Evenements WHERE id_evenement IN (SELECT id_evenement FROM Organisateurs WHERE id_structure = '${structId}')`;
   connection.query(query, (error, rows) => {
@@ -67,6 +82,9 @@ exports.getEventStruct = (req, res, next) => {
 };
 
 exports.getEventAd = (req, res, next) => {
+  if (!req.auth.adherentId) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
   const structId = req.params.structureId;
   const adherentId = req.auth.adherentId;
   const query_verif = `SELECT COUNT(*) AS count FROM Participants_Struct WHERE id_structure = '${structId}' AND id_adherent = '${adherentId}'`;
@@ -90,14 +108,17 @@ exports.getEventAd = (req, res, next) => {
 };
 
 exports.joinEvent = (req, res, next) => {
+  if (!req.auth.structureId) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
   const structureId = req.auth.structureId;
-  const id_evenement = parseInt(req.params.id_evenement, 10);
+  const id_evenement = parseInt(req.params.eventId, 10);
   const query = `INSERT INTO Participants (id_structure, id_evenement) VALUES ('${structureId}', '${id_evenement}')`;
   utils.send_query_insert(
     query,
     res,
-    200,
-    "Member added to event successfully"
+    201,
+    "Structure added to event successfully"
   );
 };
 
@@ -111,8 +132,11 @@ exports.updateEvent = (req, res, next) => {
   ) {
     return res.status(400).json({ message: "Missing required fields" });
   }
+  if (!req.auth.structureId) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
   const structId = req.auth.structureId;
-  const id_evenement = parseInt(req.params.id_evenement, 10);
+  const id_evenement = parseInt(req.params.eventId, 10);
   const query_verif = `SELECT COUNT(*) AS count FROM Organisateurs WHERE id_evenement = '${id_evenement}' AND id_structure = '${structId}'`;
   connection.query(query_verif, (error, rows) => {
     if (error) {
@@ -141,8 +165,11 @@ exports.updateEvent = (req, res, next) => {
 };
 
 exports.deleteEvent = (req, res, next) => {
+  if (!req.auth.structureId) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
   const structId = req.auth.structureId;
-  const id_evenement = parseInt(req.params.id_evenement, 10);
+  const id_evenement = parseInt(req.params.eventId, 10);
   const query_verif = `SELECT COUNT(*) AS count FROM Organisateurs WHERE id_evenement = '${id_evenement}' AND id_structure = '${structId}'`;
   connection.query(query_verif, (error, rows) => {
     if (error) {
