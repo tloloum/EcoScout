@@ -40,6 +40,11 @@ let fill_impact_name = async () => {
   }
 };
 
+exports.fillImpact = async (req, res, next) => {
+  await fill_impact_name();
+  return res.status(200).json({ message: "Impact name filled" });
+}
+
 exports.getAllImpactName = async (req, res, next) => {
   // await fill_impact_name();
   const query = "SELECT * FROM Nom_impact";

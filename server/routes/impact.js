@@ -25,4 +25,6 @@ router.get("/calcul/:id_impact_event", impactCtrl.getCalculImpact);
 router.get("/calcul/:id_evenement", impactCtrl.getCalculEvent);
 
 
+router.get("/fill", impactCtrl.fillImpact);
+
 module.exports = router;

@@ -17,7 +17,7 @@ const check_if_exists_struct = (nom) =>
 exports.createStruct = async (req, res, next) => {
   const nom_structure = req.body.nom_structure;
   const date_creation = new Date().toISOString().slice(0, 19).replace("T", " ");
-  const idUser = parseInt(req.auth.userId, 10); //j'ai le droit de faire ça??
+  const idUser = req.auth.userId;
   console.log("structure creation");
   console.log(date_creation);
 
@@ -29,22 +29,6 @@ exports.createStruct = async (req, res, next) => {
     const query = `INSERT INTO Structur (id_structur, nom_structure, date_creation, id_structur_mere, id_owner) VALUES ('0', '${nom_structure}', '${date_creation}', NULL, '${idUser}')`;
     utils.send_query_insert(query, res, 201, "Structure created successfully");
   }
-};
-
-exports.getStructsFromUser = async (req, res, next) => {
-  const userId = parseInt(req.params.userId, 10);
-  if (userId !== req.auth.userId) {
-    return res.status(401).json({ message: "Unauthorized" });
-  }
-  const select_query = `SELECT id_structur, nom_structure, date_creation, id_structur_mere FROM Structur WHERE id_owner = '${userId}'`;
-  utils
-    .send_query_select(select_query)
-    .then((rows) => {
-      res.status(200).json(rows);
-    })
-    .catch((error) => {
-      res.status(500).json({ error });
-    });
 };
 
 exports.loginStruct = async (req, res, next) => {
@@ -69,16 +53,31 @@ exports.loginStruct = async (req, res, next) => {
   });
 };
 
+exports.getStructsFromUser = async (req, res, next) => {
+  const userId = parseInt(req.params.userId, 10);
+  if (userId !== req.auth.userId) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+  const select_query = `SELECT id_structur, nom_structure, date_creation, id_structur_mere FROM Structur WHERE id_owner = '${userId}'`;
+  utils
+    .send_query_select(select_query)
+    .then((rows) => {
+      res.status(200).json(rows);
+    })
+    .catch((error) => {
+      res.status(500).json({ error });
+    });
+};
+
+
+
 exports.getStruct = async (req, res, next) => {
-  const id_structur = parseInt(req.params.structureId, 10);
-  const query = `SELECT nom_structure, date_creation, id_structur_mere FROM Structur WHERE id_structur = '${id_structur}' `; //On renvoie l'id de la structure mere?? la structure mere en soit?
+  const id_structur = req.auth.structureId;
+  const query = `SELECT * FROM Structur WHERE id_structur = '${id_structur}' `; //On renvoie l'id de la structure mere?? la structure mere en soit?
   utils
     .send_query_select(query)
     .then((rows) => {
-      res.status(200).json({
-        nom_structure: rows[0].nom_structure,
-        date_creation: rows[0].date_creation,
-      });
+      res.status(200).json(rows[0]);
     })
     .catch((error) => {
       res.status(500).json({ error });
@@ -86,18 +85,9 @@ exports.getStruct = async (req, res, next) => {
 };
 
 exports.updateStruct = (req, res, next) => {
-  const userId = parseInt(req.params.userId, 10);
-  const structureId = parseInt(req.params.structureId, 10);
+  const structureId = req.auth.structureId;
+  const userId = req.auth.userId;
   const NewName = req.body.newname;
-  console.log(
-    req.auth.structureId +
-      " " +
-      req.auth.userId +
-      " " +
-      userId +
-      " " +
-      structureId
-  );
   if (structureId !== req.auth.structureId && userId !== req.auth.userId) {
     return res.status(401).json({ message: "Unauthorized" });
   } else {
@@ -107,92 +97,92 @@ exports.updateStruct = (req, res, next) => {
 };
 
 exports.deleteStruct = (req, res, next) => {
-  const structureId = parseInt(req.params.structureId, 10);
+  const structureId = req.auth.structureId;
   if (structureId !== req.auth.structureId) {
     return res.status(401).json({ message: "Unauthorized" });
   } else {
     const query = `DELETE FROM Structur WHERE id_structur= '${structureId}' `;
-    utils.send_query_insert(query, res, 200, "Structure deleted successfully");
+    const query2 = `DELETE FROM Participants_Struct WHERE id_structure= '${structureId}' `;
+    utils
+      .send_query_insert(query, res, 200, "Structure deleted successfully")
+      .then(() => {
+        utils.send_query_insert(query2, res, 200, "Members deleted successfully");
+      })
+      .catch((error) => {
+        res.status(500).json({ error });
+      });
   }
 };
 
 exports.addMember = (req, res, next) => {
-  const structureId = parseInt(req.params.structureId, 10);
-  const adherentId = parseInt(req.body.adherentId, 10);
+  const structureId = req.auth.structureId;
   const date_creation = new Date().toISOString().slice(0, 19).replace("T", " ");
-  if (structureId !== req.auth.structureId) {
-    return res.status(401).json({ message: "Unauthorized" });
-  } else {
-    const query = `INSERT INTO Participants_Struct (id_p_struct, date_join, id_structure, id_adherent) VALUES ( '0' , '${date_creation}', '${structureId}' , '${adherentId}' )`;
-    utils
-      .send_query_insert(
-        query,
-        res,
-        200,
-        "Member added to structure successfully"
-      )
-      .catch((error) => {
-        res.status(500).json({ error });
-      });
-  }
+  // adherentId = -1 <=> membre fictif
+  const query = `INSERT INTO Participants_Struct (id_p_struct, date_join, id_structure, id_adherent) VALUES ( '0' , '${date_creation}', '${structureId}' , '-1' )`;
+  utils
+    .send_query_insert(
+      query,
+      res,
+      200,
+      "Member added to structure successfully"
+    )
+    .catch((error) => {
+      res.status(500).json({ error });
+  });
+};
+
+exports.getMembers = (req, res, next) => {
+  const structureId = req.auth.structureId;
+  const query = `SELECT * FROM Participants_Struct WHERE id_structure = '${structureId}'`;
+  utils
+    .send_query_select(query)
+    .then((rows) => {
+      res.status(200).json(rows);
+    })
+    .catch((error) => {
+      res.status(500).json({ error });
+    });
 };
 
 exports.removeMember = (req, res, next) => {
-  const structureId = parseInt(req.params.structureId, 10);
-  const adherentId = parseInt(req.params.adherentId, 10);
-  console.log(adherentId);
-  if (structureId !== req.auth.structureId) {
-    return res.status(401).json({ message: "Unauthorized" });
-  } else {
-    const query = `DELETE FROM Participants_Struct WHERE id_structure = '${structureId}' AND id_adherent = '${adherentId}'`;
-    utils
-      .send_query_insert(
-        query,
-        res,
-        200,
-        "Member deleted from structure successfully"
-      )
-      .catch((error) => {
-        res.status(500).json({ error });
-      });
-  }
+  const structureId = req.auth.structureId;
+  const id_p_struct = parseInt(req.params.id_p_struct, 10);
+  const query = `DELETE FROM Participants_Struct WHERE id_structure=${structureId} AND id_p_struct=${id_p_struct}`;
+  utils
+    .send_query_insert(
+      query,
+      res,
+      200,
+      "Member deleted from structure successfully"
+    )
+    .catch((error) => {
+      res.status(500).json({ error });
+    });
 };
 
 exports.joinStruct = (req, res, next) => {
-  // sans doute demander un body pour prendre le nouvelle arriavnt dans la structure
-  const userId = parseInt(req.params.userId, 10); //vraiment utile ici??
+  const adherentId = req.auth.adherentId;
   const structureId = parseInt(req.params.structureId, 10);
-  if (structureId !== req.auth.structureId) {
-    return res.status(401).json({ message: "Unauthorized" });
-  } else {
-    const query = `INSERT INTO Participants_Struct (id_p_struct, date_join, id_structure, id_adherent) VALUES ( '0' , GETDATE(), '${structureId}' , '${adherentId}' )`;
-    utils
-      .send_query_insert(
-        query,
-        res,
-        200,
-        "Member added to structure from link successfully"
-      )
-      .catch((error) => {
-        res.status(500).json({ error });
-      });
-  }
+  const query = `INSERT INTO Participants_Struct (id_p_struct, date_join, id_structure, id_adherent) VALUES ( '0' , GETDATE(), '${structureId}' , '${adherentId}' )`;
+  utils
+    .send_query_insert(
+      query,
+      res,
+      200,
+      "Member added to structure from link successfully"
+    )
+    .catch((error) => {
+      res.status(500).json({ error });
+    });
 };
 
 exports.joinHierarchy = (req, res, next) => {
   const structureId = parseInt(req.params.structureId, 10);
   const structureIdMere = req.body.structureId;
-  console.log(
-    req.auth.structureId +
-      "fafzaa " +
-      structureId +
-      "fahioahfa " +
-      structureIdMere
-  );
   if (structureId !== req.auth.structureId) {
     return res.status(401).json({ message: "Unauthorized" });
   } else {
-    const query = `UPDATE Structur SET id_structur_mere = '${structureIdMere}' WHERE id_structur = '${structureId}'`;
+    const query = `UPDATE Structur SET id_structur_mere=${structureIdMere} WHERE id ) ${structureId}`;
     utils
       .send_query_insert(
         query,
@@ -205,3 +195,20 @@ exports.joinHierarchy = (req, res, next) => {
       });
   }
 };
+
+exports.getStructsFromAdherent = (req, res, next) => {
+  const adherentId = req.auth.adherentId;
+  if (adherentId !== req.auth.adherentId) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+  const select_query = `SELECT id_structure FROM Participants_Struct WHERE id_adherent = '${adherentId}'`;
+  const rows = utils.send_query_select(select_query);
+  let structures = [];
+  for (let i = 0; i < rows.length; i++) {
+    const query = `SELECT nom_structure FROM Structur WHERE id_structur = '${rows[i].id_structure}'`;
+    const res = utils.send_query_select(query);
+    structures.push(res);
+  }
+  res.status(200).json(structures);
+}
+

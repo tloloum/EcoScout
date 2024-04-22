@@ -25,7 +25,6 @@ CREATE TABLE Structur /* car Structure est un truc déja implémenté*/
     FOREIGN KEY (id_structur_mere) REFERENCES Structur(id_structur) ON DELETE CASCADE, 
     id_owner INTEGER NOT NULL,
     FOREIGN KEY (id_owner) REFERENCES Utilisateurs(id_user) ON DELETE CASCADE
-
 );
 
 /* --@block  */
@@ -126,12 +125,12 @@ CREATE TABLE Nom_impact
     nom_impact VARCHAR(400) NOT NULL,
     total_poste_non_decompose FLOAT NOT NULL,
     unite VARCHAR(255) NOT NULL
-)
+);
 
 CREATE TABLE Impact
 (
     id_impact_event INTEGER PRIMARY KEY AUTO_INCREMENT,
-    id_impact INTEGER UNSIGNED,
+    id_impact INT,
     FOREIGN KEY (id_impact) REFERENCES Nom_impact(id_impact) ON DELETE CASCADE,
     valeur FLOAT NOT NULL,
     nombre_personnes INTEGER NOT NULL,
