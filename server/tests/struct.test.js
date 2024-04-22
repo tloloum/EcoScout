@@ -3,6 +3,7 @@ const fs = require("fs");
 const path = require("path");
 const app = require("../app");
 const connection = require("../bdd/utils/connection");
+const exp = require("constants");
 
 /**
  * Réinitialise la base de données avant de lancer les tests.
@@ -59,7 +60,6 @@ describe("Structures API", () => {
       password: "password123",
     });
     global.userToken = login_test_user.body.token;
-    console.log(userToken);
 
     const res = await request(app)
       .post("/structures/create")
@@ -67,7 +67,6 @@ describe("Structures API", () => {
       .send({
         nom_structure: "StructTest1",
       });
-    console.log("struct cree");
     expect(res.body).toHaveProperty(
       "message",
       "Structure created successfully"
@@ -99,7 +98,6 @@ describe("Structures API", () => {
     expect(response.statusCode).toBe(201);
     expect(response.body).toHaveProperty("token");
     global.structureToken = response.body.token;
-    console.log(structureToken);
   });
   it("should not login with wrong login info", async () => {
     const selectionData = {
@@ -120,40 +118,58 @@ describe("Structures API", () => {
       .set("Authorization", `Bearer ${structureToken}`)
       .expect(200);
   });
+
   it("should get a struct from a user", async () => {
     const userId = 1;
     const req = await request(app)
       .get(`/structures/user/${userId}`)
-      .set("Authorization", `Bearer ${structureToken}`)
+      .set("Authorization", `Bearer ${userToken}`)
       .expect(200);
   });
+
+  it("should get all info from a struct", async () => {
+    const req = await request(app)
+      .get(`/structures`)
+      .set("Authorization", `Bearer ${structureToken}`)
+      .expect(200);
+
+    expect(req.body).toHaveProperty("id_structur");
+    expect(req.body).toHaveProperty("nom_structure");
+    expect(req.body).toHaveProperty("date_creation");
+    expect(req.body).toHaveProperty("id_structur_mere");
+    expect(req.body).toHaveProperty("id_owner");
+
+    expect(req.body.id_structur).toBe(1);
+    expect(req.body.nom_structure).toBe("StructTest1");
+  });
+
   it("should update a struct name", async () => {
     const structureId = 1;
     const newname = "update";
     const userId = 1;
 
     const response = await request(app)
-      .put(`/structures/${userId}/structure/${structureId}`)
+      .put(`/structures`)
       .set("Authorization", `Bearer ${global.structureToken}`)
-      .send(newname)
+      .send({ newname: newname })
       .expect(200);
 
     expect(response.body).toHaveProperty(
       "message",
       "Structure updated successfully"
     );
-    // const getResponse = await request(app)
-    //   .get(`structures/user/${userId}`)
-    //   .expect(200);
-    // expect(getResponse.body).toHaveProperty("nom_structur", "update");
+    const response_verif = await request(app)
+      .get(`/structures`)
+      .set("Authorization", `Bearer ${global.structureToken}`)
+      .expect(200);
+    expect(response_verif.body.nom_structure).toBe(newname);
   });
-  // router.post("/:structureId/members", auth_struct, structCtrl.addMember);
-  it("should add a member to struct", async () => {
+
+  it("An adherant should join a struct", async () => {
     const adherentData = {
       nom_ad: "test_ad_nom",
       prenom_ad: "test_ad_prenom",
     };
-
     const response = await request(app)
       .post("/user/create-adherent")
       .set("Authorization", `Bearer ${userToken}`)
@@ -163,33 +179,39 @@ describe("Structures API", () => {
       "message",
       "Adherent inserted successfully"
     );
+
+    const response_login = await request(app)
+      .post("/user/login-adherent")
+      .set("Authorization", `Bearer ${userToken}`)
+      .send({ adherentId: 1 });
+    expect(response_login.statusCode).toBe(200);
+    expect(response_login.body).toHaveProperty("token");
+    const adherentToken = response_login.body.token;
+
     const structureId = 1;
-    const adherentId = {
-      adherentId: 1,
-    };
-    const res = await request(app)
-      .post(`/structures/${structureId}/members`)
-      .send(adherentId)
-      .set("Authorization", `Bearer ${structureToken}`)
-      .expect(200);
-    expect(res.body).toHaveProperty(
+    const response_join = await request(app)
+      .post(`/structures/${structureId}/join`)
+      .set("Authorization", `Bearer ${adherentToken}`)
+      .expect(201);
+    expect(response_join.body).toHaveProperty(
       "message",
-      "Member added to structure successfully"
+      "Adherent added to structure successfully"
     );
   });
+
   it("should delete an adherent from a struct", async () => {
     const structureId = 1;
-    const adherentId = 1;
+    const id_p_struct = 1;
     const response = await request(app)
-      .post(`/structures/${structureId}/members/${adherentId}`)
+      .delete(`/structures/delmembers/${id_p_struct}`)
       .set("Authorization", `Bearer ${structureToken}`)
       .expect(200);
-    console.log(response.statusCode);
     expect(response.body).toHaveProperty(
       "message",
       "Member deleted from struct successfully"
     );
   });
+
   it("should delete a struct", async () => {
     const structureId = 1;
     const response = await request(app)
@@ -199,17 +221,6 @@ describe("Structures API", () => {
     expect(response.body).toHaveProperty(
       "message",
       "Structure deleted successfully"
-    );
-  });
-  it("should add a hierarchy", async () => {
-    const structureId = 1;
-    const structuremèreId = 2;
-    const response = await request(app)
-      .post(`structures/${structureId}/hierachy`)
-      .expect(200);
-    expect(response.body).toHaveProperty(
-      "message",
-      "Structure joined another successfully"
     );
   });
 });

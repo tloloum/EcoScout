@@ -51,8 +51,7 @@ router.post("/create-adherent", auth, userCtrl.createAdherent);
  * @apiName loginAdherent
  * @apiGroup User
  *
- * @apiParam (body) {String} email Email de l'adhérent
- * @apiParam (body) {String} password Mot de passe de l'adhérent
+ * @apiParam (body) {Number} adherentId Id de l'adhérent
  *
  * @apiSuccess (200) {String} token Token adhérent
  * @apiError (401) {String} message Identifiant ou mot de passe incorrect
@@ -76,11 +75,11 @@ router.get("/:userId/adherents", auth, userCtrl.getAdherentsFromUser);
  * @api {get} /user/infos Récupérer les informations d'un adhérent
  * @apiName getAdherent
  * @apiGroup User
- * 
+ *
  * @apiParam (header) {String} Authorization Token d'authentification adhérent
  * @apiParam (params) {Number} userId Id de l'utilisateur
  * @apiParam (params) {Number} adherentId Id de l'adhérent
- * 
+ *
  * @apiSuccess (200) {Object} adherent Informations de l'adhérent
  * @apiError (401) {String} message Unauthorized
  * @apiError (500) {Object} error Erreur serveur
@@ -90,13 +89,13 @@ router.get("/:userId/adherent/:adherentId", auth_ad, userCtrl.getAdherent);
  * @api {put} /user/infos Mettre à jour un adhérent
  * @apiName updateAdherent
  * @apiGroup User
- * 
+ *
  * @apiParam (header) {String} Authorization Token d'authentification adhérent
  * @apiParam (params) {Number} userId Id de l'utilisateur
  * @apiParam (params) {Number} adherentId Id de l'adhérent
  * @apiParam (body) {String} nom_ad Nom de l'adhérent
  * @apiParam (body) {String} prenom_ad Prénom de l'adhérent
- * 
+ *
  * @apiSuccess (200) {String} message Adhérent mis à jour avec succès
  * @apiError (400) {String} message Champs manquants
  * @apiError (401) {String} message Unauthorized
@@ -107,20 +106,20 @@ router.put("/:userId/adherent/:adherentId", auth_ad, userCtrl.updateAdherent);
  * @api {delete} /user/infos Supprimer un adhérent
  * @apiName deleteAdherent
  * @apiGroup User
- * 
+ *
  * @apiParam (header) {String} Authorization Token d'authentification user
  * @apiParam (params) {Number} userId Id de l'utilisateur
  * @apiParam (params) {Number} adherentId Id de l'adhérent
- * 
+ *
  * @apiSuccess (200) {String} message Adhérent supprimé avec succès
  * @apiError (401) {String} message Unauthorized
  * @apiError (500) {Object} error Erreur serveur
- * 
+ *
  * @apiSuccess (200) {String} message Adhérent supprimé avec succès
  * @apiError (401) {String} message Unauthorized
  * @apiError (500) {Object} error Erreur serveur
  */
-router.delete("/:userId/adherent/:adherentId",auth,userCtrl.deleteAdherent);
+router.delete("/:userId/adherent/:adherentId", auth, userCtrl.deleteAdherent);
 
 router.use((req, res, next) => {
   console.log("Requete d'authentification");

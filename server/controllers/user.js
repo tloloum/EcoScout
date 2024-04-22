@@ -201,11 +201,22 @@ exports.deleteAdherent = (req, res, next) => {
   if (userId !== req.auth.userId) {
     return res.status(401).json({ message: "Unauthorized" });
   }
-  const delete_query = `DELETE FROM Adherents WHERE id_user='${userId}' AND id_adherent='${adherentId}'`;
-  utils.send_query_insert(
-    delete_query,
-    res,
-    200,
-    "Adherent deleted successfully"
-  );
+  const query_verif = `SELECT * FROM Adherents WHERE id_user='${userId}' AND id_adherent='${adherentId}'`;
+  utils
+    .send_query_select(query_verif)
+    .then((rows) => {
+      if (rows.length === 0) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+      const delete_query = `DELETE FROM Adherents WHERE id_user='${userId}' AND id_adherent='${adherentId}'`;
+      utils.send_query_insert(
+        delete_query,
+        res,
+        200,
+        "Adherent deleted successfully"
+      );
+    })
+    .catch((error) => {
+      res.status(500).json({ error });
+    });
 };
