@@ -198,10 +198,10 @@ exports.updateAdherent = (req, res, next) => {
 exports.deleteAdherent = (req, res, next) => {
   const userId = parseInt(req.params.userId, 10);
   const adherentId = parseInt(req.params.adherentId, 10);
-  if (userId !== req.auth.userId || adherentId !== req.auth.adherentId) {
+  if (userId !== req.auth.userId) {
     return res.status(401).json({ message: "Unauthorized" });
   }
-  const delete_query = `DELETE FROM Adherents WHERE id_user='${userId}'`;
+  const delete_query = `DELETE FROM Adherents WHERE id_user='${userId}' AND id_adherent='${adherentId}'`;
   utils.send_query_insert(
     delete_query,
     res,
