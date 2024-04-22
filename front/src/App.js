@@ -22,23 +22,7 @@ import Welcome from "./pages/user/Welcome";
 import { RiTreasureMapFill } from "react-icons/ri";
 
 const App = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(RiTreasureMapFill);
   const { isAuthenticatedAd } = useContext(AuthAdContext);
-
-  const structures = [
-    { id: 1, name: "Structure 1" },
-    { id: 2, name: "Structure 2" },
-    { id: 3, name: "Structure 3" },
-  ];
-
-  const closeSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
-
-  useEffect(() => {
-    console.log("Authentication status changed: ", isAuthenticatedAd);
-  }, [isAuthenticatedAd]);
-
 
   return (
     <ServerContextProvider>
