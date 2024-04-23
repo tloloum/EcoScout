@@ -159,7 +159,7 @@ router.get("/adherent", auth_ad, structCtrl.getStructsFromAdherent);
 
 router.use((req, res, next) => {
   console.log("Requete de structure");
-  res.status(404).json({ message: "Requête introuvable !" });
+  res.send("Structure");
 });
 
 module.exports = router;
