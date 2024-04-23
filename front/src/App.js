@@ -21,6 +21,7 @@ import RegisterStructure from "./pages/user/RegisterStructure";
 import Welcome from "./pages/user/Welcome";
 import { RiTreasureMapFill } from "react-icons/ri";
 import HomeStruct from "./pages/HomeStruct";
+import JoinStructAd from "./pages/JoinStructAd";
 
 const App = () => {
   const { isAuthenticatedAd } = useContext(AuthAdContext);
@@ -41,6 +42,7 @@ const App = () => {
                 <Route path="/chooseAccountType" element={<ChooseAccountType />} />
                 <Route path="/homead" element={<HomeAd />} />
                 <Route path="/homestruct" element={<HomeStruct />} />
+                <Route path="/join" element={<JoinStructAd />} />
                 <Route
                   path="/choose"
                   element={<PrivateRoute component={<Choose />} />}

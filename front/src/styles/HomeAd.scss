@@ -34,7 +34,38 @@
       }
     }
   }
-
+  .button-join {
+    // Style de base pour le bouton
+    width: 40px;
+    height: 40px;
+    border-radius: 50%; // Pour créer un bouton rond
+    background-color: white;
+    border: 2px solid #ccc; // Bordure grise pour le contour
+    display: flex;
+    // Positionnement de la croix à l'intérieur du bouton
+    position: relative;
+    
+    // Style de la croix
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      width: calc(100% - 10px); // La largeur de la croix est la largeur du bouton moins 10px de chaque côté pour s'assurer qu'elle reste entièrement visible
+      height: 2px;
+      background-color: #555; // Couleur de la croix
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    
+    &::before {
+      transform: translate(-50%, -50%) rotate(45deg);
+    }
+    
+    &::after {
+      transform: translate(-50%, -50%) rotate(-45deg);
+    }
+  }
   .buttons-container {
     position: absolute;
     right: 10px;

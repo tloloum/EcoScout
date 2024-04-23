@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { AuthAdContext } from "../contexts/AuthAd";
 import { ServerContext } from "../contexts/Server";
+import { useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
@@ -11,6 +12,8 @@ const Sidebar = () => {
   const switchSidebar = () => {
     setIsOpen(!isOpen);
   };
+
+  const navigate=useNavigate();
 
   useEffect(() => {
     async function getStructures() {
@@ -49,6 +52,10 @@ const Sidebar = () => {
         {structures.map((structure) => (
           <li key={structure.id}>{structure.name}</li>
         ))}
+      </ul>
+      <ul>
+        <button className="button-join" onClick={() =>navigate('/join')}> 
+        </button>
       </ul>
     </aside>
   );
