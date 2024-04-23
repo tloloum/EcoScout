@@ -5,6 +5,8 @@ import { AuthContext } from '../contexts/Auth';
 import Sidebar from '../components/Sidebar';
 import logo from '../assets/img/logo.jpeg';
 
+
+//page de l'admin de la structure
 const HomeStruct = () => {
     const { isAuthenticatedSt, getNameSt, signOutSt } = useContext(AuthStContext);
     const { signOut, isAuthenticated } = useContext(AuthContext);

@@ -84,7 +84,7 @@ const ListOfStructures = (props) => {
       setUserIdSt(resultLoginStructureContent.userId);
       setStructureId(structureId);
       loginSt();
-      navigate("/home");
+      navigate("/homestruct");
     }
   }
 
