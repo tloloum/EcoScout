@@ -81,6 +81,19 @@ exports.getStruct = async (req, res, next) => {
     });
 };
 
+exports.getAllStruct = async (req, res, next) => {
+  const query = `SELECT * FROM Structur`;
+  utils
+    .send_query_select(query)
+    .then((rows) => {
+      res.status(200).json(rows[0]);
+    })
+    .catch((error) => {
+      res.status(500).json({ error });
+    });
+}
+
+
 exports.updateStruct = (req, res, next) => {
   const structureId = req.auth.structureId;
   const newname = req.body.newname;
