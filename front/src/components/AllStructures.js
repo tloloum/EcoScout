@@ -18,10 +18,7 @@ const AllStructs = () => {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: "Bearer " + myToken,
-              },
+            Authorization: "Bearer " + myToken,
           },
         });
         if (response.ok) {
@@ -39,12 +36,14 @@ const AllStructs = () => {
   }, [getServerAddress]);
 
   return (
-    <div>
+    <div className="centered">
       <h2>Liste des structures</h2>
       <ul>
-        {structures.map((structure) => (
+        {structures.map((structure) => ( 
           <li key={structure.id}>
-            {structure.nom_structure} - {structure.date_creation}
+            <button className="choose-adherant"> 
+              {structure.nom_structure}
+            </button>
           </li>
         ))}
       </ul>
