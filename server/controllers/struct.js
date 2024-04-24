@@ -86,7 +86,7 @@ exports.getAllStruct = async (req, res, next) => {
   utils
     .send_query_select(query)
     .then((rows) => {
-      res.status(200).json(rows[0]);
+      res.status(200).json(rows);
     })
     .catch((error) => {
       res.status(500).json({ error });

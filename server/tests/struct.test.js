@@ -126,7 +126,12 @@ describe("Structures API", () => {
       .set("Authorization", `Bearer ${userToken}`)
       .expect(200);
   });
-
+  it("should get all struct", async () => {
+    const req = await request(app)
+      .get(`/structures/allstruct`)
+      .set("Authorization", `Bearer ${userToken}`)
+      .expect(200);
+  })
   it("should get all info from a struct", async () => {
     const req = await request(app)
       .get(`/structures`)

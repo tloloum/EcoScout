@@ -177,7 +177,7 @@ router.get("/adherent", auth_ad, structCtrl.getStructsFromAdherent);
 
 router.use((req, res, next) => {
   console.log("Requete de structure");
-  res.send("Structure");
+  //res.send("Structure"); j'ai remis en commentaire c'était une source d'erreur chez moi jsp pk
 });
 
 module.exports = router;
