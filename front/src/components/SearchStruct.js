@@ -29,7 +29,7 @@ const SearchStruct = () => {
         if (response.ok) {
           const data = await response.json();
           setStructures(data);
-          // setIdStructure(data.structure.id_structur); comment on fait ça
+          console.log(idStructure)
         } else {
           console.error("Failed to fetch structures");
         }
@@ -53,7 +53,10 @@ const SearchStruct = () => {
     else{
       setShowForm(true);
     }
-    console.log("Structure cliquée :", structure.nom_structure);
+    if (Array.isArray(structures) && structures.length > 0) {
+      setIdStructure(structures[0].id_structur.toString());
+    }
+    console.log("Structure cliquée :", structure.nom_structure, idStructure);
     
   };
 
