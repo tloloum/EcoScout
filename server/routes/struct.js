@@ -66,13 +66,28 @@ router.get("/", auth_struct, structCtrl.getStruct);
  * @apiName getAllStruct
  * @apiGroup Structures
  *
- * @apiParam (header) {String} Authorization Token d'authentification user
+ * @apiParam (header) {String} Authorization Token d'authentification user ??
  *
  * @apiSuccess (200) {Object} structure Informations de la structure
  * @apiError (500) {Object} error Erreur serveur
  * @apiError (401) message Unauthorized
  */
 router.get("/allstruct", auth, structCtrl.getAllStruct);
+
+/**
+ * @api {get} / Renvoyer une structure à partir de son nom
+ * @apiName 
+ * @apiGroup Structures
+ * 
+ * @apiParam (header) ??
+ * @apiParam (body) {String} structName Nom de la structure recherchée
+ * 
+ * @apiSuccess (200) 
+ * @apiError (500) {Object} error Erreur serveur
+ * @apiError (401) message Unauthorized
+ */
+
+router.get("/searchstruct/:structName", auth, structCtrl.searchStruct);
 
 /**
  * @api {put} / Mettre à jour une structure
@@ -85,8 +100,6 @@ router.get("/allstruct", auth, structCtrl.getAllStruct);
  * @apiSuccess (200) {String} message Structure modifiée avec succès
  * @apiError (401) {String} message Non autorisé
  */
-
-
 
 router.put("/", auth_struct, structCtrl.updateStruct);
 /**

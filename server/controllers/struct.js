@@ -93,6 +93,18 @@ exports.getAllStruct = async (req, res, next) => {
     });
 }
 
+exports.searchStruct = async (req, res, next) => {
+  const structName = req.params.structName;
+  const query = `SELECT * FROM Structur WHERE nom_structure='${structName}' `;
+  utils 
+    .send_query_select(query)
+    .then((rows) => {
+      res.status(200).json(rows);
+    })
+    .catch((error) => {
+      res.status(500).json({error});
+    })
+}
 
 exports.updateStruct = (req, res, next) => {
   const structureId = req.auth.structureId;
