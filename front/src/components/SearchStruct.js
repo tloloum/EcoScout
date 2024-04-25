@@ -29,7 +29,7 @@ const SearchStruct = () => {
         if (response.ok) {
           const data = await response.json();
           setStructures(data);
-          setIdStructure(data.structure.id_structur);
+          // setIdStructure(data.structure.id_structur); comment on fait ça
         } else {
           console.error("Failed to fetch structures");
         }
@@ -43,11 +43,18 @@ const SearchStruct = () => {
 
   // Fonction pour gérer le changement de la barre de recherche
   const handleSearchChange = (event) => {
+    setShowForm(false);
     setSearchQuery(event.target.value);
   };
   const handleStructureClick = (structure) => {
+    if(showForm==true){
+      setShowForm(false);
+    }
+    else{
+      setShowForm(true);
+    }
     console.log("Structure cliquée :", structure.nom_structure);
-    setShowForm(true);
+    
   };
 
   //Fonction pour ouvrir le formulaire
@@ -55,7 +62,6 @@ const SearchStruct = () => {
     setShowForm(true);
   };
   async function structureSubmit(event) {
-    event.preventDefault();
     const serverAddress = getServerAddress();
     console.log(serverAddress + "/structures/" + idStructure + "/join");
 
@@ -97,13 +103,17 @@ const SearchStruct = () => {
         <div className="search-results">
             {structures.map((structure, index) => (
             <div key={index} className="structure-item">
-                <p>{structure.nom_structure}</p>
                 <button onClick={() => handleStructureClick(structure)} className="structure-button">
                     {structure.nom_structure}
                 </button>
             </div>
             ))}
         </div>
+        {showForm && (
+        <form onSubmit={structureSubmit}>
+          <button onClick={()=>structureSubmit(idStructure)}  type="submit">Rejoindre</button>
+        </form>
+      )}
     </div>
     
   );
