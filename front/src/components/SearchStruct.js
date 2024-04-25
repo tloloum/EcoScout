@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../contexts/Auth";
 import { ServerContext } from "../contexts/Server";
-
+import { useNavigate } from 'react-router-dom';
 
 const SearchStruct = () => {
   const { getServerAddress } = useContext(ServerContext);
@@ -11,6 +11,7 @@ const SearchStruct = () => {
   const [showForm, setShowForm] = useState(false);
   const [idStructure, setIdStructure] = useState("");
 
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchStructures = async () => {
@@ -39,7 +40,7 @@ const SearchStruct = () => {
     };
 
     fetchStructures();
-  }, [getServerAddress, myToken, myUserId, searchQuery]); // Ajout de searchQuery comme dépendance
+  }, [getServerAddress, searchQuery]); // Ajout de searchQuery comme dépendance
 
   // Fonction pour gérer le changement de la barre de recherche
   const handleSearchChange = (event) => {
@@ -60,14 +61,13 @@ const SearchStruct = () => {
     
   };
 
-  //Fonction pour ouvrir le formulaire
-  const handleClick = () => {
-    setShowForm(true);
-  };
+  const back2profile = () => {
+    navigate('/homead');
+  }
+
   async function structureSubmit(event) {
     const serverAddress = getServerAddress();
     console.log(serverAddress + "/structures/" + idStructure + "/join");
-
     // Recherche de la structure :
     const resultStructure = await fetch(
       serverAddress + "/structures/" + idStructure + "/join/",
@@ -79,7 +79,6 @@ const SearchStruct = () => {
         },
       }
     );
-
     if (resultStructure.status !== 201) {
       console.log("Erreur lors du join");
       return;
@@ -114,11 +113,13 @@ const SearchStruct = () => {
         </div>
         {showForm && (
         <form onSubmit={structureSubmit}>
-          <button onClick={()=>structureSubmit(idStructure)}  type="submit">Rejoindre</button>
+          <button type="submit">Rejoindre</button>
         </form>
       )}
+      <button onClick={back2profile}>
+        Retour au profil
+      </button>
     </div>
-    
   );
 };
 
