@@ -52,7 +52,7 @@ const Profile = () => {
 
   useEffect(() => {
     showInfos();
-  }, []);
+  }, [myToken, myUserId]);
 
   const handleClick = () => {
     setShowForm(true);
@@ -68,22 +68,32 @@ const Profile = () => {
 
   async function updateInfos() {
     // TODO : Bug à réparer lors de la mise à jour du profil
-
+    console.log(`Nouveau prenom : ${newFirstName}`);
     console.log(`Nouveau nom : ${newName}`);
-    console.log(`Nouveau nom : ${newFirstName}`);
-
+    const updatedValues = {};
+    if (newName !== "") {
+      updatedValues.nom_ad = newName;
+    } else {
+      updatedValues.nom_ad = Name;
+    }
+    if (newFirstName !== "") {
+      updatedValues.prenom_ad = newFirstName;
+    } else {
+      updatedValues.prenom_ad = FirstName;
+    }
     const resultToken = await fetch(
       serverAddress + "user/" + myUserId + "/adherent/" + AdhId,
       {
-        method: "POST",
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + myToken,
         },
         body: JSON.stringify({
           id_adherent: AdhId,
-          nom_ad: newName,
-          prenom_ad: newFirstName,
+          ...updatedValues,
+          // nom_ad: newName,
+          // prenom_ad: newFirstName,
         }),
       }
     );
