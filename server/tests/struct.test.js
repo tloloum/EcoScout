@@ -232,7 +232,6 @@ describe("Structures API", () => {
 
   it("should get join demand", async () => {
     const structureId = 1;
-
     const response = await request(app)
       .get(`/structures/demand/${structureId}`)
       .set("Authorization", `Bearer ${structureToken}`)

@@ -246,8 +246,7 @@ exports.getStructsFromAdherent = (req, res, next) => {
 };
 
 exports.getJoinDemand = (req, res, next) => {
-  const structId = req.params.structureId;
-  console.log(req.auth.structuretId);
+  const structId = parseInt(req.params.structureId, 10);
   if (structId !== req.auth.structureId) {
     return res.status(401).json({ message: "Unauthorized" });
   }
@@ -265,7 +264,6 @@ exports.getJoinDemand = (req, res, next) => {
 exports.joinDemand = (req, res, next) => {
   const adherentId = req.params.adherentId;
   const structureId = req.params.structureId;
-  console.log(req.params.structureId);
   if (adherentId != req.auth.adherentId) {
     return res.status(401).json({ message: "Unauthorized" });
   }
