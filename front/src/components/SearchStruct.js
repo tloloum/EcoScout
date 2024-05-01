@@ -30,7 +30,6 @@ const SearchStruct = () => {
         if (response.ok) {
           const data = await response.json();
           setStructures(data);
-          console.log(idStructure)
         } else {
           console.error("Failed to fetch structures");
         }
@@ -40,14 +39,17 @@ const SearchStruct = () => {
     };
 
     fetchStructures();
-  }, [getServerAddress, searchQuery]); // Ajout de searchQuery comme dépendance
+  }, [getServerAddress, searchQuery]);
 
   // Fonction pour gérer le changement de la barre de recherche
   const handleSearchChange = (event) => {
     setShowForm(false);
     setSearchQuery(event.target.value);
   };
-  const handleStructureClick = (structure) => {
+
+  //Fonction pour gérer le click sur une structure, quand on clique, on garde l'ID de la structure pour éventuellement join
+  const handleStructureClick = () => {
+    setIdStructure('');
     if(showForm==true){
       setShowForm(false);
     }
@@ -57,20 +59,20 @@ const SearchStruct = () => {
     if (Array.isArray(structures) && structures.length > 0) {
       setIdStructure(structures[0].id_structur.toString());
     }
-    console.log("Structure cliquée :", structure.nom_structure, idStructure);
     
   };
 
+  //Fonction pour retourner sur le profil
   const back2profile = () => {
     navigate('/homead');
   }
 
-  async function structureSubmit(event) {
+  //Fonction pour join une structure en temps qu'adhérent. Ne marche pas pour l'instant
+  const structureSubmit = async () => {
     const serverAddress = getServerAddress();
-    console.log(serverAddress + "/structures/" + idStructure + "/join");
-    // Recherche de la structure :
+    console.log(serverAddress + "structures/" + idStructure + "/join");
     const resultStructure = await fetch(
-      serverAddress + "/structures/" + idStructure + "/join/",
+      serverAddress + "structures/" + idStructure + "/join",
       {
         method: "POST",
         headers: {
@@ -80,7 +82,7 @@ const SearchStruct = () => {
       }
     );
     if (resultStructure.status !== 201) {
-      console.log("Erreur lors du join");
+      console.log("Erreur lors du join, code d'erreur:" + resultStructure.status);
       return;
     } else {
       console.log(serverAddress + "structures");
@@ -90,6 +92,13 @@ const SearchStruct = () => {
 
     setShowForm(false);
   }
+  
+  //Fonction pour tester structureSubmit
+  const structureSubmitTest = () => {
+    setIdStructure('2');
+    structureSubmit();
+  }
+
   return (
     <div>
         <div className="input-box">
@@ -118,6 +127,9 @@ const SearchStruct = () => {
       )}
       <button onClick={back2profile}>
         Retour au profil
+      </button>
+      <button onClick={structureSubmitTest}>
+        test
       </button>
     </div>
   );
