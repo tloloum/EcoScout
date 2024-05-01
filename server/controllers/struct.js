@@ -91,20 +91,20 @@ exports.getAllStruct = async (req, res, next) => {
     .catch((error) => {
       res.status(500).json({ error });
     });
-}
+};
 
 exports.searchStruct = async (req, res, next) => {
   const structName = req.params.structName;
   const query = `SELECT * FROM Structur WHERE nom_structure='${structName}' `;
-  utils 
+  utils
     .send_query_select(query)
     .then((rows) => {
       res.status(200).json(rows);
     })
     .catch((error) => {
-      res.status(500).json({error});
-    })
-}
+      res.status(500).json({ error });
+    });
+};
 
 exports.updateStruct = (req, res, next) => {
   const structureId = req.auth.structureId;
@@ -247,10 +247,11 @@ exports.getStructsFromAdherent = (req, res, next) => {
 
 exports.getJoinDemand = (req, res, next) => {
   const structId = req.params.structureId;
-  if(structId!== req.auth.structureId){
+  console.log(req.auth.structuretId); //undefined
+  if (structId !== req.auth.structureId) {
     return res.status(401).json({ message: "Unauthorized" });
   }
-  const select_query=`SELECT DISTINCT Adherents.id_adherent, Adherents.nom_ad, Adherents.prenom_ad FROM Adherents JOIN Demande_join ON Adherents.id_adherent = Demande_join.id_adherent WHERE Demande_join.id_structure = '${structId}'`;
+  const select_query = `SELECT DISTINCT Adherents.id_adherent, Adherents.nom_ad, Adherents.prenom_ad FROM Adherents JOIN Demande_join ON Adherents.id_adherent = Demande_join.id_adherent WHERE Demande_join.id_structure = '${structId}'`;
   utils
     .send_query_select(select_query)
     .then((rows) => {
@@ -260,14 +261,20 @@ exports.getJoinDemand = (req, res, next) => {
       res.status(500).json({ error });
     });
 };
-
+// Je pense il faut modifier la route pour celui la afin d'avoir adherentID dans les params
 exports.joinDemand = (req, res, next) => {
   const adherentId = req.auth.adherentId;
   const structureId = req.params.structureId;
-  if(adherentId!=req.auth.adherentId){
-    return res.status(401).json({message: "Unauthorized"});
+  console.log(adherentId); //undefined
+  if (adherentId != req.auth.adherentId) {
+    // non sens car on définit adherentId avec req.auth.adherentId
+    return res.status(401).json({ message: "Unauthorized" });
   }
-  const post_query=`INSERT INTO Demande_join (id_structure, id_adherent) VALUES ('${structureId}', '${adherentId}')`;
-  utils.
-    send_query_insert(post_query, res, 201);
-}
+  const post_query = `INSERT INTO Demande_join (id_structure, id_adherent) VALUES ('${structureId}', '${adherentId}')`;
+  utils.send_query_insert(
+    post_query,
+    res,
+    201,
+    "Demande de join envoyée avec succès"
+  );
+};

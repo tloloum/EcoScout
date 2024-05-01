@@ -131,7 +131,7 @@ describe("Structures API", () => {
       .get(`/structures/allstruct`)
       .set("Authorization", `Bearer ${userToken}`)
       .expect(200);
-  })
+  });
   it("should get all info from a struct", async () => {
     const req = await request(app)
       .get(`/structures`)
@@ -227,5 +227,33 @@ describe("Structures API", () => {
       "message",
       "Structure deleted successfully"
     );
+  });
+  it("should not delete a struct with wrong token", async () => {
+    const structureId = 1;
+    const response = await request(app)
+      .delete(`/structures/${structureId}`)
+      .set("Authorization", `Bearer azdazd`)
+      .expect(401);
+  });
+
+  it("should demand to join a struct", async () => {
+    const structureId = 1;
+    const response = await request(app)
+      .post(`/structures/demand/${structureId}`)
+      .set("Authorization", `Bearer ${userToken}`)
+      .send({ structureId: structureId })
+      .expect(201);
+    expect(response.body).toHaveProperty(
+      "message",
+      "Demand to join structure sent successfully"
+    );
+  });
+
+  it("should get join demand", async () => {
+    const structureId = 1;
+    const response = await request(app)
+      .get(`/structures/demand/${structureId}`)
+      .set("Authorization", `Bearer ${structureToken}`)
+      .expect(200);
   });
 });
