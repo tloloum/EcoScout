@@ -188,6 +188,29 @@ router.post("/:structureId/hierarchy", auth_struct, structCtrl.joinHierarchy);
  */
 router.get("/adherent", auth_ad, structCtrl.getStructsFromAdherent);
 
+// Route pour récupérer les demandes de join à une structure
+/**
+ * @api {get} /demand/:structureId 
+ * @apiName getJoinDemand
+ * @apiGroup Structures, peut être à modifier
+ * 
+ * @apiParam (params) {Number} structureId Id de la structure
+ * 
+ * @apiSuccess (200) {}
+ */
+router.get("/demand/:structureId", auth_struct, structCtrl.getJoinDemand);
+
+
+//Route pour qu'un adhérent demande à rejoindre une structure
+/**
+ * @api {post} /demand
+ * @apiName joinDemand
+ * @apiGroup Structure, peut être à modifier
+ * 
+ * @apiParam (params)
+ */
+router.post("/demand/:structureId", auth_ad, structCtrl.joinDemand);
+
 router.use((req, res, next) => {
   console.log("Requete de structure");
   //res.send("Structure"); j'ai remis en commentaire c'était une source d'erreur chez moi jsp pk

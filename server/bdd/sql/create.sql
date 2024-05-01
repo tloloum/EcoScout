@@ -140,3 +140,11 @@ CREATE TABLE Impact
     FOREIGN KEY (id_adherent) REFERENCES Adherents(id_adherent) ON DELETE CASCADE
 );
 
+CREATE TABLE Demande_join
+(
+    id_demande INTEGER PRIMARY KEY AUTO_INCREMENT,
+    id_structure INTEGER UNSIGNED,
+    FOREIGN KEY (id_structure) REFERENCES Structur(id_structur) ON DELETE CASCADE,
+    id_adherent INTEGER,
+    FOREIGN KEY (id_adherent) REFERENCES Adherents(id_adherent) ON DELETE CASCADE
+);

@@ -201,6 +201,7 @@ exports.joinStruct = (req, res, next) => {
     if (error) {
       res.status(500).json({ error });
     } else {
+      //Il faut rajouter le delete dans demande struct ici
       res
         .status(201)
         .json({ message: "Adherent added to structure successfully" });
@@ -243,3 +244,30 @@ exports.getStructsFromAdherent = (req, res, next) => {
   }
   res.status(200).json(structures);
 };
+
+exports.getJoinDemand = (req, res, next) => {
+  const structId = req.params.structureId;
+  if(structId!== req.auth.structureId){
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+  const select_query=`SELECT DISTINCT Adherents.id_adherent, Adherents.nom_ad, Adherents.prenom_ad FROM Adherents JOIN Demande_join ON Adherents.id_adherent = Demande_join.id_adherent WHERE Demande_join.id_structure = '${structId}'`;
+  utils
+    .send_query_select(select_query)
+    .then((rows) => {
+      res.status(200).json(rows);
+    })
+    .catch((error) => {
+      res.status(500).json({ error });
+    });
+};
+
+exports.joinDemand = (req, res, next) => {
+  const adherentId = req.auth.adherentId;
+  const structureId = req.params.structureId;
+  if(adherentId!=req.auth.adherentId){
+    return res.status(401).json({message: "Unauthorized"});
+  }
+  const post_query=`INSERT INTO Demande_join (id_structure, id_adherent) VALUES ('${structureId}', '${adherentId}')`;
+  utils.
+    send_query_insert(post_query, res, 201);
+}
