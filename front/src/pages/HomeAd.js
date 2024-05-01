@@ -19,7 +19,6 @@ const HomeAd = () => {
   };
 
   const switchProfil = () => {
-    signOutAd();
     if (isAuthenticated) {
       navigate('/choose');
     } else {
