@@ -263,7 +263,7 @@ exports.getJoinDemand = (req, res, next) => {
 };
 // Je pense il faut modifier la route pour celui la afin d'avoir adherentID dans les params
 exports.joinDemand = (req, res, next) => {
-  const adherentId = req.auth.adherentId;
+  const adherentId = req.params.adherentId;
   const structureId = req.params.structureId;
   console.log(adherentId); //undefined
   if (adherentId != req.auth.adherentId) {

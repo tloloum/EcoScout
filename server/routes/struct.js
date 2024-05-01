@@ -209,7 +209,7 @@ router.get("/demand/:structureId", auth_struct, structCtrl.getJoinDemand);
  * 
  * @apiParam (params)
  */
-router.post("/demand/:structureId", auth_ad, structCtrl.joinDemand);
+router.post("/demand/:structureId/adherent/:adherentId", auth_ad, structCtrl.joinDemand);
 
 router.use((req, res, next) => {
   console.log("Requete de structure");

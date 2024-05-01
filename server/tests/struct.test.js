@@ -191,7 +191,7 @@ describe("Structures API", () => {
       .send({ adherentId: 1 });
     expect(response_login.statusCode).toBe(200);
     expect(response_login.body).toHaveProperty("token");
-    const adherentToken = response_login.body.token;
+    global.adherentToken = response_login.body.token;
 
     const structureId = 1;
     const response_join = await request(app)
@@ -217,6 +217,27 @@ describe("Structures API", () => {
     );
   });
 
+  it("should demand to join a struct", async () => {
+    const structureId = 1;
+    const response = await request(app)
+      .post(`/structures/demand/${structureId}`)
+      .set("Authorization", `Bearer ${adherentToken}`)
+      .expect(201);
+    expect(response.body).toHaveProperty(
+      "message",
+      "Demand to join structure sent successfully"
+    );
+  });
+
+  it("should get join demand", async () => {
+    const structureId = 1;
+    const adherentId=1;
+    const response = await request(app)
+      .get(`/structures/demand/${structureId}/adherent/${adherentId}`)
+      .set("Authorization", `Bearer ${structureToken}`)
+      .expect(200);
+  });
+
   it("should delete a struct", async () => {
     const structureId = 1;
     const response = await request(app)
@@ -236,24 +257,5 @@ describe("Structures API", () => {
       .expect(401);
   });
 
-  it("should demand to join a struct", async () => {
-    const structureId = 1;
-    const response = await request(app)
-      .post(`/structures/demand/${structureId}`)
-      .set("Authorization", `Bearer ${userToken}`)
-      .send({ structureId: structureId })
-      .expect(201);
-    expect(response.body).toHaveProperty(
-      "message",
-      "Demand to join structure sent successfully"
-    );
-  });
-
-  it("should get join demand", async () => {
-    const structureId = 1;
-    const response = await request(app)
-      .get(`/structures/demand/${structureId}`)
-      .set("Authorization", `Bearer ${structureToken}`)
-      .expect(200);
-  });
+  
 });
