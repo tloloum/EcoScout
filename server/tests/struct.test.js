@@ -219,21 +219,22 @@ describe("Structures API", () => {
 
   it("should demand to join a struct", async () => {
     const structureId = 1;
+    const adherentId = 1;
     const response = await request(app)
-      .post(`/structures/demand/${structureId}`)
+      .post(`/structures/demand/${structureId}/adherent/${adherentId}`)
       .set("Authorization", `Bearer ${adherentToken}`)
       .expect(201);
     expect(response.body).toHaveProperty(
       "message",
-      "Demand to join structure sent successfully"
+      "Demande de join envoyée avec succès"
     );
   });
 
   it("should get join demand", async () => {
     const structureId = 1;
-    const adherentId=1;
+
     const response = await request(app)
-      .get(`/structures/demand/${structureId}/adherent/${adherentId}`)
+      .get(`/structures/demand/${structureId}`)
       .set("Authorization", `Bearer ${structureToken}`)
       .expect(200);
   });
@@ -256,6 +257,4 @@ describe("Structures API", () => {
       .set("Authorization", `Bearer azdazd`)
       .expect(401);
   });
-
-  
 });

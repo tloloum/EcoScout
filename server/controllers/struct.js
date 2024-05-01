@@ -247,7 +247,7 @@ exports.getStructsFromAdherent = (req, res, next) => {
 
 exports.getJoinDemand = (req, res, next) => {
   const structId = req.params.structureId;
-  console.log(req.auth.structuretId); //undefined
+  console.log(req.auth.structuretId);
   if (structId !== req.auth.structureId) {
     return res.status(401).json({ message: "Unauthorized" });
   }
@@ -261,13 +261,12 @@ exports.getJoinDemand = (req, res, next) => {
       res.status(500).json({ error });
     });
 };
-// Je pense il faut modifier la route pour celui la afin d'avoir adherentID dans les params
+
 exports.joinDemand = (req, res, next) => {
   const adherentId = req.params.adherentId;
   const structureId = req.params.structureId;
-  console.log(adherentId); //undefined
+  console.log(req.params.structureId);
   if (adherentId != req.auth.adherentId) {
-    // non sens car on définit adherentId avec req.auth.adherentId
     return res.status(401).json({ message: "Unauthorized" });
   }
   const post_query = `INSERT INTO Demande_join (id_structure, id_adherent) VALUES ('${structureId}', '${adherentId}')`;
