@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
-import { useNavigate } from "react-router-dom";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/Auth";
 import { AuthAdContext } from "../contexts/AuthAd";
 
@@ -10,7 +9,7 @@ const Navigation = () => {
   const navigate = useNavigate();
 
   const buttonSignOut = () => {
-    signOutAd()
+    signOutAd();
     signOut();
     navigate("/");
   };
@@ -19,7 +18,7 @@ const Navigation = () => {
     <div className="navigation">
       <ul>
         <NavLink
-          to="/home"
+          to="/homead"
           className={(nav) => (nav.isActive ? "nav-active" : "")}
         >
           <li>Accueil</li>
