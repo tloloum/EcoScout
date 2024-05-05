@@ -40,14 +40,19 @@ const SeeDemands = () => {
     return (
       <div>
           <h2>Liste des demandes :</h2>
-          <ul>
-              {demands.map((demand, index) => (
-                  <li key={index}>
-                      {demands.nom_ad}
-                  </li>
-              ))}
-          </ul>
+          {demands.length > 0 ? (
+            <ul>
+                {demands.map((demand, index) => (
+                    <li key={index}>
+                        {demand.nom_ad}
+                    </li>
+                ))}
+            </ul>
+          ) : (
+            <p>Pas de nouvelles demandes.</p>
+          )}
       </div>
-  );
+    );
+    
 }
 export default SeeDemands;
