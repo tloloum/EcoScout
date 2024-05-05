@@ -1,11 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../contexts/Auth";
+import {AuthAdContext} from "../contexts/AuthAd";
 import { ServerContext } from "../contexts/Server";
 import { useNavigate } from 'react-router-dom';
 
 const SearchStruct = () => {
   const { getServerAddress } = useContext(ServerContext);
   const { myToken, myUserId } = useContext(AuthContext);
+  const { myAdherentId, myTokenAd } = useContext(AuthAdContext);
   const [searchQuery, setSearchQuery] = useState('');
   const [structures, setStructures] = useState([]);
   const [showForm, setShowForm] = useState(false);
@@ -67,22 +69,22 @@ const SearchStruct = () => {
     navigate('/homead');
   }
 
-  //Fonction pour join une structure en temps qu'adhérent. Ne marche pas pour l'instant
+  //Fonction pour demander à join une structure en temps qu'adhérent. Ne marche pas pour l'instant
   const structureSubmit = async () => {
     const serverAddress = getServerAddress();
-    console.log(serverAddress + "structures/" + idStructure + "/join");
+    console.log(serverAddress + "structures/demand/" + idStructure + "/adherent" + myAdherentId);
     const resultStructure = await fetch(
-      serverAddress + "structures/" + idStructure + "/join",
+      serverAddress + "structures/demand/" + idStructure + "/adherent" + myAdherentId, 
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-           Authorization: "Bearer " + myToken,
+           Authorization: "Bearer " + myTokenAd,  
         },
       }
     );
     if (resultStructure.status !== 201) {
-      console.log("Erreur lors du join, code d'erreur:" + resultStructure.status);
+      console.log("Erreur lors de la demande de join, code d'erreur:" + resultStructure.status);
       return;
     } else {
       console.log(serverAddress + "structures");
