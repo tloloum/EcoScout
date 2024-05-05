@@ -203,7 +203,7 @@ router.get("/demand/:structureId", auth_struct, structCtrl.getJoinDemand);
 
 //Route pour qu'un adhérent demande à rejoindre une structure
 /**
- * @api {post} /demand
+ * @api {post} /demand/:structureId/adherent/:adherentId
  * @apiName joinDemand
  * @apiGroup Structure, peut être à modifier
  * 
