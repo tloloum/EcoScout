@@ -13,6 +13,7 @@ const RegisterStructure = () => {
   const [regionStructure, setRegionStructure] = useState("");
   const [dateStructure, setDateStructure] = useState("");
   const [ErreurMessage, setErreurMessage] = useState("");
+  const [descriptionStructure, setDescriptionStructure] = useState("");
 
   const handleNameStructureChange = (event) => {
     setErreurMessage("");
@@ -29,6 +30,9 @@ const RegisterStructure = () => {
     setDateStructure(event.target.value);
   };
 
+  const handleDescriptionStructureChange = (event) => {
+    setDescriptionStructure(event.target.value);
+  };
   async function handleSubmit(event) {
     event.preventDefault();
     if (!myToken || !myUserId) {
@@ -93,6 +97,16 @@ const RegisterStructure = () => {
         )} */}
         </label>
         {/* <p className="errorMsg">{errors.name?.message}</p> */}
+        <br />
+        <label>
+          Description de la structure:
+          <textarea
+            name="description"
+            placeholder="Ajouter une description de la structure"
+            value={descriptionStructure}
+            onChange={handleDescriptionStructureChange}
+          />
+        </label>
         <br />
         <label>
           La région:
