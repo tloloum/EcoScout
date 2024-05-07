@@ -72,9 +72,9 @@ const SearchStruct = () => {
   //Fonction pour demander à join une structure en temps qu'adhérent. Ne marche pas pour l'instant
   const structureSubmit = async () => {
     const serverAddress = getServerAddress();
-    console.log(serverAddress + "structures/demand/" + idStructure + "/adherent" + myAdherentId);
+    console.log(serverAddress + "structures/demand/" + idStructure + "/adherent/" + myAdherentId);
     const resultStructure = await fetch(
-      serverAddress + "structures/demand/" + idStructure + "/adherent" + myAdherentId, 
+      serverAddress + "structures/demand/" + idStructure + "/adherent/" + myAdherentId, 
       {
         method: "POST",
         headers: {
@@ -91,7 +91,7 @@ const SearchStruct = () => {
       const resultStructureContent = await resultStructure.json();
       console.log(resultStructureContent);
     }
-
+    console.log("ici");
     setShowForm(false);
   }
   
