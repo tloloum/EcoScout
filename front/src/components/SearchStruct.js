@@ -91,7 +91,6 @@ const SearchStruct = () => {
       const resultStructureContent = await resultStructure.json();
       console.log(resultStructureContent);
     }
-    console.log("ici");
     setShowForm(false);
   }
   
