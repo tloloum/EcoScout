@@ -277,20 +277,28 @@ exports.joinDemand = (req, res, next) => {
 };
 
 exports.deleteDemand = (req, res, next) => {
-  const adherentId=req.paramas.adherentId;
-  const structureId= req.params.structureId;
-  if (structId !== req.auth.structureId) {
+  const adherentId = parseInt(req.params.adherentId, 10);
+  const structureId = parseInt(req.params.structureId, 10);
+  console.log("coucou");
+  if (structureId !== req.auth.structureId) {
     return res.status(401).json({ message: "Unauthorized" });
   }
-  const delete_query = `DELETE FROM Demande_join WHERE id_structure='${structureId} AND id_adherent='${adherentId}'`
+  const query_verif = `SELECT * FROM Demande_join WHERE id_structure=${structureId} AND id_adherent=${adherentId}`;
   utils
-    .send_query_insert(
-      delete_query,
-      res,
-      200,
-      "Demand deleted successfully"
-    )
+    .send_query_select(query_verif)
+    .then((rows) => {
+      if (rows.length === 0) {
+        return res.status(404).json({ message: "Demand not found" });
+      }
+      const delete_query = `DELETE FROM Demande_join WHERE id_structure=${structureId} AND id_adherent=${adherentId}`;
+      utils.send_query_insert(
+        delete_query,
+        res,
+        200,
+        "Demand deleted successfully"
+      );
+    })
     .catch((error) => {
       res.status(500).json({ error });
     });
-}
+};
