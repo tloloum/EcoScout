@@ -267,13 +267,19 @@ exports.joinDemand = (req, res, next) => {
   if (adherentId != req.auth.adherentId) {
     return res.status(401).json({ message: "Unauthorized" });
   }
-  const post_query = `INSERT INTO Demande_join (id_structure, id_adherent) VALUES ('${structureId}', '${adherentId}')`;
-  utils.send_query_insert(
-    post_query,
-    res,
-    201,
-    "Demande de join envoyée avec succès"
-  );
+  const query_verif = `SELECT * FROM Demande_join WHERE id_structure=${structureId} AND id_adherent=${adherentId}`;
+  utils.send_query_select(query_verif).then((rows) => {
+    if (rows.length > 0) {
+      return res.status(400).json({ message: "Demand already exists" });
+    }
+    const post_query = `INSERT INTO Demande_join (id_structure, id_adherent) VALUES ('${structureId}', '${adherentId}')`;
+    utils.send_query_insert(
+      post_query,
+      res,
+      201,
+      "Demande de join envoyée avec succès"
+    );
+  });
 };
 
 exports.deleteDemand = (req, res, next) => {

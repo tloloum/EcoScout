@@ -230,6 +230,16 @@ describe("Structures API", () => {
     );
   });
 
+  it("should not demand to join a struct if already demand", async () => {
+    const structureId = 1;
+    const adherentId = 1;
+    const response = await request(app)
+      .post(`/structures/demand/${structureId}/adherent/${adherentId}`)
+      .set("Authorization", `Bearer ${adherentToken}`)
+      .expect(400);
+    expect(response.body).toHaveProperty("message", "Demand already exists");
+  });
+
   it("should get join demand", async () => {
     const structureId = 1;
     const response = await request(app)
@@ -237,18 +247,19 @@ describe("Structures API", () => {
       .set("Authorization", `Bearer ${structureToken}`)
       .expect(200);
   });
+
   it("should delete a demand", async () => {
-    const structureId=1;
-    const adherentId=1;
+    const structureId = 1;
+    const adherentId = 1;
     console.log(`/structures/demand/${structureId}/adherent/${adherentId}`);
-    const response= await request(app)
+    const response = await request(app)
       .delete(`/structures/demand/${structureId}/adherent/${adherentId}`)
       .set("Authorization", `Bearer ${structureToken}`)
       .expect(200);
     expect(response.body).toHaveProperty(
-        "message",
-        "Demand deleted successfully"
-      );
+      "message",
+      "Demand deleted successfully"
+    );
   });
   it("should delete a struct", async () => {
     const structureId = 1;
