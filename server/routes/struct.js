@@ -211,6 +211,9 @@ router.get("/demand/:structureId", auth_struct, structCtrl.getJoinDemand);
  */
 router.post("/demand/:structureId/adherent/:adherentId", auth_ad, structCtrl.joinDemand);
 
+//Route pour supprimer une demande, à utiliser quand un structure accepte ou refuse un adhérent
+router.delete("/demand/:structureId/adherent/:adherentId", auth_struct, structCtrl.deleteDemand);
+
 router.use((req, res, next) => {
   console.log("Requete de structure");
   //res.send("Structure"); j'ai remis en commentaire c'était une source d'erreur chez moi jsp pk

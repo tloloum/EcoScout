@@ -275,3 +275,22 @@ exports.joinDemand = (req, res, next) => {
     "Demande de join envoyée avec succès"
   );
 };
+
+exports.deleteDemand = (req, res, next) => {
+  const adherentId=req.paramas.adherentId;
+  const structureId= req.params.structureId;
+  if (structId !== req.auth.structureId) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+  const delete_query = `DELETE FROM Demande_join WHERE id_structure='${structureId} AND id_adherent='${adherentId}'`
+  utils
+    .send_query_insert(
+      delete_query,
+      res,
+      200,
+      "Demand deleted successfully"
+    )
+    .catch((error) => {
+      res.status(500).json({ error });
+    });
+}
