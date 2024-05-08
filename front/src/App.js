@@ -20,6 +20,7 @@ import Register from "./pages/user/Register";
 import RegisterAdherent from "./pages/user/RegisterAdherent";
 import RegisterEvent from "./pages/user/RegisterEvent";
 import RegisterStructure from "./pages/user/RegisterStructure";
+import HomeStructAd from "./pages/HomeStructAd";
 import Impact from "./pages/user/Impact";
 
 import HomeStruct from "./pages/HomeStruct";
@@ -49,6 +50,7 @@ const App = () => {
                 />
                 <Route path="/homead" element={<HomeAd />} />
                 <Route path="/homestruct" element={<HomeStruct />} />
+                <Route path="/homeStruct/:name" element={<HomeStructAd />} />
                 <Route path="/join" element={<JoinStructAd />} />
                 <Route path="/demands" element={<SeeDemands />} />
                 <Route
