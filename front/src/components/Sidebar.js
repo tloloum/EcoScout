@@ -6,7 +6,7 @@ import { ServerContext } from "../contexts/Server";
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
   const [structures, setStructures] = useState([]);
-  const { myTokenAd, myAdherentId } = useContext(AuthAdContext);
+  const { myTokenAd } = useContext(AuthAdContext);
   const { getServerAddress } = useContext(ServerContext);
 
   const switchSidebar = () => {
@@ -20,7 +20,7 @@ const Sidebar = () => {
       const serverAddress = getServerAddress();
 
       const resultStructures = await fetch(
-        serverAddress + "structures/adherent/" + myAdherentId,
+        `${serverAddress}structures/adherent/`,
         {
           method: "GET",
           headers: {
@@ -35,13 +35,14 @@ const Sidebar = () => {
         return;
       } else {
         const resultStructuresContent = await resultStructures.json();
+        console.log(resultStructuresContent); // Vérifiez le format des données ici
         if (resultStructuresContent.length > 0) {
           setStructures(resultStructuresContent);
         }
       }
     }
     getStructures();
-  });
+  }, [myTokenAd, getServerAddress]);
 
   return (
     <aside className={`sidebar ${isOpen ? "open" : "closed"}`}>
@@ -50,16 +51,17 @@ const Sidebar = () => {
       </div>
       <ul>
         {structures.map((structure) => (
-          <li key={structure.id}>{structure.name}</li>
+          <li key={structure[0].id_structur}>{structure[0].nom_structure}</li> // Utilisez un champ unique comme `key`
         ))}
       </ul>
       <ul>
-        {/* <button
-          className="button-join"
-          onClick={() => navigate("/join")}
-        ></button> */}
-        <li onClick={() => navigate("/profile")}>Mon profil</li>
-        <li onClick={() => navigate("/join")}>Rejoindre une structure</li>
+        {/* Ajoutez des clés uniques pour chaque élément */}
+        <li key="profile" onClick={() => navigate("/profile")}>
+          Mon profil
+        </li>
+        <li key="join" onClick={() => navigate("/join")}>
+          Rejoindre une structure
+        </li>
       </ul>
     </aside>
   );
