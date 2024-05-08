@@ -1,28 +1,30 @@
 // import React, { useContext } from "react";
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Header from "./components/Head";
-import Sidebar from "./components/Sidebar";
 
 import { AuthContext, AuthContextProvider } from "./contexts/Auth";
 import { AuthAdContext, AuthAdContextProvider } from "./contexts/AuthAd";
 import { AuthStContextProvider } from "./contexts/AuthSt";
 import { ServerContextProvider } from "./contexts/Server";
 import Error404 from "./pages/Error404";
+import Events from "./pages/Events";
 import HomeAd from "./pages/HomeAd";
 import Profile from "./pages/Profile";
 import Structures from "./pages/Structures";
+
 import Choose from "./pages/user/Choose";
-import Login from "./pages/user/Login";
 import ChooseAccountType from "./pages/user/ChooseAccountType";
+import Login from "./pages/user/Login";
 import Register from "./pages/user/Register";
 import RegisterAdherent from "./pages/user/RegisterAdherent";
+import RegisterEvent from "./pages/user/RegisterEvent";
 import RegisterStructure from "./pages/user/RegisterStructure";
-import Welcome from "./pages/user/Welcome";
-import { RiTreasureMapFill } from "react-icons/ri";
+
 import HomeStruct from "./pages/HomeStruct";
 import JoinStructAd from "./pages/JoinStructAd";
 import SeeDemands from "./pages/SeeDemands";
+import Welcome from "./pages/user/Welcome";
 
 const App = () => {
   const { isAuthenticatedAd } = useContext(AuthAdContext);
@@ -40,7 +42,10 @@ const App = () => {
                 <Route path="*" element={<Error404 />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/login" element={<Login />} />
-                <Route path="/chooseAccountType" element={<ChooseAccountType />} />
+                <Route
+                  path="/chooseAccountType"
+                  element={<ChooseAccountType />}
+                />
                 <Route path="/homead" element={<HomeAd />} />
                 <Route path="/homestruct" element={<HomeStruct />} />
                 <Route path="/join" element={<JoinStructAd />} />
@@ -58,8 +63,16 @@ const App = () => {
                   element={<PrivateRoute component={<RegisterStructure />} />}
                 />
                 <Route
+                  path="/registerEvent"
+                  element={<PrivateRoute component={<RegisterEvent />} />}
+                />
+                <Route
                   path="/structures"
                   element={<PrivateRoute component={<Structures />} />}
+                />
+                <Route
+                  path="/evenements"
+                  element={<PrivateRoute component={<Events />} />}
                 />
                 {/*################################*/}
                 {/*A enlever une fois que le bug de modification de profil sera terminé */}
