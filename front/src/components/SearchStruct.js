@@ -109,12 +109,6 @@ const SearchStruct = () => {
     setShowForm(false);
   };
 
-  //Fonction pour tester structureSubmit
-  const structureSubmitTest = () => {
-    setIdStructure("2");
-    structureSubmit();
-  };
-
   return (
     <div className="container">
       <div className="search-box">
@@ -141,15 +135,16 @@ const SearchStruct = () => {
             >
               {structure.nom_structure}
             </button>
+            {showForm && (
+              <button onClick={structureSubmit} className="submit-button">
+                Rejoindre
+              </button>
+            )}
           </div>
         ))}
       </div>
-      {showForm && (
-          <button onClick={structureSubmit} type="submit">Rejoindre</button>
-      )}
       <div className="navigation-buttons">
         <button onClick={back2profile}>Retour au profil</button>
-        <button onClick={structureSubmitTest}>Test</button>
       </div>
     </div>
   );
