@@ -35,7 +35,7 @@ const HomeStruct = () => {
                     <img src={logo} alt="Eco Scout" />
                     <h2 className="eco-scout-text">Eco Scout</h2>
                 </div>
-                <button onClick={() => navigate('/demands')}>Demande de join</button>
+                <button onClick={() => navigate('/demands')}>Demande(s) en attente</button>
 
                 <div className="buttons-container">
                     <button onClick={deco} className="btn-deconnexion">Déconnexion</button>
