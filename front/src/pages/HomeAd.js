@@ -8,7 +8,7 @@ import Sidebar from '../components/Sidebar';
 const Profile = () => {
   const { myToken, myUserId } = useContext(AuthContext);
   const { getServerAddress } = useContext(ServerContext);
-  const { myAdherentId } = useContext(AuthAdContext);
+  const { myAdherentId, myTokenAd } = useContext(AuthAdContext);
   const [Name, setName] = useState("");
   const [FirstName, setFirstName] = useState("");
   const [newName, setNewName] = useState("");
@@ -68,42 +68,44 @@ const Profile = () => {
 
   async function updateInfos(event) {
     event.preventDefault();
-    const updatedValues = {};
-    if (newName !== "") {
-      updatedValues.nom_ad = newName;
-    } else {
-      updatedValues.nom_ad = Name;
-    }
-    if (newFirstName !== "") {
-      updatedValues.prenom_ad = newFirstName;
-    } else {
-      updatedValues.prenom_ad = FirstName;
-    }
-    const resultToken = await fetch(
-      serverAddress + "user/" + myUserId + "/adherent/" + AdhId,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + myToken,
-        },
-        body: JSON.stringify({
-          id_adherent: AdhId,
-          ...updatedValues,
-        }),
-      }
-    );
-
-    if (resultToken.status !== 201) {
-      console.log("Erreur lors de la mise à jour du profil, code d'erreur:" + resultToken.status);
+    let updatedValues = {};
+    if (newName === "" || newFirstName === "") {
+      console.log("Le nom et le prénom doivent être renseignés.");
       return;
-    } else {
+    }
+    updatedValues.nom_ad = newName;
+    updatedValues.prenom_ad = newFirstName;
+    try {
+      const resultToken = await fetch(
+        serverAddress + "user/" + myUserId + "/adherent/" + AdhId,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + myTokenAd,
+          },
+          body: JSON.stringify({
+            id_adherent: AdhId,
+            ...updatedValues,
+          }),
+        }
+      );
+  
+      if (!resultToken.ok) {
+        console.log(myToken)
+        console.error("Erreur lors de la mise à jour du profil, code d'erreur:", resultToken.status);
+        return;
+      }
+  
       const resultModificationContent = await resultToken.json();
       console.log(resultModificationContent);
+      setShowForm(false);
+      showInfos(); // Si showInfos() est défini ailleurs, sinon adapter cette ligne
+    } catch (error) {
+      console.error("Erreur lors de la mise à jour du profil :", error);
     }
-    setShowForm(false);
-    showInfos();
   }
+  
 
   return (
     <div className="container">
