@@ -69,7 +69,7 @@ const SeeDemands = () => {
                         <li key={index}>
                             {demand.nom_ad}
                             {demand.prenom_ad}
-                            <button onClick={AcceptDemand} >Accepter</button>
+                            {/* <button onClick={AcceptDemand} >Accepter</button> */}
                         </li>
                     ))}
                 </ul>
