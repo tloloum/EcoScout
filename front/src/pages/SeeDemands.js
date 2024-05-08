@@ -35,6 +35,28 @@ const SeeDemands = () => {
         fetchDemands();
     }, [myTokenSt, myStructureId, getServerAddress]);
 
+    const DeleteDemand = async (idAdherent) => {
+      try {
+        const serverAddress = getServerAddress();
+        console.log(serverAddress + "structures/demand/" + myStructureId + "/adherent/" + idAdherent);
+        const response = await fetch( serverAddress + "structures/demand/" + myStructureId + "/adherent/" + idAdherent,{
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + myTokenSt,
+            },
+        });
+        if (response.ok) {
+              console.log("Demande supprimée avec succès");
+        } else {
+            console.error("Échec de la supression de demande :", response.status);
+        }
+    } catch (error) {
+        console.error("Erreur lors de la supression de demande :", error);
+    }
+
+    };
+
     const AcceptDemand = async (actualDemand) => {
       if (!myTokenSt || !myStructureId) {
           return;
@@ -50,14 +72,21 @@ const SeeDemands = () => {
           });
           if (response.ok) {
                 console.log("Demande acceptée avec succès");
-                // TODO -> supprimer la demande de la bdd 
                 setDemands(demands.filter((demand) => demand.id_adherent !== actualDemand));
           } else {
               console.error("Échec de la demande d'acceptation :", response.status);
           }
+          DeleteDemand(actualDemand);
       } catch (error) {
           console.error("Erreur lors de la demande d'acceptation :", error);
       }
+    };
+
+    const DenieDemand = async (actualDemand) => {
+      if (!myTokenSt || !myStructureId) {
+          return;
+      }
+      DeleteDemand(actualDemand);
     };
   
     
@@ -73,6 +102,7 @@ const SeeDemands = () => {
                             {demand.nom_ad}
                             {demand.prenom_ad}
                             <button onClick={() => AcceptDemand(demand.id_adherent) } >Accepter</button>
+                            <button onClick={() => DenieDemand(demand.id_adherent) } >Refuser</button>
                         </li>
                     ))}
                 </ul>
