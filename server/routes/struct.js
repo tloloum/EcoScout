@@ -215,7 +215,8 @@ router.post("/demand/:structureId/adherent/:adherentId", auth_ad, structCtrl.joi
 router.delete("/demand/:structureId/adherent/:adherentId", auth_struct, structCtrl.deleteDemand);
 
 router.use((req, res, next) => {
-  console.log("Requete de structure");
+  console.log("Aucune route structure atteinte :" + req.url);
+  res.status(404).json({ message: "404: Aucune route structure atteinte" });
   //res.send("Structure"); j'ai remis en commentaire c'était une source d'erreur chez moi jsp pk
 });
 

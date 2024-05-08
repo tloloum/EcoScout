@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require('cors');
 
 const userRoutes = require("./routes/user");
 const actionRoutes = require("./routes/action");
@@ -8,23 +9,18 @@ const structRoutes = require("./routes/struct");
 const objectifRoutes = require("./routes/objectifs");
 const impactRouter = require("./routes/impact");
 
+
 // Création d'une instance de l'application Express
 const app = express();
 
+const corsOptions = {
+  origin: "*", // Remplacez par des domaines spécifiques si nécessaire
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Origin', 'X-Requested-With', 'Content', 'Accept', 'Content-Type', 'Authorization'],
+};
 
-// Le code suivant permet d'éviter l'erreur CORS en spécifiant qui a le droit d'accéfer à notre api
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*"); // On donne l'accès à tout le monde, remplacer * par l'adresse du serv de front une fois définie
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"
-  ); // On donne l'autorisation d'utiliser certains headers
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, PUT, DELETE, PATCH, OPTIONS"
-  ); // On donne l'autorisation d'utiliser certains méthodes
-  next();
-});
+app.use(cors(corsOptions));
+
 
 // Route de test
 app.get("/", (req, res) => {
@@ -35,6 +31,11 @@ app.get("/", (req, res) => {
 });
 
 app.use(express.json());
+
+app.use((req, res, next) => {
+  console.log("Requete :" + req.url);
+  next();   
+});
 
 app.use("/user", userRoutes);
 app.use("/impact", impactRouter);
