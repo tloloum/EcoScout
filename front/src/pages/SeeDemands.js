@@ -23,6 +23,7 @@ const SeeDemands = () => {
                 });
                 if (response.ok) {
                     const data = await response.json();
+                    console.log(data);
                     setDemands(data);
                 } else {
                     console.error("Failed to fetch structures");
@@ -34,28 +35,30 @@ const SeeDemands = () => {
         fetchDemands();
     }, [myTokenSt, myStructureId, getServerAddress]);
 
-    // const AcceptDemand = async () => {
-    //   if (!myTokenSt || !myStructureId) {
-    //       return;
-    //   }
-    //   try {
-    //       const serverAddress = getServerAddress();
-    //       const response = await fetch(serverAddress + "structures/" + myStructureId + "/join", {
-    //           method: "POST",
-    //           headers: {
-    //               "Content-Type": "application/json",
-    //               Authorization: "Bearer " + myTokenSt,
-    //           },
-    //       });
-    //       if (response.ok) {
-    //           // Gérer la réponse si nécessaire
-    //       } else {
-    //           console.error("Échec de la demande d'acceptation :", response.status);
-    //       }
-    //   } catch (error) {
-    //       console.error("Erreur lors de la demande d'acceptation :", error);
-    //   }
-    // };
+    const AcceptDemand = async (actualDemand) => {
+      if (!myTokenSt || !myStructureId) {
+          return;
+      }
+      try {
+          const serverAddress = getServerAddress();
+          const response = await fetch(serverAddress + "structures/" + myStructureId + "/join/" + actualDemand, {
+              method: "POST",
+              headers: {
+                  "Content-Type": "application/json",
+                  Authorization: "Bearer " + myTokenSt,
+              },
+          });
+          if (response.ok) {
+                console.log("Demande acceptée avec succès");
+                // TODO -> supprimer la demande de la bdd 
+                setDemands(demands.filter((demand) => demand.id_adherent !== actualDemand));
+          } else {
+              console.error("Échec de la demande d'acceptation :", response.status);
+          }
+      } catch (error) {
+          console.error("Erreur lors de la demande d'acceptation :", error);
+      }
+    };
   
     
 
@@ -69,7 +72,7 @@ const SeeDemands = () => {
                         <li key={index}>
                             {demand.nom_ad}
                             {demand.prenom_ad}
-                            <button onClick={AcceptDemand} >Accepter</button>
+                            <button onClick={() => AcceptDemand(demand.id_adherent) } >Accepter</button>
                         </li>
                     ))}
                 </ul>
