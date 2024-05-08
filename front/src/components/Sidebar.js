@@ -54,11 +54,12 @@ const Sidebar = () => {
         ))}
       </ul>
       <ul>
-        <button
+        {/* <button
           className="button-join"
           onClick={() => navigate("/join")}
-        ></button>
+        ></button> */}
         <li onClick={() => navigate("/profile")}>Mon profil</li>
+        <li onClick={() => navigate("/join")}>Rejoindre une structure</li>
       </ul>
     </aside>
   );

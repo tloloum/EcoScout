@@ -1,11 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/Auth";
+import { AuthContextAd } from "../contexts/AuthAd";
 import { AuthStContext } from "../contexts/AuthSt";
 import { ServerContext } from "../contexts/Server";
 
 const ListOfEvents = (props) => {
   const { myToken, myUserId } = useContext(AuthContext);
+  const { myAdToken, myAdId } = useContext(AuthContextAd);
+  const { myStructToken, myStructId } = useContext(AuthStContext);
   const { getServerAddress } = useContext(ServerContext);
 
   const { setTokenSt, setUserIdSt, setEventId, loginSt, setNameSt, setDateSt } =
@@ -16,24 +19,32 @@ const ListOfEvents = (props) => {
 
   useEffect(() => {
     const serverAddress = getServerAddress();
-
+    let resultEvent = null;
     // Partie recherche des Events
 
     async function showEvents() {
       if (!myToken || !myUserId) {
         return;
       }
-
-      const resultEvent = await fetch(
-        serverAddress + "Events/user/" + myUserId,
-        {
+      // Récupérer tous les événements d'une structure (depuis le token d'authentification structure)
+      if (!myStructToken || !myStructId) {
+        resultEvent = await fetch(serverAddress + "events/user/allevents/", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + myToken,
+            Authorization: "Bearer " + myStructToken,
           },
-        }
-      );
+        });
+      } else {
+        // Récupérer tous les événements d'une structure (depuis le token d'authentification adhérent)
+        resultEvent = await fetch(serverAddress + "events/ad/" + myStructId, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + myAdToken,
+          },
+        });
+      }
 
       if (resultEvent.status !== 200) {
         console.log("Erreur lors de la récupération des Events");
@@ -48,8 +59,16 @@ const ListOfEvents = (props) => {
     }
 
     showEvents();
-  }, [getServerAddress, myToken, myUserId]);
+  }, [
+    getServerAddress,
+    myToken,
+    myUserId,
+    myStructToken,
+    myStructId,
+    myAdToken,
+  ]);
 
+  // ???
   async function loginEvent(EventId) {
     const serverAddress = getServerAddress();
     console.log(serverAddress + "Events/loginstruct");

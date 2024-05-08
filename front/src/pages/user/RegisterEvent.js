@@ -1,10 +1,12 @@
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/Auth";
+import { AuthStContext } from "../../contexts/AuthSt";
 import { ServerContext } from "../../contexts/Server";
 
 const RegisterEvent = () => {
   const { myToken, myUserId } = useContext(AuthContext);
+  const { tokenStructure, structId } = useContext(AuthStContext);
   const { getServerAddress } = useContext(ServerContext);
 
   const navigate = useNavigate();
@@ -48,17 +50,20 @@ const RegisterEvent = () => {
     }
 
     const serverAddress = getServerAddress();
-    console.log(serverAddress + "Events/create");
+    console.log(serverAddress + "events/create");
 
-    const resultEvent = await fetch(serverAddress + "Events/create", {
+    const resultEvent = await fetch(serverAddress + "events/create", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + myToken,
+        Authorization: "Bearer " + tokenStructure,
       },
       body: JSON.stringify({
-        nom_Event: nameEvent,
-        date_creation: dateEvent,
+        nom_evenement: nameEvent,
+        date_debut: dateEvent,
+        lieu: locationEvent,
+        duree_evenement: dureeEvent,
+        descr: descriptionEvent,
       }),
     });
 
@@ -73,7 +78,7 @@ const RegisterEvent = () => {
 
   return (
     <div className="register-adherent">
-      <h2>Création d'une Event</h2>
+      <h2>Création d'un évènement</h2>
 
       <form onSubmit={handleSubmit}>
         <label>

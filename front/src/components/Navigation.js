@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/Auth";
 import { AuthAdContext } from "../contexts/AuthAd";
 
@@ -7,12 +7,14 @@ const Navigation = () => {
   const { isAuthenticated, signOut } = useContext(AuthContext);
   const { signOutAd } = useContext(AuthAdContext);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const buttonSignOut = () => {
     signOutAd();
     signOut();
     navigate("/");
   };
+  const isProfilePage = location.pathname === "/profile";
 
   return (
     <div className="navigation">
@@ -42,12 +44,14 @@ const Navigation = () => {
           </>
         )) || (
           <>
-            <NavLink
-              to="/profile"
-              className={(nav) => (nav.isActive ? "nav-active" : "")}
-            >
-              <li>Profil</li>
-            </NavLink>
+            {isAuthenticated && !isProfilePage && (
+              <NavLink
+                to="/profile"
+                className={(nav) => (nav.isActive ? "nav-active" : "")}
+              >
+                <li>Profil</li>
+              </NavLink>
+            )}
 
             <li>
               <button onClick={buttonSignOut}>Déconnexion</button>

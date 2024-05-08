@@ -50,7 +50,7 @@ const CalculateImpact = () => {
 
   return (
     <div className="register-impact">
-      <h2>Calculer l'imapct écologique</h2>
+      <h2>Calculer l'impact écologique</h2>
       <form onSubmit={handleSubmit}>
         <label>
           Type de moteur:

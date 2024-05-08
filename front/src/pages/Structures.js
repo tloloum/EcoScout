@@ -1,6 +1,4 @@
 import React, { useContext } from "react";
-import CreateStructure from "../components/CreateStructure";
-import InfoStructure from "../components/InfoStructure";
 import JoinStructure from "../components/JoinStructure";
 import ListOfStructures from "../components/ListOfStructures";
 import Navigation from "../components/Navigation";
