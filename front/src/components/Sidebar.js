@@ -55,9 +55,6 @@ const Sidebar = () => {
       </ul>
       <ul>
         {/* Ajoutez des clés uniques pour chaque élément */}
-        <li key="profile" onClick={() => navigate("/profile")}>
-          Mon profil
-        </li>
         <li key="join" onClick={() => navigate("/join")}>
           Rejoindre une structure
         </li>
