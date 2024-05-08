@@ -1,47 +1,177 @@
-import React, { useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { AuthAdContext } from '../contexts/AuthAd';
-import { AuthContext } from '../contexts/Auth';
+import React, { useContext, useEffect, useState } from "react";
+import { RiCloseLine } from "react-icons/ri";
+import { AuthContext } from "../contexts/Auth";
+import { AuthAdContext } from "../contexts/AuthAd";
+import { ServerContext } from "../contexts/Server";
 import Sidebar from '../components/Sidebar';
-import logo from '../assets/img/logo.jpeg';
 
-const HomeAd = () => {
-  const { isAuthenticatedAd, getFirstNameAd, signOutAd } = useContext(AuthAdContext);
-  const { signOut, isAuthenticated } = useContext(AuthContext);
-  const prenom = getFirstNameAd();
+const Profile = () => {
+  const { myToken, myUserId } = useContext(AuthContext);
+  const { getServerAddress } = useContext(ServerContext);
+  const { myAdherentId } = useContext(AuthAdContext);
+  const [Name, setName] = useState("");
+  const [FirstName, setFirstName] = useState("");
+  const [newName, setNewName] = useState("");
+  const [newFirstName, setNewFirstName] = useState("");
+  const [AdhId, setAdhId] = useState("");
+  const [showForm, setShowForm] = useState(false);
 
-  const navigate = useNavigate();
+  const serverAddress = getServerAddress();
 
-  const deco = () => {
-    signOutAd();
-    signOut();
-    navigate('/');
-  };
+  async function showInfos() {
+    if (!myToken || !myUserId) {
+      return;
+    }
+    const resultInfos = await fetch(
+      serverAddress + "user/" + myUserId + "/adherents",
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + myToken,
+        },
+      }
+    );
 
-  const switchProfil = () => {
-    if (isAuthenticated) {
-      navigate('/choose');
+    if (resultInfos.status !== 200) {
+      console.log("Erreur lors du chargement des informations");
+      return;
     } else {
-      navigate('/');
+      const resultInfoContent = await resultInfos.json();
+      console.log(resultInfoContent);
+
+      for (let i = 0; i < resultInfoContent.length; i++) {
+        if (resultInfoContent[i].id_adherent === myAdherentId) {
+          setName(resultInfoContent[i].nom_ad);
+          setFirstName(resultInfoContent[i].prenom_ad);
+          setAdhId(resultInfoContent[i].id_adherent);
+        }
+      }
     }
   }
 
+  useEffect(() => {
+    showInfos();
+  }, [myToken, myUserId]);
+
+  const handleClick = () => {
+    setShowForm(true);
+  };
+
+  const handleNameChange = (event) => {
+    setNewName(event.target.value);
+  };
+
+  const handleFirstNameChange = (event) => {
+    setNewFirstName(event.target.value);
+  };
+
+  async function updateInfos(event) {
+    event.preventDefault();
+    const updatedValues = {};
+    if (newName !== "") {
+      updatedValues.nom_ad = newName;
+    } else {
+      updatedValues.nom_ad = Name;
+    }
+    if (newFirstName !== "") {
+      updatedValues.prenom_ad = newFirstName;
+    } else {
+      updatedValues.prenom_ad = FirstName;
+    }
+    const resultToken = await fetch(
+      serverAddress + "user/" + myUserId + "/adherent/" + AdhId,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + myToken,
+        },
+        body: JSON.stringify({
+          id_adherent: AdhId,
+          ...updatedValues,
+        }),
+      }
+    );
+
+    if (resultToken.status !== 201) {
+      console.log("Erreur lors de la mise à jour du profil, code d'erreur:" + resultToken.status);
+      return;
+    } else {
+      const resultModificationContent = await resultToken.json();
+      console.log(resultModificationContent);
+    }
+    setShowForm(false);
+    showInfos();
+  }
+
   return (
-    <div className="home-ad">
-      {isAuthenticatedAd && <Sidebar />}
-      <div className="welcome-container">
-        <h1 className="animated-title">Bienvenue {prenom}</h1>
-        <div className="logo-container">
-          <img src={logo} alt="Eco Scout" />
-          <h2 className="eco-scout-text">Eco Scout</h2>
+    <div className="container">
+      <Sidebar />
+      <div className="profil">
+        <h1>Profil</h1>
+        <div className="profil-container">
+          <div className="profil-presentation">
+            <p>Nom : {Name}</p>
+            <p>Prenom : {FirstName}</p>
+          </div>
         </div>
-        <div className="buttons-container">
-          <button onClick={deco} className="btn-deconnexion">Déconnexion</button>
-          <button onClick={switchProfil} className="btn-changement">Changement de profil</button>
-        </div>
+        <button onClick={handleClick}>Mettre à jour les informations</button>
+        {showForm && (
+          <>
+            <div className="darkBG" />
+            <div className="centered">
+              <div className="modal">
+                <div className="modalHeader">
+                  <h5 className="heading">Modifier les informations du profil</h5>
+                </div>
+                <button
+                  className="closeBtn"
+                  onClick={() => setShowForm(false)}
+                >
+                  <RiCloseLine style={{ marginBottom: "-3px" }} />
+                </button>
+                <div className="modalContent">
+                  <form onSubmit={updateInfos}>
+                    <label>
+                      Nouveau nom :
+                      <input
+                        type="text"
+                        name="myName"
+                        placeholder="Insérer le nom"
+                        value={newName}
+                        onChange={handleNameChange}
+                      />
+                    </label>
+                    <br />
+                    <label>
+                      Nouveau prenom :
+                      <input
+                        type="text"
+                        name="myFirstName"
+                        placeholder="Insérer le prénom"
+                        value={newFirstName}
+                        onChange={handleFirstNameChange}
+                      />
+                    </label>
+                    <br />
+                    <div className="modalActions">
+                      <div className="actionsContainer">
+                        <button type="submit" className="submitBtn">
+                          Soumettre
+                        </button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
-}
+};
 
-export default HomeAd;
+export default Profile;
+

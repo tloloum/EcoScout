@@ -1,127 +1,250 @@
-.home-ad {
+/* Global */
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+.container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
-  position: relative;
-
-  .welcome-container {
-    text-align: center;
-
-    .animated-title {
-      font-size: 2rem;
-      margin-bottom: 1rem;
-      animation: fadeIn 2s ease;
-    }
-
-    .logo-container {
-      position: relative;
-      animation: scaleUp 1s 2s forwards;
-
-      img {
-        max-width: 100px;
-      }
-
-      .eco-scout-text {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        font-size: 1.5rem;
-        opacity: 0;
-        animation: fadeIn 2s 3s forwards;
-      }
-    }
-  }
-  .button-join {
-    // Style de base pour le bouton
-    width: 40px;
-    height: 40px;
-    border-radius: 50%; // Pour créer un bouton rond
-    background-color: white;
-    border: 2px solid #ccc; // Bordure grise pour le contour
-    display: flex;
-    // Positionnement de la croix à l'intérieur du bouton
-    position: relative;
-    
-    // Style de la croix
-    &::before,
-    &::after {
-      content: '';
-      position: absolute;
-      width: calc(100% - 10px); // La largeur de la croix est la largeur du bouton moins 10px de chaque côté pour s'assurer qu'elle reste entièrement visible
-      height: 2px;
-      background-color: #555; // Couleur de la croix
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
-    
-    &::before {
-      transform: translate(-50%, -50%) rotate(45deg);
-    }
-    
-    &::after {
-      transform: translate(-50%, -50%) rotate(-45deg);
-    }
-  }
-  .buttons-container {
-    position: absolute;
-    right: 10px;
-    bottom: 17px;
-
-    button {
-      padding: 8px 16px;
-      margin-left: 10px;
-      font-size: 0.8rem;
-      border: none;
-      border-radius: 4px;
-      color: white;
-      cursor: pointer;
-      transition: background-color 0.3s, transform 0.3s;
-
-      &:hover {
-        transform: translateY(-2px);
-      }
-
-      &:active {
-        transform: translateY(1px);
-      }
-    }
-
-    .btn-deconnexion {
-      background-color: #f44336; // Rouge pour la déconnexion
-
-      &:hover {
-        background-color: #e53935;
-      }
-    }
-
-    .btn-changement {
-      background-color: #2196f3; // Bleu pour le changement de profil
-
-      &:hover {
-        background-color: #1e88e5;
-      }
-    }
-  }
+  height: 100vh;
+  text-align: center;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+.profil {
+  width: 80%;
+  max-width: 600px;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-@keyframes scaleUp {
-  from {
-    transform: scale(0);
-  }
-  to {
-    transform: scale(1);
-  }
+h1 {
+  font-size: 32px;
+  margin-bottom: 20px;
+  color: #333;
 }
+
+.profil-container {
+  margin-bottom: 20px;
+}
+
+.profil-presentation p {
+  font-size: 18px;
+  color: #555;
+}
+
+button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.modal {
+  width: 100%;
+  max-width: 500px;
+  background: #fff;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  overflow: hidden;
+  padding: 20px;
+  text-align: left;
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.heading {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0;
+  color: #333;
+}
+
+.closeBtn {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  color: #333;
+}
+
+.modalContent {
+  margin-top: 10px;
+}
+
+label {
+  display: block;
+  margin: 10px 0;
+  font-size: 16px;
+  color: #333;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.submitBtn {
+  padding: 10px 20px;
+  background-color: #28a745;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.submitBtn:hover {
+  background-color: #218838;
+}
+// .home-ad {
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   justify-content: center;
+//   min-height: 100vh;
+//   position: relative;
+
+//   .welcome-container {
+//     text-align: center;
+
+//     .animated-title {
+//       font-size: 2rem;
+//       margin-bottom: 1rem;
+//       animation: fadeIn 2s ease;
+//     }
+
+//     .logo-container {
+//       position: relative;
+//       animation: scaleUp 1s 2s forwards;
+
+//       img {
+//         max-width: 100px;
+//       }
+
+//       .eco-scout-text {
+//         position: absolute;
+//         top: 50%;
+//         left: 50%;
+//         transform: translate(-50%, -50%);
+//         font-size: 1.5rem;
+//         opacity: 0;
+//         animation: fadeIn 2s 3s forwards;
+//       }
+//     }
+//   }
+//   .button-join {
+//     // Style de base pour le bouton
+//     width: 40px;
+//     height: 40px;
+//     border-radius: 50%; // Pour créer un bouton rond
+//     background-color: white;
+//     border: 2px solid #ccc; // Bordure grise pour le contour
+//     display: flex;
+//     // Positionnement de la croix à l'intérieur du bouton
+
+
+//     position: relative;
+    
+//     // Style de la croix
+//     &::before,
+//     &::after {
+//       content: '';
+//       position: absolute;
+//       width: calc(100% - 10px); // La largeur de la croix est la largeur du bouton moins 10px de chaque côté pour s'assurer qu'elle reste entièrement visible
+//       height: 2px;
+//       background-color: #555; // Couleur de la croix
+//       top: 50%;
+//       left: 50%;
+//       transform: translate(-50%, -50%);
+//     }
+    
+//     &::before {
+//       transform: translate(-50%, -50%) rotate(45deg);
+//     }
+    
+//     &::after {
+//       transform: translate(-50%, -50%) rotate(-45deg);
+//     }
+//   }
+//   .buttons-container {
+//     position: absolute;
+//     right: 10px;
+//     bottom: 17px;
+
+//     button {
+//       padding: 8px 16px;
+//       margin-left: 10px;
+//       font-size: 0.8rem;
+//       border: none;
+//       border-radius: 4px;
+//       color: white;
+//       cursor: pointer;
+//       transition: background-color 0.3s, transform 0.3s;
+
+//       &:hover {
+//         transform: translateY(-2px);
+//       }
+
+//       &:active {
+//         transform: translateY(1px);
+//       }
+//     }
+
+//     .btn-deconnexion {
+//       background-color: #f44336; // Rouge pour la déconnexion
+
+//       &:hover {
+//         background-color: #e53935;
+//       }
+//     }
+
+//     .btn-changement {
+//       background-color: #2196f3; // Bleu pour le changement de profil
+
+//       &:hover {
+//         background-color: #1e88e5;
+//       }
+//     }
+//   }
+// }
+
+// @keyframes fadeIn {
+//   from {
+//     opacity: 0;
+//   }
+//   to {
+//     opacity: 1;
+//   }
+// }
+
+// @keyframes scaleUp {
+//   from {
+//     transform: scale(0);
+//   }
+//   to {
+//     transform: scale(1);
+//   }
+// }
