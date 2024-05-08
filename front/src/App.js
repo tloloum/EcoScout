@@ -10,7 +10,7 @@ import { ServerContextProvider } from "./contexts/Server";
 import Error404 from "./pages/Error404";
 import Events from "./pages/Events";
 import HomeAd from "./pages/HomeAd";
-import Profile from "./pages/Profile";
+// import Profile from "./pages/Profile";
 import Structures from "./pages/Structures";
 
 import Choose from "./pages/user/Choose";
@@ -77,7 +77,7 @@ const App = () => {
                 />
                 {/*################################*/}
                 {/*A enlever une fois que le bug de modification de profil sera terminé */}
-                <Route path="/profile" element={<Profile />} />{" "}
+                {/* <Route path="/profile" element={<Profile />} />{" "} */}
                 {/*Forme normale*/}
                 {/* <Route
                   path="/profile"
