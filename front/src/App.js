@@ -20,6 +20,7 @@ import Register from "./pages/user/Register";
 import RegisterAdherent from "./pages/user/RegisterAdherent";
 import RegisterEvent from "./pages/user/RegisterEvent";
 import RegisterStructure from "./pages/user/RegisterStructure";
+import Impact from "./pages/user/Impact";
 
 import HomeStruct from "./pages/HomeStruct";
 import JoinStructAd from "./pages/JoinStructAd";

@@ -61,17 +61,6 @@ const RegisterEvent = () => {
         date_creation: dateEvent,
       }),
     });
-    // const resultAdherent = await fetch(serverAddress + "user/create-adherent", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     Authorization: "Bearer " + myToken,
-    //   },
-    //   body: JSON.stringify({
-    //     nom_ad: nom,
-    //     prenom_ad: prenom,
-    //   }),
-    // });
 
     if (resultEvent.status !== 201) {
       console.log(resultEvent);
@@ -90,20 +79,13 @@ const RegisterEvent = () => {
         <label>
           Nom de l'évènement:
           <input
-            // {...register("name", {
-            //   required: "Ce champ est obligatoire",
-            // })}
             type="text"
             name="name"
             placeholder="insérer le nom de l'évènement'"
             value={nameEvent}
             onChange={handleNameEventChange}
           />
-          {/* {errors.location && (
-          <span className="errorMsg">{errors.name.message}</span>
-        )} */}
         </label>
-        {/* <p className="errorMsg">{errors.name?.message}</p> */}
         <br />
         <label>
           Description de l'évènement:
@@ -127,11 +109,7 @@ const RegisterEvent = () => {
             value={locationEvent}
             onChange={handlelocationEventChange}
           />
-          {/* {errors.location && (
-          <span className="errorMsg">{errors.location.message}</span>
-        )} */}
         </label>
-        {/* <p className="errorMsg">{errors.name?.message}</p> */}
         <br />
         <label>
           Date de formation:
@@ -156,37 +134,8 @@ const RegisterEvent = () => {
           />
         </label>
         <button type="submit">Créer</button>
-        {/* <br />
-        <div className="modalActions">
-          <div className="actionsContainer">
-            <button
-              type="submit"
-              className="submitBtn"
-              // onClick={EventSubmit(handleSubmit(onSubmit))}
-            >
-              Soumettre
-            </button>
-            <button
-            className="undoBtn"
-            onClick={handleUndo}
-          >
-            Annuler
-          </button>
-          </div>
-        </div> */}
       </form>
 
-      {/* <form onSubmit={handleSubmit}>
-        <label>
-          Nom :
-          <input type="text" value={nom} onChange={handleNomChange} />
-        </label>
-        <label>
-          Prénom :
-          <input type="text" value={prenom} onChange={handlePrenomChange} />
-        </label>
-        <button type="submit">Créer</button>
-      </form> */}
       <p>{ErreurMessage}</p>
     </div>
   );

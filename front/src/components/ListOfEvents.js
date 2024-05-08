@@ -86,7 +86,7 @@ const ListOfEvents = (props) => {
       return (
         <li>
           <button
-            className="choose-adherant-container"
+            className="choose-event-container"
             id="create-profile"
             onClick={() => navigate("/registerEvent")}
           ></button>
@@ -98,12 +98,12 @@ const ListOfEvents = (props) => {
   };
 
   return (
-    <div className="choose-adherant">
+    <div className="choose-event">
       <ul>
         {Events.map((Event) => (
           <li key={Event.id_structur}>
             <button
-              className="choose-adherant-container"
+              className="choose-event-container"
               onClick={() => {
                 setNameSt(Event.nom_Event);
                 setDateSt(Event.date_creation);
