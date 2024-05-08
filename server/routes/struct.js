@@ -152,7 +152,7 @@ router.delete("/delmembers/:id_p_struct", auth_struct, structCtrl.removeMember);
 
 // Rejoindre une structure par un adherent
 /**
- * @api {post} /:structureId/join Rejoindre une structure
+ * @api {post} /:structureId/join/:adherendId Rejoindre une structure
  * @apiName joinStruct
  * @apiGroup Structures
  *
@@ -161,7 +161,7 @@ router.delete("/delmembers/:id_p_struct", auth_struct, structCtrl.removeMember);
  *
  * @apiSuccess (201) {String} message Adhérent ajouté avec succès
  */
-router.post("/:structureId/join", auth_ad, structCtrl.joinStruct);
+router.post("/:structureId/join/:adherentId", auth_struct, structCtrl.joinStruct);
 /**
  * @api {post} /:structureId/leave Quitter une structure
  * @apiName leaveStruct

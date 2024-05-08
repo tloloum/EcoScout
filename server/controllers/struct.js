@@ -192,19 +192,37 @@ exports.removeMember = (req, res, next) => {
   });
 };
 
+// exports.joinStruct = (req, res, next) => {
+//   const adherentId = req.auth.adherentId;
+//   const structureId = parseInt(req.params.structureId, 10);
+//   const date_join = new Date().toISOString().slice(0, 19).replace("T", " ");
+//   const query = `INSERT INTO Participants_Struct (date_join, id_structure, id_adherent) VALUES ('${date_join}', '${structureId}', '${adherentId}')`;
+//   connection.query(query, (error, results, fields) => {
+//     if (error) {
+//       res.status(500).json({ error });
+//     } else {
+//       //Il faut rajouter le delete dans demande struct ici
+//       res
+//         .status(201)
+//         .json({ message: "Adherent added to structure successfully" });
+//     }
+//   });
+// };
+
+
 exports.joinStruct = (req, res, next) => {
-  const adherentId = req.auth.adherentId;
-  const structureId = parseInt(req.params.structureId, 10);
+  const structureId = parseInt(req.params.structureId,10);
+  const adherentId = parseInt(req.params.adherentId,10);
   const date_join = new Date().toISOString().slice(0, 19).replace("T", " ");
+  if(structureId!=req.auth.structureId){
+    return res.status(401).json({ message: "Unauthorized" });
+  }
   const query = `INSERT INTO Participants_Struct (date_join, id_structure, id_adherent) VALUES ('${date_join}', '${structureId}', '${adherentId}')`;
-  connection.query(query, (error, results, fields) => {
+  connection.query(query, (error, results, fielfds) => {
     if (error) {
       res.status(500).json({ error });
     } else {
-      //Il faut rajouter le delete dans demande struct ici
-      res
-        .status(201)
-        .json({ message: "Adherent added to structure successfully" });
+      res.status(201).json({ message: "Adherent added to structure successfully" });
     }
   });
 };

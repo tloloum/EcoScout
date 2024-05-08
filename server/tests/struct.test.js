@@ -194,9 +194,10 @@ describe("Structures API", () => {
     global.adherentToken = response_login.body.token;
 
     const structureId = 1;
+    const adherentId=1;
     const response_join = await request(app)
-      .post(`/structures/${structureId}/join`)
-      .set("Authorization", `Bearer ${adherentToken}`)
+      .post(`/structures/${structureId}/join/${adherentId}`)
+      .set("Authorization", `Bearer ${structureToken}`)
       .expect(201);
     expect(response_join.body).toHaveProperty(
       "message",
