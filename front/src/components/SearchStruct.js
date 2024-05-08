@@ -122,9 +122,7 @@ const SearchStruct = () => {
             ))}
         </div>
         {showForm && (
-        <form onSubmit={structureSubmit}>
-          <button type="submit">Rejoindre</button>
-        </form>
+          <button onClick={structureSubmit}>Rejoindre</button>
       )}
       <button onClick={back2profile}>
         Retour au profil

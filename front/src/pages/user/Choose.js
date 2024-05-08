@@ -14,10 +14,10 @@ const Choose = () => {
         <h2>Choisissez une structure</h2>
         <ListOfStructures buttonNew={true} />
       </div>
-      <div>
+      {/* <div>
         <h2>Choisissez un évènement</h2>
         <ListOfEvents buttonNew={true} />
-      </div>
+      </div> */}
     </div>
   );
 };
