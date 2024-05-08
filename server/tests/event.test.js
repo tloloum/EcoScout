@@ -88,8 +88,8 @@ describe("Event API", () => {
       });
     global.Structtoken = res6.body.token;
     const res7 = await request(app)
-        .post("/structures/1/join")
-        .set("Authorization", `Bearer ${Adherenttoken}`);
+        .post("/structures/1/join/1")
+        .set("Authorization", `Bearer ${Structtoken}`);
   });
 
   // Test de la création d'un événement
