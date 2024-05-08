@@ -1,13 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/Auth";
-import { AuthContextAd } from "../contexts/AuthAd";
+import { AuthAdContext } from "../contexts/AuthAd";
 import { AuthStContext } from "../contexts/AuthSt";
 import { ServerContext } from "../contexts/Server";
 
 const ListOfEvents = (props) => {
   const { myToken, myUserId } = useContext(AuthContext);
-  const { myAdToken, myAdId } = useContext(AuthContextAd);
+  const { myAdToken, myAdId } = useContext(AuthAdContext);
   const { myStructToken, myStructId } = useContext(AuthStContext);
   const { getServerAddress } = useContext(ServerContext);
 

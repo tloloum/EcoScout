@@ -1,14 +1,14 @@
 import React, { useContext, useState } from "react";
 import { RiCloseLine } from "react-icons/ri";
 import { AuthContext } from "../contexts/Auth";
-import { AuthContextAd } from "../contexts/AuthAd";
+import { AuthAdContext } from "../contexts/AuthAd";
 import { ServerContext } from "../contexts/Server";
 
 const JoinEvent = () => {
   const { getServerAddress } = useContext(ServerContext);
 
   const { myToken } = useContext(AuthContext);
-  const { myTokenAd } = useContext(AuthContextAd);
+  const { myTokenAd } = useContext(AuthAdContext);
   const [idEvent, setIdEvent] = useState("");
 
   const [showForm, setShowForm] = useState(false);
