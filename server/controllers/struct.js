@@ -247,17 +247,14 @@ exports.joinHierarchy = (req, res, next) => {
   }
 };
 
-exports.getStructsFromAdherent = (req, res, next) => {
+exports.getStructsFromAdherent = async (req, res, next) => {
   const adherentId = req.auth.adherentId;
-  if (adherentId !== req.auth.adherentId) {
-    return res.status(401).json({ message: "Unauthorized" });
-  }
   const select_query = `SELECT id_structure FROM Participants_Struct WHERE id_adherent = '${adherentId}'`;
-  const rows = utils.send_query_select(select_query);
+  const rows = await utils.send_query_select(select_query);
   let structures = [];
   for (let i = 0; i < rows.length; i++) {
-    const query = `SELECT nom_structure FROM Structur WHERE id_structur = '${rows[i].id_structure}'`;
-    const res = utils.send_query_select(query);
+    const query = `SELECT nom_structure, id_structur FROM Structur WHERE id_structur = '${rows[i].id_structure}'`;
+    const res = await utils.send_query_select(query);
     structures.push(res);
   }
   res.status(200).json(structures);
