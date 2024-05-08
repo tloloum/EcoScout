@@ -60,6 +60,17 @@ const Sidebar = () => {
           Rejoindre une structure
         </li>
       </ul>
+      <ul
+        className="user-actions-div"
+        onClick={() => {
+          // propose de se déconnecter ou de changer d'utilisateur
+          navigate("/choose");
+        }}
+      >
+        <li>
+          Changer d'utilisateur
+        </li>
+      </ul>
     </aside>
   );
 };
