@@ -7,7 +7,7 @@ import { ServerContext } from "../contexts/Server";
 const ListOfAdherents = (props) => {
   const { myToken, myUserId } = useContext(AuthContext);
   const { getServerAddress } = useContext(ServerContext);
-  const { setTokenAd, setUserIdAd, setAdherentId, loginAd, setFirstNameAd } =
+  const { setTokenAd, setUserIdAd, setAdherentId, loginAd, setFirstNameAd, myTokenAd} =
     useContext(AuthAdContext);
 
   const navigate = useNavigate();
@@ -85,7 +85,7 @@ const ListOfAdherents = (props) => {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + myToken,
+            Authorization: "Bearer " + myTokenAd,
           },
         }
       );
