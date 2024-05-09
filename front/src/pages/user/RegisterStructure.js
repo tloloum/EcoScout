@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/Auth";
 import { ServerContext } from "../../contexts/Server";
+import Sidebar from "../../components/Sidebar";
 
 const RegisterStructure = () => {
   const { myToken, myUserId } = useContext(AuthContext);
@@ -77,6 +78,7 @@ const RegisterStructure = () => {
 
   return (
     <div className="register-adherent">
+      <Sidebar />
       <h2>Création d'une structure</h2>
 
       <form onSubmit={handleSubmit}>

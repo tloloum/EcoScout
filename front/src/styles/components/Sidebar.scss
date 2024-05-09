@@ -77,13 +77,55 @@
     bottom: 80px; /* Adjust this value based on the button height */
 }
 
-.dropdown li {
-    padding: 10px;
-    cursor: pointer;
-    background-color: #34495e;
+// .dropdown li {
+//     padding: 10px;
+//     cursor: pointer;
+//     background-color: #34495e;
+// }
+
+// .dropdown li:hover {
+//     background-color: #3b4f6a;
+// }
+
+.manage-ad-str {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #2c3e50;
+  // text-align: left;
+  &:hover {
+    background-color: #2c3e50; /* Couleur de surbrillance */
+    box-shadow: None; /* Effet d'ombre au survol */
+  }
 }
 
-.dropdown li:hover {
-    background-color: #3b4f6a;
+.ad-add-button {
+  color: #22701b;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.ad-add-button h2.inline {
+  display: inline;
+  margin: 0;
+}
+
+.ad-add-button:hover {
+  color: #06610d;
+}
+
+.ad-suppr-button {
+  color: #c91313;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.ad-suppr-button h2.inline {
+  display: inline;
+  margin: 0;
+}
+
+.ad-suppr-button:hover {
+  color: rgb(95, 3, 3);
 }
 }

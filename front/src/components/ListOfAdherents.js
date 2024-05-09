@@ -103,26 +103,31 @@ const ListOfAdherents = (props) => {
     }
   };
 
-  const newAdherent = () => {
-    const buttonNew = props.buttonNew;
+  // const newAdherent = () => {
+  //   const buttonNew = props.buttonNew;
 
-    if (buttonNew === true) {
-      return (
-        <li
-            className="choose-adherant-container"
-            id="create-profile"
-            onClick={() => navigate("/registerAdherent")}
-          >
-            Ajouter un adhérent
-        </li>
-      );
-    } else {
-      return null;
-    }
-  };
+  //   if (buttonNew === true) {
+  //     return (
+  //       <li
+  //           className="choose-adherant-container"
+  //           id="create-profile"
+  //           onClick={() => navigate("/registerAdherent")}
+  //         >
+  //           Ajouter un adhérent
+  //       </li>
+  //     );
+  //   } else {
+  //     return null;
+  //   }
+  // };
 
   return (
     <>
+    <li className="manage-ad-str">
+        Adhérents 
+        <a  className="ad-add-button" onClick={() => navigate("/registerAdherent")}><h2>+</h2></a>
+        <a className="ad-suppr-button" onClick={() => console.log("moins")}><h2>-</h2></a>
+      </li>
       {adherents.map((adherent) => (
         <li key={adherent.id_adherent}
             className="choose-adherant-container"
@@ -144,7 +149,7 @@ const ListOfAdherents = (props) => {
             }
         </li>
       ))}
-      {newAdherent()}
+      {/* {newAdherent()} */}
     </>
   );
 };

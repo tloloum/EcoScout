@@ -86,17 +86,11 @@ const Sidebar = () => {
       </ul>
       {isDropdownOpen && (
         <ul className="dropdown drop-up">
+          
           <ListOfAdherents buttonNew={true} />
+          
           <ListOfStructures buttonNew={true} />
         </ul>
-        // <ul className="dropdown drop-up">
-        //   {ListOfAdherents(profiles)}
-        //     {/* {profiles.map((profile, index) => (
-        //         <li key={index}>
-        //             {profile.name}
-        //         </li>
-        //     ))} */}
-        // </ul>
       )}
     </aside>
   );

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/Auth";
 import { AuthAdContext } from "../../contexts/AuthAd";
 import { ServerContext } from "../../contexts/Server";
+import Sidebar from "../../components/Sidebar";
 
 const RegisterAdherent = () => {
   const { myToken, myUserId } = useContext(AuthContext);
@@ -56,6 +57,7 @@ const RegisterAdherent = () => {
 
   return (
     <div className="register-adherent">
+      <Sidebar />
       <h2>Création d'un adhérent</h2>
       <form onSubmit={handleSubmit}>
         <label>

@@ -88,40 +88,46 @@ const ListOfStructures = (props) => {
     }
   }
 
-  const newStructure = () => {
-    const buttonNew = props.buttonNew;
+  // const newStructure = () => {
+  //   const buttonNew = props.buttonNew;
 
-    if (buttonNew === true) {
-      return (
-        <li
-            className="choose-adherant-container"
-            id="create-profile"
-            onClick={() => navigate("/registerStructure")}
-          >
-            Nouvelle structure
-        </li>
-      );
-    } else {
-      return;
-    }
-  };
+  //   if (buttonNew === true) {
+  //     return (
+  //       <li
+  //         className="choose-adherant-container"
+  //         id="create-profile"
+  //         onClick={() => navigate("/registerStructure")}
+  //       >
+  //         Nouvelle structure
+  //       </li>
+  //     );
+  //   } else {
+  //     return;
+  //   }
+  // };
 
   return (
     <>
-        {structures.map((structure) => (
-          <li key={structure.id_structur}
-              className="choose-adherant-container"
-              onClick={() => {
-                setNameSt(structure.nom_structure);
-                setDateSt(structure.date_creation);
-                loginStructure(structure.id_structur);
-              }}
-            >
-              {structure.nom_structure}
-          </li>
-        ))}
-        {newStructure()}
-      </>
+      <li className="manage-ad-str">
+        Structures 
+        <a  className="ad-add-button" onClick={() => navigate("/registerStructure")}><h2>+</h2></a>
+        <a className="ad-suppr-button" onClick={() => console.log("moins")}><h2>-</h2></a>
+      </li>
+      {structures.map((structure) => (
+        <li
+          key={structure.id_structur}
+          className="choose-adherant-container"
+          onClick={() => {
+            setNameSt(structure.nom_structure);
+            setDateSt(structure.date_creation);
+            loginStructure(structure.id_structur);
+          }}
+        >
+          {structure.nom_structure}
+        </li>
+      ))}
+      {/* {newStructure()} */}
+    </>
   );
 };
 
