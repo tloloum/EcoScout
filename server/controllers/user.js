@@ -180,7 +180,7 @@ exports.updateAdherent = (req, res, next) => {
   if (!nom_ad || !prenom_ad) {
     return res.status(400).json({ message: "Missing required fields" });
   }
-  const update_query = `UPDATE Adherents SET nom_ad='${nom_ad}', prenom_ad='${prenom_ad}' WHERE id_user='${userId}'`;
+  const update_query = `UPDATE Adherents SET nom_ad='${nom_ad}', prenom_ad='${prenom_ad}' WHERE id_adherent='${adherentId}'`;
   utils.send_query_insert(
     update_query,
     res,
