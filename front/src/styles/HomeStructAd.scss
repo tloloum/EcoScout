@@ -1,70 +1,121 @@
 .home-struct-ad {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: calc(100% - 250px); /* Réduit de la largeur de la sidebar */
+  margin-left: 250px; /* Décalé de la largeur de la sidebar */
+
+  .content {
+    flex: 1;
+    width: 80%;
+    padding: 20px;
     display: flex;
-  
-    .content {
-      flex: 1;
-      padding: 20px;
-  
+    flex-direction: column;
+    align-items: center;
+
+    /* Section du nom de la structure */
+    .name {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: solid 2px #34495e;
+      background: #c1e0fe;
+      border-radius: 8px;
+      width: 100%;
+      margin-bottom: 30px;
+      padding: 10px;
+
       h1 {
-        margin-bottom: 20px;
+        margin: 0;
+        color: #34495e;
+        font-size: 24px;
       }
-  
-      .non-structure {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 30px;
-  
-        .impact-section,
-        .event-section {
-          flex: 1;
-          margin: 0 10px;
-  
-          h2 {
-            margin-bottom: 10px;
-          }
-  
-          ul {
-            list-style: none;
-            padding: 0;
-            margin: 0 0 10px 0;
-  
-            li {
-              margin-bottom: 5px;
-              background: #f0f0f0;
-              padding: 5px;
-              border-radius: 4px;
-            }
-          }
-  
-          input {
-            display: block;
-            width: 100%;
-            padding: 5px;
-            margin-bottom: 5px;
-          }
-  
-          button {
-            background-color: #4caf50;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 4px;
-            cursor: pointer;
-  
-            &:hover {
-              background-color: #45a049;
-            }
-          }
-        }
-      }
-  
-      .list-members {
+    }
+
+    /* Conteneur pour aligner impact et sections événement */
+    .impact-event-container {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      margin-bottom: 20px;
+
+      .impact-section,
+      .event-section {
+        flex: 1;
+        margin-right: 20px; /* Espacement entre les deux sections */
+        border: solid 2px #004d40; /* Couleur mise à jour */
+        background: #e0f2f1; /* Couleur de fond mise à jour */
+        border-radius: 8px;
+        padding: 20px;
+
         h2 {
           margin-bottom: 10px;
+          color: #004d40; /* Texte mis à jour */
+          font-size: 20px;
         }
-  
-        // Add your member list styles here
+
+        ul {
+          list-style: none;
+          padding: 0;
+          margin: 0 0 10px 0;
+
+          li {
+            margin-bottom: 5px;
+            background: #f0f0f0;
+            padding: 5px;
+            border-radius: 4px;
+          }
+        }
+
+        button {
+          background-color: #004d40; /* Bouton assorti */
+          color: white;
+          border: none;
+          padding: 8px 16px;
+          border-radius: 4px;
+          cursor: pointer;
+
+          &:hover {
+            background-color: #00796b; /* Variation survol */
+          }
+        }
+      }
+
+      /* Retirer la marge pour la dernière section */
+      .event-section {
+        margin-right: 0;
+      }
+    }
+
+    /* Liste des membres stylisée en bouton rond */
+    .list-members {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      background-color: #1976d2;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 80px;
+      height: 80px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+      h2 {
+        margin: 0;
+        font-size: 14px;
+        text-align: center;
+        padding: 5px;
+      }
+
+      &:hover {
+        background-color: #1565c0;
       }
     }
   }
-  
+}

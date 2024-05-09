@@ -50,7 +50,7 @@ const App = () => {
                 />
                 <Route path="/homead" element={<HomeAd />} />
                 <Route path="/homestruct" element={<HomeStruct />} />
-                <Route path="/homeStruct/:name" element={<HomeStructAd />} />
+                <Route path="/homeStruct/:name" element={<PrivateRoute component={<HomeStructAd />} />} />
                 <Route path="/join" element={<JoinStructAd />} />
                 <Route path="/demands" element={<SeeDemands />} />
                 <Route

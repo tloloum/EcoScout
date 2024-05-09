@@ -10,58 +10,77 @@ const HomeStructAd = () => {
   const { getServerAddress } = useContext(ServerContext);
   const { myTokenAd } = useContext(AuthAdContext);
   const { myToken } = useContext(AuthContext);
-  const [structInfo, setStructInfo] = useState({});
+  const [structInfo, setStructInfo] = useState(null); // Utilisez `null` pour l'initialisation
+  const [error, setError] = useState(null);
 
-  // Fetch structure info
-  const fetchStructuresInfo = async () => {
-    const serverAddress = getServerAddress();
-    const response = await fetch(
-      `${serverAddress}structures/searchstruct/${structName}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${myToken}`,
-        },
-      }
-    );
-    if (response.ok) {
-      const data = await response.json();
-      console.log(data);
-      setStructInfo(data);
-    } else {
-      console.error("Failed to fetch structures");
-    }
-  };
-
-  // Fetch info on component mount
   useEffect(() => {
-    fetchStructuresInfo();
-  }, [structName]);
+    async function getStructInfo() {
+      try {
+        const serverAddress = getServerAddress();
+        const resultStructInfo = await fetch(
+          `${serverAddress}structures/searchstruct/${structName}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${myTokenAd}`,
+            },
+          }
+        );
+
+        if (resultStructInfo.ok) {
+          const resultStructInfoContent = await resultStructInfo.json();
+          setStructInfo(resultStructInfoContent[0]);
+        } else {
+          console.log("Erreur lors de la récupération des informations de la structure");
+          setError("Erreur lors de la récupération des informations.");
+        }
+      } catch (err) {
+        console.error("Erreur :", err);
+        setError("Erreur lors de la récupération des informations.");
+      }
+    }
+    getStructInfo();
+  }, [myTokenAd, getServerAddress, structName]);
+
+  // Vérifiez l'état avant d'accéder aux propriétés
+  if (error) {
+    return (
+      <div className="home-struct-ad">
+        <Sidebar />
+        <div className="content">
+          <h1>Erreur</h1>
+          <p>{error}</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="home-struct-ad">
       <Sidebar />
       <div className="content">
-        <h1>{structInfo.nom_structure}</h1>
-        <div className="non-structure">
+        <div className="name">
+          <h1>{structInfo ? structInfo.nom_structure : "Chargement..."}</h1>
+        </div>
+        <div className="impact-event-container">
           <div className="impact-section">
             <h2>Impacts</h2>
             <ul>
-              Impact
-            </ul>  
+              Impact {/* Remplacez par les éléments appropriés */}
+            </ul>
             <button onClick={() => console.log("add impact")}>Rajouter un impact</button>
           </div>
           <div className="event-section">
             <h2>Events</h2>
             <ul>
-                Events
+              Events {/* Remplacez par les éléments appropriés */}
             </ul>
           </div>
         </div>
         <div className="list-members">
           <h2>Liste des membres</h2>
-          {/* Add your list of members here */}
+          {/* Ajoutez votre liste de membres ici */}
         </div>
       </div>
     </div>
