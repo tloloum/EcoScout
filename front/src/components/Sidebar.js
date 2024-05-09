@@ -72,6 +72,9 @@ const Sidebar = () => {
           Rejoindre une structure
         </li>
       </ul>
+      <ul>
+        <li onClick={() => navigate("/evenements")}>Mes évènements</li>
+      </ul>
       <ul
         className="user-actions-div"
         onClick={() => {

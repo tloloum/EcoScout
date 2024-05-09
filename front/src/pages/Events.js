@@ -11,11 +11,11 @@ const Evenements = () => {
     <div>
       <Navigation />
       <div className="evenement">
-        <h1>Evenements</h1>
+        <h1>Évènements</h1>
         <div className="event-container">
           <div className="event-top">{!isAuthenticated && <JoinEvent />}</div>
           <div className="evenement-bot">
-            <h2>Mes evenement</h2>
+            <h2>Mes évènements</h2>
             <ListOfEvents buttonNewEvent={false} />
           </div>
         </div>
