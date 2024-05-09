@@ -34,6 +34,8 @@ router.post("/create", auth_struct, eventCtrl.createEvent);
  * @apiError (500) {Object} error Erreur serveur
  */
 router.get("/struct/allevents", auth_struct, eventCtrl.getEventStruct);
+
+router.get("/allevents/:nom_structure", eventCtrl.getEventByStructure);
 /**
  * @api {get} /events/ad/:structureId Récupérer tous les événements d'une structure (depuis le token d'authentification adhérent appartenant à la structure)
  * @apiName getEventAd

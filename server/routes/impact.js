@@ -5,11 +5,6 @@ const router = express.Router();
 const impactCtrl = require('../controllers/impact')
 const auth_ad = require("../middleware/auth_ad");
 
-//Calcul d'impact d'un trajet
-//Entrée: type_moteur("E85", "essence", "gazole", "GNV", "GPL", "moyenne"), distance(en km), nombre_passagers, vehicule("Voiture" uniquement pour l'instant)
-//Sortie: consommation(en "kgCO2e")
-router.post("/calcul", impactCtrl.getImpact); 
-
 // Récupération de tous les impacts possible
 router.get("/allname", impactCtrl.getAllImpactName);
 

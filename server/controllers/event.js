@@ -81,6 +81,19 @@ exports.getEventStruct = (req, res, next) => {
   });
 };
 
+exports.getEventByStructure = (req, res, next) => {
+  const nom_structure = req.params.nom_structure;
+  const query = `SELECT * FROM Evenements WHERE id_evenement IN (SELECT id_evenement FROM Organisateurs WHERE id_structure = (SELECT id_structure FROM Structur WHERE nom_structure = '${nom_structure}'))`;
+  connection.query(query, (error, rows) => {
+    if (error) {
+      throw error;
+    } else {
+      res.status(200).json(rows);
+    }
+  }
+  );
+};
+
 exports.getEventAd = (req, res, next) => {
   if (!req.auth.adherentId) {
     return res.status(401).json({ message: "Unauthorized" });
