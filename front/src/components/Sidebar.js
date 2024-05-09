@@ -4,15 +4,10 @@ import { AuthAdContext } from "../contexts/AuthAd";
 import { ServerContext } from "../contexts/Server";
 
 const Sidebar = () => {
-  const [isOpen, setIsOpen] = useState(true);
+  // Supprimez l'état de `isOpen` car la sidebar sera toujours ouverte
   const [structures, setStructures] = useState([]);
   const { myTokenAd } = useContext(AuthAdContext);
   const { getServerAddress } = useContext(ServerContext);
-
-  const switchSidebar = () => {
-    setIsOpen(!isOpen);
-  };
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -43,18 +38,18 @@ const Sidebar = () => {
     getStructures();
   }, [myTokenAd, getServerAddress]);
 
+  // La sidebar reste toujours ouverte, supprimez `isOpen`
   return (
-    <aside className={`sidebar ${isOpen ? "open" : "closed"}`}>
-      <div className="toggle-button" onClick={switchSidebar}>
-        {isOpen ? "←" : "→"}
-      </div>
+    <aside className="sidebar open">
+      {/* Supprimez l'élément du bouton de basculement */}
       <ul>
         {structures.map((structure) => (
-          <li key={structure[0].id_structur} onClick={() => navigate("/homeStruct/" + structure[0].nom_structure)}>{structure[0].nom_structure}</li> // Utilisez un champ unique comme `key`
+          <li key={structure[0].id_structur} onClick={() => navigate("/homeStruct/" + structure[0].nom_structure)}>
+            {structure[0].nom_structure}
+          </li>
         ))}
       </ul>
       <ul>
-        {/* Ajoutez des clés uniques pour chaque élément */}
         <li key="join" onClick={() => navigate("/join")}>
           Rejoindre une structure
         </li>
@@ -62,13 +57,11 @@ const Sidebar = () => {
       <ul
         className="user-actions-div"
         onClick={() => {
-          // propose de se déconnecter ou de changer d'utilisateur
+          // Propose de se déconnecter ou de changer d'utilisateur
           navigate("/choose");
         }}
       >
-        <li>
-          Changer d'utilisateur
-        </li>
+        <li>Changer d'utilisateur</li>
       </ul>
     </aside>
   );
