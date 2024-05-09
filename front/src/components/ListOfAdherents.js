@@ -12,21 +12,16 @@ const ListOfAdherents = (props) => {
 
   const navigate = useNavigate();
   const [adherents, setAdherents] = useState([]);
-
   useEffect(() => {
     const serverAddress = getServerAddress();
 
-    // Partie recherche des Adherents
-
-    async function showAdherents() {
+    async function fetchAdherents() {
       if (!myToken || !myUserId) {
         return;
       }
 
-      console.log(serverAddress + "user/" + myUserId + "/adherents");
-
       const resultAdherent = await fetch(
-        serverAddress + "user/" + myUserId + "/adherents",
+        `${serverAddress}user/${myUserId}/adherents`,
         {
           method: "GET",
           headers: {
@@ -35,28 +30,27 @@ const ListOfAdherents = (props) => {
           },
         }
       );
-
       if (resultAdherent.status !== 200) {
         console.log("Erreur lors de la récupération des adhérents");
         return;
-      } else {
-        const resultAdherentContent = await resultAdherent.json();
-        // console.log(resultAdherentContent);
-        if (resultAdherentContent.length > 0) {
-          setAdherents(resultAdherentContent);
-          //sethaveAd(true);
-        }
+      }
+
+      const resultAdherentContent = await resultAdherent.json();
+      if (resultAdherentContent.length > 0) {
+        console.log("changing adherents");
+        console.log(resultAdherentContent);
+        setAdherents(resultAdherentContent);
       }
     }
-    showAdherents();
+
+    fetchAdherents();
   }, [getServerAddress, myToken, myUserId]);
 
-  async function loginAdherent(adherentId, prenom) {
+  const loginAdherent = async (adherentId, prenom) => {
     const serverAddress = getServerAddress();
-    console.log(serverAddress + "user/login-adherent");
 
     const resultLoginAdherent = await fetch(
-      serverAddress + "user/login-adherent",
+      `${serverAddress}user/login-adherent`,
       {
         method: "POST",
         headers: {
@@ -72,17 +66,43 @@ const ListOfAdherents = (props) => {
     if (resultLoginAdherent.status !== 200) {
       console.log("Erreur lors de la connexion de l'adhérent");
       return;
-    } else {
-      /* Les fonctions de AuthAd ne sont pas activé*/
-      const resultLoginAdherentContent = await resultLoginAdherent.json();
-      setTokenAd(resultLoginAdherentContent.token);
-      setUserIdAd(resultLoginAdherentContent.userId);
-      setFirstNameAd(prenom);
-      setAdherentId(adherentId);
-      loginAd();
-      navigate("/homead");
     }
-  }
+
+    const resultLoginAdherentContent = await resultLoginAdherent.json();
+    setTokenAd(resultLoginAdherentContent.token);
+    setUserIdAd(resultLoginAdherentContent.userId);
+    setFirstNameAd(prenom);
+    setAdherentId(adherentId);
+    loginAd();
+    navigate("/homead");
+  };
+
+  const handleDeleteAdherent = async (adherentId) => {
+    const serverAddress = getServerAddress();
+    if (window.confirm("Êtes-vous sûr de vouloir supprimer cet adhérent ?")) {
+      const result = await fetch(
+        `${serverAddress}user/${myUserId}/adherents/${adherentId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + myToken,
+          },
+        }
+      );
+      console.log(result.status);
+      if (result.status === 200) {
+        // Remove the deleted adherent from the local state
+        setAdherents((prevAdherents) =>
+          prevAdherents.filter(
+            (adherent) => adherent.id_adherent !== adherentId
+          )
+        );
+      } else {
+        console.log("Erreur lors de la suppression de l'adhérent");
+      }
+    }
+  };
 
   const newAdherent = () => {
     const buttonNew = props.buttonNew;
@@ -98,7 +118,7 @@ const ListOfAdherents = (props) => {
         </li>
       );
     } else {
-      return;
+      return null;
     }
   };
 
@@ -115,6 +135,14 @@ const ListOfAdherents = (props) => {
             >
               {adherent.nom_ad} {adherent.prenom_ad}
             </button>
+            <center>
+              <button
+                className="delete-button"
+                onClick={() => handleDeleteAdherent(adherent.id_adherent)}
+              >
+                Supprimer
+              </button>
+            </center>
           </li>
         ))}
         {newAdherent()}
