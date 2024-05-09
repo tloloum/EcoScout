@@ -1,0 +1,70 @@
+.home-struct-ad {
+    display: flex;
+  
+    .content {
+      flex: 1;
+      padding: 20px;
+  
+      h1 {
+        margin-bottom: 20px;
+      }
+  
+      .non-structure {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 30px;
+  
+        .impact-section,
+        .event-section {
+          flex: 1;
+          margin: 0 10px;
+  
+          h2 {
+            margin-bottom: 10px;
+          }
+  
+          ul {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 10px 0;
+  
+            li {
+              margin-bottom: 5px;
+              background: #f0f0f0;
+              padding: 5px;
+              border-radius: 4px;
+            }
+          }
+  
+          input {
+            display: block;
+            width: 100%;
+            padding: 5px;
+            margin-bottom: 5px;
+          }
+  
+          button {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+  
+            &:hover {
+              background-color: #45a049;
+            }
+          }
+        }
+      }
+  
+      .list-members {
+        h2 {
+          margin-bottom: 10px;
+        }
+  
+        // Add your member list styles here
+      }
+    }
+  }
+  
