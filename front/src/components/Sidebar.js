@@ -50,7 +50,7 @@ const Sidebar = () => {
       </div>
       <ul>
         {structures.map((structure) => (
-          <li key={structure[0].id_structur} onClick={() => navigate("/homeStruct/" + structure[0].id_structur)}>{structure[0].nom_structure}</li> // Utilisez un champ unique comme `key`
+          <li key={structure[0].id_structur} onClick={() => navigate("/homeStruct/" + structure[0].nom_structure)}>{structure[0].nom_structure}</li> // Utilisez un champ unique comme `key`
         ))}
       </ul>
       <ul>
