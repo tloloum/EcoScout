@@ -88,30 +88,24 @@ const ListOfStructures = (props) => {
     }
   }
 
-  // const newStructure = () => {
-  //   const buttonNew = props.buttonNew;
+  const handleDeleteStruct = async (scrutureId) => {
+  };
 
-  //   if (buttonNew === true) {
-  //     return (
-  //       <li
-  //         className="choose-adherant-container"
-  //         id="create-profile"
-  //         onClick={() => navigate("/registerStructure")}
-  //       >
-  //         Nouvelle structure
-  //       </li>
-  //     );
-  //   } else {
-  //     return;
-  //   }
-  // };
+  const [showMinus, setShowMinus] = useState(false);
+
+  const handleDeleteButton = () => {
+    // Afficher ou masquer le "-" après chaque nom d'adhérent
+    setShowMinus(prevShowMinus => !prevShowMinus);
+  };
+
+  const delButton =  (structure) => (<a className="ad-suppr-button" onClick={() => handleDeleteStruct(structure.id_adherent)}>-</a>)
 
   return (
     <>
       <li className="manage-ad-str">
         Structures 
-        <a  className="ad-add-button" onClick={() => navigate("/registerStructure")}><h2>+</h2></a>
-        <a className="ad-suppr-button" onClick={() => console.log("moins")}><h2>-</h2></a>
+        <a  className="ad-add-button" onClick={() => navigate("/registerStructure")}>+</a>
+        <a className="ad-suppr-button" onClick={() => handleDeleteButton()}>-</a>
       </li>
       {structures.map((structure) => (
         <li
@@ -123,7 +117,7 @@ const ListOfStructures = (props) => {
             loginStructure(structure.id_structur);
           }}
         >
-          {structure.nom_structure}
+          {structure.nom_structure} {showMinus && delButton(structure)}
         </li>
       ))}
       {/* {newStructure()} */}

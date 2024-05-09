@@ -103,30 +103,22 @@ const ListOfAdherents = (props) => {
     }
   };
 
-  // const newAdherent = () => {
-  //   const buttonNew = props.buttonNew;
 
-  //   if (buttonNew === true) {
-  //     return (
-  //       <li
-  //           className="choose-adherant-container"
-  //           id="create-profile"
-  //           onClick={() => navigate("/registerAdherent")}
-  //         >
-  //           Ajouter un adhérent
-  //       </li>
-  //     );
-  //   } else {
-  //     return null;
-  //   }
-  // };
+  const [showMinus, setShowMinus] = useState(false);
+
+  const handleDeleteButton = () => {
+    // Afficher ou masquer le "-" après chaque nom d'adhérent
+    setShowMinus(prevShowMinus => !prevShowMinus);
+  };
+
+  const delButton =  (adherent) => (<a className="ad-suppr-button" onClick={() => handleDeleteAdherent(adherent.id_adherent)}>-</a>)
 
   return (
     <>
     <li className="manage-ad-str">
         Adhérents 
-        <a  className="ad-add-button" onClick={() => navigate("/registerAdherent")}><h2>+</h2></a>
-        <a className="ad-suppr-button" onClick={() => console.log("moins")}><h2>-</h2></a>
+        <a  className="ad-add-button" onClick={() => navigate("/registerAdherent")}>+</a>
+        <a className="ad-suppr-button" onClick={() => handleDeleteButton()}>-</a>
       </li>
       {adherents.map((adherent) => (
         <li key={adherent.id_adherent}
@@ -135,18 +127,7 @@ const ListOfAdherents = (props) => {
               loginAdherent(adherent.id_adherent, adherent.prenom_ad);
             }}
           >
-            {adherent.nom_ad} {adherent.prenom_ad} {
-              props.buttonDelete && (
-                <button
-                  onClick={(event) => {
-                    event.stopPropagation();
-                    handleDeleteAdherent(adherent.id_adherent);
-                  }}
-                >
-                  Supprimer
-                </button>
-              )
-            }
+            {adherent.nom_ad} {adherent.prenom_ad} {showMinus && delButton(adherent)}
         </li>
       ))}
       {/* {newAdherent()} */}

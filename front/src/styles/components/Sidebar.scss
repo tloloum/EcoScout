@@ -86,7 +86,6 @@
 // .dropdown li:hover {
 //     background-color: #3b4f6a;
 // }
-
 .manage-ad-str {
   display: flex;
   align-items: center;
@@ -103,6 +102,7 @@
   color: #22701b;
   cursor: pointer;
   text-decoration: none;
+  padding: none;
 }
 
 .ad-add-button h2.inline {
@@ -115,6 +115,7 @@
 }
 
 .ad-suppr-button {
+  padding: none;
   color: #c91313;
   cursor: pointer;
   text-decoration: none;
