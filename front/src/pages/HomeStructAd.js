@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { AuthAdContext } from "../contexts/AuthAd";
 import { AuthContext } from "../contexts/Auth";
 import { ServerContext } from "../contexts/Server";
@@ -12,6 +13,8 @@ const HomeStructAd = () => {
   const { myToken } = useContext(AuthContext);
   const [structInfo, setStructInfo] = useState(null); // Utilisez `null` pour l'initialisation
   const [error, setError] = useState(null);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function getStructInfo() {
@@ -69,7 +72,7 @@ const HomeStructAd = () => {
             <ul>
               Impact {/* Remplacez par les éléments appropriés */}
             </ul>
-            <button onClick={() => console.log("add impact")}>Rajouter un impact</button>
+            <button onClick={() => navigate("/addImpact/" + structName)}>Rajouter un impact</button>
           </div>
           <div className="event-section">
             <h2>Events</h2>

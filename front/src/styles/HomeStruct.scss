@@ -5,6 +5,8 @@
     justify-content: center;
     min-height: 100vh;
     position: relative;
+    width: calc(100% - 250px); /* Réduit de la largeur de la sidebar */
+    margin-left: 250px; /* Décalé de la largeur de la sidebar */
   
     .welcome-container {
       text-align: center;

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { AuthStContext } from '../contexts/AuthSt';
 import { AuthContext } from '../contexts/Auth';
 import logo from '../assets/img/logo.jpeg';
+import Sidebar from '../components/Sidebar';
 
 //page de l'admin de la structure
 const HomeStruct = () => {
@@ -28,6 +29,7 @@ const HomeStruct = () => {
     }
     return (
         <div className='home-st'>
+            <Sidebar />
             {isAuthenticatedSt}
             <div className="welcome-container">
                 <h1 className="animated-title">Connecté en tant que {nameSt}</h1>

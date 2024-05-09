@@ -1,0 +1,8 @@
+.add-impact {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: calc(100% - 250px); /* Réduit de la largeur de la sidebar */
+    margin-left: 250px; /* Décalé de la largeur de la sidebar */
+}  
