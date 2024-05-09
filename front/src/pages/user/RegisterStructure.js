@@ -71,7 +71,7 @@ const RegisterStructure = () => {
       setErreurMessage("Erreur lors de la création de la structure");
       return;
     } else {
-      navigate("/choose");
+      navigate("/homestruct");
     }
   }
 

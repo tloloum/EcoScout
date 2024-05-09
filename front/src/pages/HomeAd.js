@@ -52,7 +52,7 @@ const Profile = () => {
 
   useEffect(() => {
     showInfos();
-  }, [myToken, myUserId]);
+  }, [myTokenAd, myUserId, myToken]);
 
   const handleClick = () => {
     setShowForm(true);

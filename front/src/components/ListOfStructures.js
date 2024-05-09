@@ -93,12 +93,12 @@ const ListOfStructures = (props) => {
 
     if (buttonNew === true) {
       return (
-        <li>
-          <button
+        <li
             className="choose-adherant-container"
             id="create-profile"
             onClick={() => navigate("/registerStructure")}
-          ></button>
+          >
+            Nouvelle structure
         </li>
       );
     } else {
@@ -107,11 +107,9 @@ const ListOfStructures = (props) => {
   };
 
   return (
-    <div className="choose-adherant">
-      <ul>
+    <>
         {structures.map((structure) => (
-          <li key={structure.id_structur}>
-            <button
+          <li key={structure.id_structur}
               className="choose-adherant-container"
               onClick={() => {
                 setNameSt(structure.nom_structure);
@@ -120,13 +118,10 @@ const ListOfStructures = (props) => {
               }}
             >
               {structure.nom_structure}
-            </button>
           </li>
         ))}
-
         {newStructure()}
-      </ul>
-    </div>
+      </>
   );
 };
 

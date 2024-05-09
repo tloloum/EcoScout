@@ -130,15 +130,18 @@ const ListOfAdherents = (props) => {
               loginAdherent(adherent.id_adherent, adherent.prenom_ad);
             }}
           >
-            {adherent.nom_ad} {adherent.prenom_ad}
-          {/* <center>
-            <button
-              className="delete-button"
-              onClick={() => handleDeleteAdherent(adherent.id_adherent)}
-            >
-              Supprimer
-            </button>
-          </center> */}
+            {adherent.nom_ad} {adherent.prenom_ad} {
+              props.buttonDelete && (
+                <button
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    handleDeleteAdherent(adherent.id_adherent);
+                  }}
+                >
+                  Supprimer
+                </button>
+              )
+            }
         </li>
       ))}
       {newAdherent()}

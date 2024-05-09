@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthAdContext } from "../contexts/AuthAd";
 import { ServerContext } from "../contexts/Server";
 import ListOfAdherents from "./ListOfAdherents";
+import ListOfStructures from "./ListOfStructures";
 
 const Sidebar = () => {
   // Supprimez l'état de `isOpen` car la sidebar sera toujours ouverte
@@ -31,9 +32,7 @@ const Sidebar = () => {
         return;
       } else {
         const resultStructuresContent = await resultStructures.json();
-        if (resultStructuresContent.length > 0) {
-          setStructures(resultStructuresContent);
-        }
+        setStructures(resultStructuresContent);
       }
     }
     getStructures();
@@ -87,17 +86,18 @@ const Sidebar = () => {
       </ul>
       {isDropdownOpen && (
         <ul className="dropdown drop-up">
-        <ListOfAdherents buttonNew={true} />
-      </ul>
-                // <ul className="dropdown drop-up">
-                //   {ListOfAdherents(profiles)}
-                //     {/* {profiles.map((profile, index) => (
-                //         <li key={index}>
-                //             {profile.name}
-                //         </li>
-                //     ))} */}
-                // </ul>
-            )}
+          <ListOfAdherents buttonNew={true} />
+          <ListOfStructures buttonNew={true} />
+        </ul>
+        // <ul className="dropdown drop-up">
+        //   {ListOfAdherents(profiles)}
+        //     {/* {profiles.map((profile, index) => (
+        //         <li key={index}>
+        //             {profile.name}
+        //         </li>
+        //     ))} */}
+        // </ul>
+      )}
     </aside>
   );
 };
