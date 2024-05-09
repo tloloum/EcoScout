@@ -48,7 +48,7 @@ const Login = () => {
       setUserId(resultTokenContent.userId);
       setToken(resultTokenContent.token);
       login(email, password);
-      navigate("/choose");
+      navigate("/homead");
     }
   }
 
