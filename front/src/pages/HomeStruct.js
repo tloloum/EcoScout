@@ -39,10 +39,7 @@ const HomeStruct = () => {
                 </div>
                 <button onClick={() => navigate('/demands')}>Demande(s) en attente</button>
 
-                <div className="buttons-container">
-                    <button onClick={deco} className="btn-deconnexion">Déconnexion</button>
-                    <button onClick={switchProfil} className="btn-changement">Choisir un autre adhérent/structure</button>
-                </div>
+                <button onClick={() => navigate('/addEvent')}>Ajouter un événement</button>
             </div>
         </div>
     )
