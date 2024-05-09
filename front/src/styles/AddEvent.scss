@@ -1,0 +1,73 @@
+// Variables
+$sidebar-width: 250px;
+$primary-color: #3498db;
+$button-hover-color: #2980b9;
+$error-color: #e74c3c;
+$content-background: #34495e;
+$text-color: #ecf0f1;
+
+// Stylisation générale de la page
+.add-event {
+  display: flex;
+  margin-left: $sidebar-width; // Prend en compte la largeur de la sidebar
+  padding: 20px;
+  flex-direction: column;
+  min-height: 100vh;
+  color: $text-color;
+
+  .content {
+    width: 80%;
+    margin: auto;
+    background-color: $content-background;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 20px;
+      color: $text-color;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+
+      label {
+        margin-bottom: 15px;
+        font-size: 16px;
+        color: $text-color;
+
+        input {
+          margin-top: 5px;
+          width: 100%;
+          padding: 8px;
+          border: 1px solid #b0bec5;
+          border-radius: 6px;
+          background-color: #f0f0f0;
+          color: #2c3e50;
+        }
+      }
+
+      button {
+        background-color: $primary-color;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        margin-top: 20px;
+
+        &:hover {
+          background-color: $button-hover-color;
+        }
+      }
+    }
+
+    p {
+      color: $error-color;
+      margin-top: 15px;
+    }
+  }
+}

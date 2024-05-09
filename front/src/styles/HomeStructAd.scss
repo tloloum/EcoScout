@@ -13,23 +13,28 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre portée globale */
+    border-radius: 12px;
+    background: white;
 
     /* Section du nom de la structure */
     .name {
       display: flex;
       align-items: center;
       justify-content: center;
-      border: solid 2px #34495e;
-      background: #c1e0fe;
-      border-radius: 8px;
+      border: solid 2px #2c3e50;
+      background: #d7e8ff;
+      border-radius: 12px;
       width: 100%;
       margin-bottom: 30px;
-      padding: 10px;
+      padding: 15px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
       h1 {
         margin: 0;
-        color: #34495e;
-        font-size: 24px;
+        color: #2c3e50;
+        font-size: 28px;
+        font-family: 'Arial', sans-serif;
       }
     }
 
@@ -44,27 +49,69 @@
       .event-section {
         flex: 1;
         margin-right: 20px; /* Espacement entre les deux sections */
-        border: solid 2px #004d40; /* Couleur mise à jour */
+        border: solid 2px #00796b; /* Couleur mise à jour */
         background: #e0f2f1; /* Couleur de fond mise à jour */
-        border-radius: 8px;
+        border-radius: 12px;
         padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre portée */
+        max-height: 48vh; /* Limite la hauteur à la moitié de la page */
+        overflow-y: auto; /* Ajoute le défilement vertical */
+        padding-top: 0px;
 
-        h2 {
+        .title {
+          position: sticky; /* Titre sticky */
+          top: 0;
+          background-color: #e0f2f1; /* Fond collant */
           margin-bottom: 10px;
-          color: #004d40; /* Texte mis à jour */
-          font-size: 20px;
+          padding: 0.5px;
+          padding-left: 35%;
+          border-bottom: solid 2px #00796b; /* Délimitation du titre */
+          color: #004d40;
+          font-family: 'Arial', sans-serif;
         }
 
-        ul {
-          list-style: none;
-          padding: 0;
-          margin: 0 0 10px 0;
+        .event-list {
+          overflow-y: hidden;
+          ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
 
-          li {
-            margin-bottom: 5px;
-            background: #f0f0f0;
-            padding: 5px;
-            border-radius: 4px;
+            li {
+              margin-bottom: 10px;
+              background: #f9f9f9; /* Couleur des lignes */
+              padding: 10px;
+              border-radius: 8px;
+              cursor: pointer;
+              box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Légère ombre portée */
+
+              &:hover {
+                background: #e0e0e0; /* Survol */
+              }
+
+              .event-title {
+                display: flex;
+                justify-content: space-between;
+                align-items: center; /* Assure l'alignement vertical */
+                width: 100%; /* Utilise toute la largeur disponible */
+
+                h3 {
+                  margin: 0;
+                  color: #2c3e50;
+                }
+
+                span {
+                  color: #2c3e50;
+                  font-weight: bold;
+                }
+              }
+
+              .event-details {
+                margin: 10px;
+
+                padding: 10px;
+              }
+            }
           }
         }
 
@@ -72,9 +119,11 @@
           background-color: #004d40; /* Bouton assorti */
           color: white;
           border: none;
-          padding: 8px 16px;
-          border-radius: 4px;
+          padding: 10px 20px;
+          border-radius: 8px;
           cursor: pointer;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Ombre portée */
+          font-family: 'Arial', sans-serif;
 
           &:hover {
             background-color: #00796b; /* Variation survol */
@@ -104,13 +153,14 @@
       align-items: center;
       cursor: pointer;
       text-align: center;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Ombre portée */
 
       h2 {
         margin: 0;
         font-size: 14px;
         text-align: center;
         padding: 5px;
+        font-family: 'Arial', sans-serif;
       }
 
       &:hover {

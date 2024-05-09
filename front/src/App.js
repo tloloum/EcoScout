@@ -23,6 +23,7 @@ import RegisterStructure from "./pages/user/RegisterStructure";
 import HomeStructAd from "./pages/HomeStructAd";
 import Impact from "./pages/user/Impact";
 import AddImpact from "./pages/AddImpact";
+import AddEvent from "./pages/AddEvent";
 
 import HomeStruct from "./pages/HomeStruct";
 import JoinStructAd from "./pages/JoinStructAd";
@@ -82,6 +83,11 @@ const App = () => {
                 <Route
                   path="/addImpact/:structName"
                   element={<PrivateRoute component={<AddImpact />} />}
+                />
+
+                <Route
+                  path="/addEvent"
+                  element={<PrivateRoute component={<AddEvent />} />}
                 />
                 {/*################################*/}
                 {/*A enlever une fois que le bug de modification de profil sera terminé */}
