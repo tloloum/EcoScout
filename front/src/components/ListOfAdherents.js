@@ -12,6 +12,7 @@ const ListOfAdherents = (props) => {
 
   const navigate = useNavigate();
   const [adherents, setAdherents] = useState([]);
+  
   useEffect(() => {
     const serverAddress = getServerAddress();
 
@@ -37,8 +38,6 @@ const ListOfAdherents = (props) => {
 
       const resultAdherentContent = await resultAdherent.json();
       if (resultAdherentContent.length > 0) {
-        console.log("changing adherents");
-        console.log(resultAdherentContent);
         setAdherents(resultAdherentContent);
       }
     }
@@ -109,12 +108,12 @@ const ListOfAdherents = (props) => {
 
     if (buttonNew === true) {
       return (
-        <li>
-          <button
+        <li
             className="choose-adherant-container"
             id="create-profile"
             onClick={() => navigate("/registerAdherent")}
-          ></button>
+          >
+            Ajouter un adhérent
         </li>
       );
     } else {
@@ -123,31 +122,27 @@ const ListOfAdherents = (props) => {
   };
 
   return (
-    <div className="choose-adherant">
-      <ul>
-        {adherents.map((adherent) => (
-          <li key={adherent.id_adherent}>
+    <>
+      {adherents.map((adherent) => (
+        <li key={adherent.id_adherent}
+            className="choose-adherant-container"
+            onClick={() => {
+              loginAdherent(adherent.id_adherent, adherent.prenom_ad);
+            }}
+          >
+            {adherent.nom_ad} {adherent.prenom_ad}
+          {/* <center>
             <button
-              className="choose-adherant-container"
-              onClick={() => {
-                loginAdherent(adherent.id_adherent, adherent.prenom_ad);
-              }}
+              className="delete-button"
+              onClick={() => handleDeleteAdherent(adherent.id_adherent)}
             >
-              {adherent.nom_ad} {adherent.prenom_ad}
+              Supprimer
             </button>
-            <center>
-              <button
-                className="delete-button"
-                onClick={() => handleDeleteAdherent(adherent.id_adherent)}
-              >
-                Supprimer
-              </button>
-            </center>
-          </li>
-        ))}
-        {newAdherent()}
-      </ul>
-    </div>
+          </center> */}
+        </li>
+      ))}
+      {newAdherent()}
+    </>
   );
 };
 

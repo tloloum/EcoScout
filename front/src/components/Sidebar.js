@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthAdContext } from "../contexts/AuthAd";
 import { ServerContext } from "../contexts/Server";
+import ListOfAdherents from "./ListOfAdherents";
 
 const Sidebar = () => {
   // Supprimez l'état de `isOpen` car la sidebar sera toujours ouverte
@@ -38,13 +39,30 @@ const Sidebar = () => {
     getStructures();
   }, [myTokenAd, getServerAddress]);
 
+  //Récupérer les adhérents et structures de l'utilisateur
+  const profiles = [
+    { name: "Profil 1", fullName: "Jean Dupont" },
+    { name: "Profil 2", fullName: "Marie Curie" },
+    { name: "Profil 3", fullName: "Isaac Newton" },
+  ];
+  const [isDropdownOpen, setDropdownOpen] = useState(false);
+
+  const toggleDropdown = () => {
+    setDropdownOpen(!isDropdownOpen);
+  };
+
   // La sidebar reste toujours ouverte, supprimez `isOpen`
   return (
     <aside className="sidebar open">
       {/* Supprimez l'élément du bouton de basculement */}
       <ul>
         {structures.map((structure) => (
-          <li key={structure[0].id_structur} onClick={() => navigate("/homeStruct/" + structure[0].nom_structure)}>
+          <li
+            key={structure[0].id_structur}
+            onClick={() =>
+              navigate("/homeStruct/" + structure[0].nom_structure)
+            }
+          >
             {structure[0].nom_structure}
           </li>
         ))}
@@ -57,12 +75,26 @@ const Sidebar = () => {
       <ul
         className="user-actions-div"
         onClick={() => {
+          toggleDropdown();
           // Propose de se déconnecter ou de changer d'utilisateur
-          navigate("/choose");
+          // navigate("/choose");
         }}
       >
-        <li>Changer d'utilisateur</li>
+        <li>Utilisateur</li>
       </ul>
+      {isDropdownOpen && (
+        <ul className="dropdown drop-up">
+        <ListOfAdherents buttonNew={true} />
+      </ul>
+                // <ul className="dropdown drop-up">
+                //   {ListOfAdherents(profiles)}
+                //     {/* {profiles.map((profile, index) => (
+                //         <li key={index}>
+                //             {profile.name}
+                //         </li>
+                //     ))} */}
+                // </ul>
+            )}
     </aside>
   );
 };

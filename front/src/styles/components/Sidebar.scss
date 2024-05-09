@@ -57,4 +57,33 @@
       }
     }
   }
+
+  .dropdown-container {
+    position: relative;
+}
+
+.dropdown {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    background-color: #34495e;
+    border: 1px solid #3b4f6a;
+    position: absolute;
+    width: 100%;
+    z-index: 1000;
+}
+
+.drop-up {
+    bottom: 80px; /* Adjust this value based on the button height */
+}
+
+.dropdown li {
+    padding: 10px;
+    cursor: pointer;
+    background-color: #34495e;
+}
+
+.dropdown li:hover {
+    background-color: #3b4f6a;
+}
 }
