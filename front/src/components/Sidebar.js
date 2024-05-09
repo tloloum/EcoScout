@@ -44,7 +44,12 @@ const Sidebar = () => {
       {/* Supprimez l'élément du bouton de basculement */}
       <ul>
         {structures.map((structure) => (
-          <li key={structure[0].id_structur} onClick={() => navigate("/homeStruct/" + structure[0].nom_structure)}>
+          <li
+            key={structure[0].id_structur}
+            onClick={() =>
+              navigate("/homeStruct/" + structure[0].nom_structure)
+            }
+          >
             {structure[0].nom_structure}
           </li>
         ))}
@@ -53,6 +58,9 @@ const Sidebar = () => {
         <li key="join" onClick={() => navigate("/join")}>
           Rejoindre une structure
         </li>
+      </ul>
+      <ul>
+        <li onClick={() => navigate("/evenements")}>Mes évènements</li>
       </ul>
       <ul
         className="user-actions-div"
