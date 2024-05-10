@@ -130,7 +130,7 @@ const HomeStructAd = () => {
                     <div className="event-title">
                       <h3>{event.nom_evenement}</h3>
                       <span>{event.date_debut.slice(0, 10)}</span>
-                    </div>
+                    </div>gp
                     {event.isOpen && (
                       <div className="event-details">
                         <p>Description : {event.descr}</p>
