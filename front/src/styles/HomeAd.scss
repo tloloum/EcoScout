@@ -111,132 +111,33 @@ input[type="text"] {
 .submitBtn:hover {
   background-color: #218838;
 }
-// .home-ad {
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   justify-content: center;
-//   min-height: 100vh;
-//   position: relative;
 
-//   .welcome-container {
-//     text-align: center;
+/* App.css or your main stylesheet */
+.profile-header {
+  display: grid; /* Use grid layout */
+  grid-template-columns: 1fr auto; /* 1fr (title) + auto (button) */
+  align-items: center; /* Align items vertically in the center */
+  gap: 10px; /* Optional: space between elements */
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background-color: none;
+}
 
-//     .animated-title {
-//       font-size: 2rem;
-//       margin-bottom: 1rem;
-//       animation: fadeIn 2s ease;
-//     }
+.profile-title {
+  margin: 0; /* Removes default margin from h1 */
+}
 
-//     .logo-container {
-//       position: relative;
-//       animation: scaleUp 1s 2s forwards;
+.edit-profile-button {
+  padding: 8px 16px;
+  background-color: #b5c9df;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
 
-//       img {
-//         max-width: 100px;
-//       }
-
-//       .eco-scout-text {
-//         position: absolute;
-//         top: 50%;
-//         left: 50%;
-//         transform: translate(-50%, -50%);
-//         font-size: 1.5rem;
-//         opacity: 0;
-//         animation: fadeIn 2s 3s forwards;
-//       }
-//     }
-//   }
-//   .button-join {
-//     // Style de base pour le bouton
-//     width: 40px;
-//     height: 40px;
-//     border-radius: 50%; // Pour créer un bouton rond
-//     background-color: white;
-//     border: 2px solid #ccc; // Bordure grise pour le contour
-//     display: flex;
-//     // Positionnement de la croix à l'intérieur du bouton
-
-
-//     position: relative;
-    
-//     // Style de la croix
-//     &::before,
-//     &::after {
-//       content: '';
-//       position: absolute;
-//       width: calc(100% - 10px); // La largeur de la croix est la largeur du bouton moins 10px de chaque côté pour s'assurer qu'elle reste entièrement visible
-//       height: 2px;
-//       background-color: #555; // Couleur de la croix
-//       top: 50%;
-//       left: 50%;
-//       transform: translate(-50%, -50%);
-//     }
-    
-//     &::before {
-//       transform: translate(-50%, -50%) rotate(45deg);
-//     }
-    
-//     &::after {
-//       transform: translate(-50%, -50%) rotate(-45deg);
-//     }
-//   }
-//   .buttons-container {
-//     position: absolute;
-//     right: 10px;
-//     bottom: 17px;
-
-//     button {
-//       padding: 8px 16px;
-//       margin-left: 10px;
-//       font-size: 0.8rem;
-//       border: none;
-//       border-radius: 4px;
-//       color: white;
-//       cursor: pointer;
-//       transition: background-color 0.3s, transform 0.3s;
-
-//       &:hover {
-//         transform: translateY(-2px);
-//       }
-
-//       &:active {
-//         transform: translateY(1px);
-//       }
-//     }
-
-//     .btn-deconnexion {
-//       background-color: #f44336; // Rouge pour la déconnexion
-
-//       &:hover {
-//         background-color: #e53935;
-//       }
-//     }
-
-//     .btn-changement {
-//       background-color: #2196f3; // Bleu pour le changement de profil
-
-//       &:hover {
-//         background-color: #1e88e5;
-//       }
-//     }
-//   }
-// }
-
-// @keyframes fadeIn {
-//   from {
-//     opacity: 0;
-//   }
-//   to {
-//     opacity: 1;
-//   }
-// }
-
-// @keyframes scaleUp {
-//   from {
-//     transform: scale(0);
-//   }
-//   to {
-//     transform: scale(1);
-//   }
-// }
+.edit-profile-button:hover {
+  background-color: #eea57a;
+}

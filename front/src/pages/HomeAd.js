@@ -4,7 +4,7 @@ import { RiCloseLine } from "react-icons/ri";
 import { AuthContext } from "../contexts/Auth";
 import { AuthAdContext } from "../contexts/AuthAd";
 import { ServerContext } from "../contexts/Server";
-import Sidebar from '../components/Sidebar';
+import Sidebar from "../components/Sidebar";
 
 const Profile = () => {
   const { myToken, myUserId } = useContext(AuthContext);
@@ -92,13 +92,16 @@ const Profile = () => {
           }),
         }
       );
-  
+
       if (!resultToken.ok) {
-        console.log(myToken)
-        console.error("Erreur lors de la mise à jour du profil, code d'erreur:", resultToken.status);
+        console.log(myToken);
+        console.error(
+          "Erreur lors de la mise à jour du profil, code d'erreur:",
+          resultToken.status
+        );
         return;
       }
-  
+
       const resultModificationContent = await resultToken.json();
       console.log(resultModificationContent);
       setShowForm(false);
@@ -108,75 +111,91 @@ const Profile = () => {
     }
     navigate("/homead");
   }
-  
 
   return (
-    <div className="container">
+    <div className="home-struct-ad">
       <Sidebar />
-      <div className="profil">
-        <h1>Profil</h1>
-        <div className="profil-container">
-          <div className="profil-presentation">
-            <p>Nom : {Name}</p>
-            <p>Prenom : {FirstName}</p>
+      <div className="content">
+        <div className="name">
+          <div className="profile-header">
+            <h1 className="profile-title">
+              {FirstName} {Name}
+            </h1>
+            <button className="edit-profile-button" onClick={handleClick}>
+              Modifier
+            </button>
           </div>
-        </div>
-        <button onClick={handleClick}>Mettre à jour les informations</button>
-        {showForm && (
-          <>
-            <div className="darkBG" />
-            <div className="centered">
-              <div className="modal">
-                <div className="modalHeader">
-                  <h5 className="heading">Modifier les informations du profil</h5>
-                </div>
-                <button
-                  className="closeBtn"
-                  onClick={() => setShowForm(false)}
-                >
-                  <RiCloseLine style={{ marginBottom: "-3px" }} />
-                </button>
-                <div className="modalContent">
-                  <form onSubmit={updateInfos}>
-                    <label>
-                      Nouveau nom :
-                      <input
-                        type="text"
-                        name="myName"
-                        placeholder="Insérer le nom"
-                        value={newName}
-                        onChange={handleNameChange}
-                      />
-                    </label>
-                    <br />
-                    <label>
-                      Nouveau prenom :
-                      <input
-                        type="text"
-                        name="myFirstName"
-                        placeholder="Insérer le prénom"
-                        value={newFirstName}
-                        onChange={handleFirstNameChange}
-                      />
-                    </label>
-                    <br />
-                    <div className="modalActions">
-                      <div className="actionsContainer">
-                        <button type="submit" className="submitBtn">
-                          Soumettre
-                        </button>
+          {showForm && (
+            <>
+              <div className="darkBG" />
+              <div className="centered">
+                <div className="modal">
+                  <div className="modalHeader">
+                    <h5 className="heading">
+                      Modifier les informations du profil
+                    </h5>
+                  </div>
+                  <button
+                    className="closeBtn"
+                    onClick={() => setShowForm(false)}
+                  >
+                    <RiCloseLine style={{ marginBottom: "-3px" }} />
+                  </button>
+                  <div className="modalContent">
+                    <form onSubmit={updateInfos}>
+                      <label>
+                        Nouveau nom :
+                        <input
+                          type="text"
+                          name="myName"
+                          placeholder="Insérer le nom"
+                          value={newName}
+                          onChange={handleNameChange}
+                        />
+                      </label>
+                      <br />
+                      <label>
+                        Nouveau prenom :
+                        <input
+                          type="text"
+                          name="myFirstName"
+                          placeholder="Insérer le prénom"
+                          value={newFirstName}
+                          onChange={handleFirstNameChange}
+                        />
+                      </label>
+                      <br />
+                      <div className="modalActions">
+                        <div className="actionsContainer">
+                          <button type="submit" className="submitBtn">
+                            Soumettre
+                          </button>
+                        </div>
                       </div>
-                    </div>
-                  </form>
+                    </form>
+                  </div>
                 </div>
               </div>
+            </>
+          )}
+        </div>
+        <div className="impact-event-container">
+          <div className="impact-section">
+            <div className="title">
+              <h2>Statistiques</h2>
             </div>
-          </>
-        )}
+            TODO: Rajouter les statistiques ici
+          </div>
+          <div className="event-section">
+            <div className="title">
+              <h2>Badges</h2>
+            </div>
+            TODO: Rajouter les badges ici
+          </div>
+        </div>
       </div>
     </div>
   );
 };
 
 export default Profile;
-
