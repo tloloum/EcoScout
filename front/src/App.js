@@ -22,7 +22,7 @@ import RegisterEvent from "./pages/user/RegisterEvent";
 import RegisterStructure from "./pages/user/RegisterStructure";
 import HomeStructAd from "./pages/HomeStructAd";
 import Impact from "./pages/user/Impact";
-import AddImpact from "./pages/AddImpact";
+import AddImpactPage from "./pages/AddImpactPage";
 import AddEvent from "./pages/AddEvent";
 
 import HomeStruct from "./pages/HomeStruct";
@@ -82,11 +82,11 @@ const App = () => {
 
                 <Route
                   path="/addImpact/:structName"
-                  element={<PrivateRoute component={<AddImpact />} />}
+                  element={<PrivateRoute component={<AddImpactPage />} />}
                 />
 
                 <Route
-                  path="/addEvent"
+                  path="/addEvent/:structName"
                   element={<PrivateRoute component={<AddEvent />} />}
                 />
                 {/*################################*/}
