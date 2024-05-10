@@ -126,6 +126,47 @@ const ListOfAdherents = (props) => {
     </a>
   );
 
+  const [isFirstRender, setIsFirstRender] = useState(true);
+
+  useEffect(() => {
+    const serverAddress = getServerAddress();
+
+    async function fetchAdherents() {
+      if (!myToken || !myUserId) {
+        return;
+      }
+
+      const resultAdherent = await fetch(
+        `${serverAddress}user/${myUserId}/adherents`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + myToken,
+          },
+        }
+      );
+      if (resultAdherent.status !== 200) {
+        console.log("Erreur lors de la récupération des adhérents");
+        return;
+      }
+
+      const resultAdherentContent = await resultAdherent.json();
+      if (resultAdherentContent.length > 0) {
+        setAdherents(resultAdherentContent);
+      }
+    }
+
+    fetchAdherents();
+
+    // Effectue le login automatique du premier adhérent lors du premier rendu
+    if (adherents.length > 0 && isFirstRender) {
+      const firstAdherent = adherents[0];
+      loginAdherent(firstAdherent.id_adherent, firstAdherent.prenom_ad);
+      setIsFirstRender(false); // Pour s'assurer que cet effet ne s'exécute qu'une seule fois
+    }
+  }, [adherents, isFirstRender]);
+
   return (
     <>
       <li className="manage-ad-str">
@@ -140,7 +181,8 @@ const ListOfAdherents = (props) => {
           -
         </a>
       </li>
-      {adherents.map((adherent) => (
+      {
+        adherents.map((adherent) => (
         <li key={adherent.id_adherent}
             className="choose-adherant-container"
             onClick={() => {

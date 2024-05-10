@@ -5,6 +5,8 @@ import { AuthContext } from "../contexts/Auth";
 import { AuthAdContext } from "../contexts/AuthAd";
 import { ServerContext } from "../contexts/Server";
 import Sidebar from "../components/Sidebar";
+import ListOfAdherents from "../components/ListOfAdherents";
+
 
 const Profile = () => {
   const { myToken, myUserId } = useContext(AuthContext);
@@ -114,8 +116,9 @@ const Profile = () => {
 
   const initPageLastUser = () => {
     if (Name === "" && FirstName === "") {
-      setFirstName("CHANGER");
-      setName("PRENOM");
+      //Se connecter en tant que premier adhérent
+
+      setFirstName("Chargement...");
     }
   };
 
@@ -123,6 +126,9 @@ const Profile = () => {
     <div className="home-struct-ad">
       {initPageLastUser()}
       <Sidebar />
+      <div className = "list-of-adherents-load">
+      <ListOfAdherents/>
+      </div>
       <div className="content">
         <div className="name">
           <div className="profile-header">
