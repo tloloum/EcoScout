@@ -123,6 +123,7 @@ router.delete("/:userId/adherent/:adherentId", auth, userCtrl.deleteAdherent);
 
 router.use((req, res, next) => {
   console.log("Requete d'authentification");
+  console.log("méthode : " + req.method);
   res.send("Authentification");
 });
 

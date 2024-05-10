@@ -119,6 +119,19 @@ exports.getEventByStructure = (req, res, next) => {
   });
 };
 
+exports.getEventByName = (req, res, next) => {
+  const event_name=req.params.nom_event;
+  const query=`SELECT * FROM Evenements WHERE nom_evenement = '${event_name}'`
+  connection.query(query,(error, rows) => {
+    if (error) {
+      throw error;
+    } else {
+      res.status(200).json(rows);
+    }
+  })
+
+}
+
 exports.getEventAd = (req, res, next) => {
   if (!req.auth.adherentId) {
     return res.status(401).json({ message: "Unauthorized" });
