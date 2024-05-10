@@ -33,7 +33,6 @@ const Sidebar = () => {
         console.log("Erreur lors de la récupération des structures");
         return;
       } else {
-        console.log("resultStructures", resultStructures);
         const resultStructuresContent = await resultStructures.json();
         setStructures(resultStructuresContent);
       }

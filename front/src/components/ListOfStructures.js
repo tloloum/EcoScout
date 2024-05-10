@@ -17,6 +17,7 @@ const ListOfStructures = (props) => {
     loginSt,
     setNameSt,
     setDateSt,
+    getNameSt,
   } = useContext(AuthStContext);
 
   const navigate = useNavigate();
@@ -82,11 +83,12 @@ const ListOfStructures = (props) => {
       return;
     } else {
       const resultLoginStructureContent = await resultLoginStructure.json();
+      console.log(resultLoginStructureContent);
       setTokenSt(resultLoginStructureContent.token);
       setUserIdSt(resultLoginStructureContent.userId);
       setStructureId(structureId);
       loginSt();
-      navigate("/homestruct");
+      navigate("/homeStruct" + "/" + getNameSt());
     }
   }
 

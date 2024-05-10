@@ -14,9 +14,9 @@ const AuthStContext = createContext({
 
 const AuthStContextProvider = (props) => {
   const [isAuthenticatedSt, setIsAuthenticatedSt] = useState(false);
-  const [myTokenSt, setMyTokenSt] = useState();
-  const [myUserIdSt, setMyUserIdSt] = useState();
-  const [myStructureId, setMyStructureId] = useState();
+  const [myTokenSt, setMyTokenSt] = useState("");
+  const [myUserIdSt, setMyUserIdSt] = useState(null);
+  const [myStructureId, setMyStructureId] = useState(null);
   const [myNameSt, setMyNameSt] = useState("");
   const [myDateSt, setMyDateSt] = useState("");
 

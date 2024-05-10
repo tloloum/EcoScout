@@ -196,6 +196,10 @@ const HomeStructAd = () => {
             </div>
           </div>
         </div>
+        <div className="list-members">
+          <h2>Liste des membres</h2>
+          {/* Ajoutez votre liste de membres ici */}
+        </div>
       </div>
     </div>
   );

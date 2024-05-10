@@ -10,7 +10,7 @@ const ListOfAdherents = (props) => {
   const { getServerAddress } = useContext(ServerContext);
   const { setTokenAd, setUserIdAd, setAdherentId, loginAd, setFirstNameAd} =
     useContext(AuthAdContext);
-  const { setTokenSt, setUserIdSt, setStructureId} = useContext(AuthStContext);
+  const { setTokenSt, setUserIdSt, setStructureId, setNameSt, setDateSt} = useContext(AuthStContext);
 
   const navigate = useNavigate();
   const [adherents, setAdherents] = useState([]);
@@ -132,9 +132,12 @@ const ListOfAdherents = (props) => {
             className="choose-adherant-container"
             onClick={() => {
               loginAdherent(adherent.id_adherent, adherent.prenom_ad);
-              setTokenSt(null);
+              setTokenSt("");
               setUserIdSt(null);
               setStructureId(null);
+              setUserIdSt(null);
+              setNameSt("");
+              setDateSt("");
             }}
           >
             {adherent.nom_ad} {adherent.prenom_ad} {showMinus && delButton(adherent)}
