@@ -8,13 +8,13 @@ import { ServerContext } from "../contexts/Server";
 const ListOfAdherents = (props) => {
   const { myToken, myUserId } = useContext(AuthContext);
   const { getServerAddress } = useContext(ServerContext);
-  const { setTokenAd, setUserIdAd, setAdherentId, loginAd, setFirstNameAd} =
+  const { setTokenAd, setUserIdAd, setAdherentId, loginAd, setFirstNameAd } =
     useContext(AuthAdContext);
-  const { setTokenSt, setUserIdSt, setStructureId} = useContext(AuthStContext);
+  const { setTokenSt, setUserIdSt, setStructureId } = useContext(AuthStContext);
 
   const navigate = useNavigate();
   const [adherents, setAdherents] = useState([]);
-  
+
   useEffect(() => {
     const serverAddress = getServerAddress();
 
@@ -110,34 +110,53 @@ const ListOfAdherents = (props) => {
     }
   };
 
-
   const [showMinus, setShowMinus] = useState(false);
 
   const handleDeleteButton = () => {
     // Afficher ou masquer le "-" après chaque nom d'adhérent
-    setShowMinus(prevShowMinus => !prevShowMinus);
+    setShowMinus((prevShowMinus) => !prevShowMinus);
   };
 
-  const delButton =  (adherent) => (<a className="ad-suppr-button" onClick={() => handleDeleteAdherent(adherent.id_adherent)}>-</a>)
+  const delButton = (adherent) => (
+    <a
+      className="ad-suppr-button"
+      onClick={() => handleDeleteAdherent(adherent.id_adherent)}
+    >
+      -
+    </a>
+  );
 
   return (
     <>
-    <li className="manage-ad-str">
-        Adhérents 
-        <a className="ad-add-button" onClick={() => navigate("/registerAdherent")}>+</a>
-        <a className="ad-suppr-button" onClick={() => handleDeleteButton()}>-</a>
+      <li className="manage-ad-str">
+        Adhérents
+        <a
+          className="ad-add-button"
+          onClick={() => navigate("/registerAdherent")}
+        >
+          +
+        </a>
+        <a className="ad-suppr-button" onClick={() => handleDeleteButton()}>
+          -
+        </a>
       </li>
       {adherents.map((adherent) => (
-        <li key={adherent.id_adherent}
-            className="choose-adherant-container"
-            onClick={() => {
-              loginAdherent(adherent.id_adherent, adherent.prenom_ad);
-              setTokenSt(null);
-              setUserIdSt(null);
-              setStructureId(null);
-            }}
-          >
-            {adherent.nom_ad} {adherent.prenom_ad} {showMinus && delButton(adherent)}
+        <li
+          key={adherent.id_adherent}
+          className="choose-adherant-container"
+          onClick={() => {
+            loginAdherent(adherent.id_adherent, adherent.prenom_ad);
+            setTokenSt(null);
+            setUserIdSt(null);
+            setStructureId(null);
+          }}
+        >
+          <div className="ad-actions">
+            <span className="id-ad">
+              {adherent.nom_ad} {adherent.prenom_ad}
+            </span>
+            <span className="suppr-ad">{showMinus && delButton(adherent)}</span>
+          </div>
         </li>
       ))}
       {/* {newAdherent()} */}

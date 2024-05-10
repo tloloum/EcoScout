@@ -122,7 +122,12 @@ const ListOfStructures = (props) => {
             setUserIdAd(null);
           }}
         >
-          {structure.nom_structure} {showMinus && delButton(structure)}
+          <div className="ad-actions">
+            <span className="id-ad">
+            {structure.nom_structure}
+            </span>
+            <span className="suppr-ad">{showMinus && delButton(structure)}</span>
+          </div>
         </li>
       ))}
       {/* {newStructure()} */}

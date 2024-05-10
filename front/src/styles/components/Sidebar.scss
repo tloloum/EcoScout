@@ -124,4 +124,17 @@
   color: rgb(95, 3, 3);
 }
 
+.ad-actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.id-ad {
+  margin-right: auto;
+}
+
+.suppr-ad {
+  margin-left: auto;
+}
+
 }
