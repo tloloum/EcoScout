@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { RiCloseLine } from "react-icons/ri";
 import { AuthContext } from "../contexts/Auth";
 import { AuthAdContext } from "../contexts/AuthAd";
@@ -17,6 +18,7 @@ const Profile = () => {
   const [showForm, setShowForm] = useState(false);
 
   const serverAddress = getServerAddress();
+  const navigate = useNavigate();
 
   async function showInfos() {
     if (!myToken || !myUserId) {
@@ -104,6 +106,7 @@ const Profile = () => {
     } catch (error) {
       console.error("Erreur lors de la mise à jour du profil :", error);
     }
+    navigate("/homead");
   }
   
 

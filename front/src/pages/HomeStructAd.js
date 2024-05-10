@@ -14,13 +14,13 @@ const HomeStructAd = () => {
   const [structInfo, setStructInfo] = useState(null);
   const [eventsInfo, setEventsInfo] = useState([]);
   const [error, setError] = useState(null);
-  const [ImpactList, setImpactList] = useState([]);
-  const [TotalImpact, setTotalImpact] = useState(0);
-  const [CompleteImpactList, setCompleteImpactList] = useState([]);
+  const [impactList, setImpactList] = useState([]);
+  const [totalImpact, setTotalImpact] = useState(0);
   const [errorEvent, setErrorEvent] = useState(null);
 
   const navigate = useNavigate();
 
+  // Obtenir les informations de la structure
   useEffect(() => {
     async function getStructInfo() {
       try {
@@ -40,9 +40,6 @@ const HomeStructAd = () => {
           const resultStructInfoContent = await resultStructInfo.json();
           setStructInfo(resultStructInfoContent[0]);
         } else {
-          console.log(
-            "Erreur lors de la récupération des informations de la structure"
-          );
           setError("Erreur lors de la récupération des informations.");
         }
       } catch (err) {
@@ -53,6 +50,7 @@ const HomeStructAd = () => {
     getStructInfo();
   }, [myTokenAd, getServerAddress, structName]);
 
+  // Obtenir les événements de la structure
   useEffect(() => {
     async function getEvents() {
       try {
@@ -76,7 +74,6 @@ const HomeStructAd = () => {
           }));
           setEventsInfo(eventsWithState);
         } else {
-          console.log("Erreur lors de la récupération des événements");
           setErrorEvent("Erreur lors de la récupération des événements.");
         }
       } catch (err) {
@@ -87,86 +84,53 @@ const HomeStructAd = () => {
     getEvents();
   }, [myToken, getServerAddress, structName]);
 
+  // Obtenir la liste des impacts pour chaque événement
+  useEffect(() => {
+    async function fetchImpactList() {
+      const newImpactList = [];
+      for (const event of eventsInfo) {
+        try {
+          const serverAddress = getServerAddress();
+          const resultImpact = await fetch(
+            `${serverAddress}impact/${event.id_evenement}`,
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
+
+          if (resultImpact.ok) {
+            const resultImpactContent = await resultImpact.json();
+            newImpactList.push(...resultImpactContent);
+          }
+        } catch (err) {
+          console.error("Erreur :", err);
+        }
+      }
+      setImpactList(newImpactList);
+    }
+
+    if (eventsInfo.length > 0) {
+      fetchImpactList();
+    }
+  }, [eventsInfo, getServerAddress]);
+
+  // Calculer le total des impacts
+  useEffect(() => {
+    const calculateTotalImpact = impactList.reduce(
+      (accum, impact) => accum + (impact.valeur || 0),
+      0
+    );
+    setTotalImpact(calculateTotalImpact);
+  }, [impactList]);
+
   const toggleEventDetails = (index) => {
     const updatedEvents = [...eventsInfo];
     updatedEvents[index].isOpen = !updatedEvents[index].isOpen;
     setEventsInfo(updatedEvents);
   };
-
-  const removeDoubleQuotes = (input) => {
-    if (typeof input !== "string") {
-      throw new TypeError("Expected a string as input.");
-    }
-    return input.replace(/"+/g, "");
-  };
-
-  async function getImpact() {
-    setImpactList([]);
-
-    // Await a state update via a useEffect
-    for (let i = 0; i < eventsInfo.length; i++) {
-      try {
-        console.log("eventsInfo[i].id_evenement", eventsInfo[i]);
-        const serverAddress = getServerAddress();
-        const resultImpact = await fetch(
-          `${serverAddress}impact/${eventsInfo[i].id_evenement}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-
-        if (resultImpact.ok) {
-          const resultImpactContent = await resultImpact.json();
-          // Append new impacts to the list
-          setImpactList((prevList) => prevList.concat(resultImpactContent));
-        }
-      } catch (err) {
-        console.error("Erreur :", err);
-      }
-    }
-  }
-
-  useEffect(() => {}, [ImpactList]);
-
-  useEffect(() => {
-    getImpact();
-  }, [eventsInfo]);
-
-  async function getImpactCalcul(i) {
-    try {
-      const serverAddress = getServerAddress();
-      const resultImpact = await fetch(
-        `${serverAddress}impact/calcul/event/${eventsInfo[i].id_evenement}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      if (resultImpact.ok) {
-        const resultImpactContent = await resultImpact.json();
-        console.log("resultImpactContent", resultImpactContent);
-        const updateTotal = TotalImpact + resultImpactContent.impact;
-        setTotalImpact(updateTotal);
-      }
-    } catch (err) {
-      console.error("Erreur :", err);
-    }
-  }
-
-  useEffect(() => {}, [TotalImpact]);
-
-  useEffect(() => {
-    setTotalImpact(0);
-    for (let i = 0; i < eventsInfo.length; i++) {
-      getImpactCalcul(i);
-    }
-  }, [ImpactList]);
 
   if (error) {
     return (
@@ -192,26 +156,24 @@ const HomeStructAd = () => {
             <div className="title">
               <h2>Impacts</h2>
             </div>
-            <h3>Derniers Impacts : </h3>
+            <h3>Derniers Impacts :</h3>
             <ul>
-              {ImpactList.map((impact, index) => (
+              {impactList.map((impact, index) => (
                 <li key={index}>
-                  {/* <h3>{impact.nom_impact}</h3> */}
                   <p>{impact.valeur}</p>
-                  {/* <p>{impact.unite}</p> */}
-                  <p>Nombre personne :{impact.nombre_personnes}</p>
+                  <p>Nombre personne : {impact.nombre_personnes}</p>
                 </li>
               ))}
             </ul>
-            <h3>Total Impact : </h3>
-            <p>{TotalImpact} kgCO2 émis</p>
+            <h3>Total Impact :</h3>
+            <p>{totalImpact} kgCO2 émis</p>
             <button onClick={() => navigate("/addImpact/" + structName)}>
-              Rajouter un impact
+              Ajouter un impact
             </button>
           </div>
           <div className="event-section">
             <div className="title">
-              <h2>Events</h2>
+              <h2>Événements</h2>
             </div>
             <div className="event-list">
               <ul className="scrollable">
@@ -221,7 +183,6 @@ const HomeStructAd = () => {
                       <h3>{event.nom_evenement}</h3>
                       <span>{event.date_debut.slice(0, 10)}</span>
                     </div>
-                    gp
                     {event.isOpen && (
                       <div className="event-details">
                         <p>Description : {event.descr}</p>
@@ -234,10 +195,6 @@ const HomeStructAd = () => {
               </ul>
             </div>
           </div>
-        </div>
-        <div className="list-members">
-          <h2>Liste des membres</h2>
-          {/* Ajoutez votre liste de membres ici */}
         </div>
       </div>
     </div>
