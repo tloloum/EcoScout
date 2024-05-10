@@ -2,14 +2,16 @@ import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthAdContext } from "../contexts/AuthAd";
 import { ServerContext } from "../contexts/Server";
+import { AuthStContext } from "../contexts/AuthSt";
 import ListOfAdherents from "./ListOfAdherents";
 import ListOfStructures from "./ListOfStructures";
 
 const Sidebar = () => {
-  // Supprimez l'état de `isOpen` car la sidebar sera toujours ouverte
   const [structures, setStructures] = useState([]);
   const { myTokenAd } = useContext(AuthAdContext);
+  const { myTokenSt } = useContext(AuthStContext);
   const { getServerAddress } = useContext(ServerContext);
+  const [isStruct, setIsStruct] = useState(false); 
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -31,12 +33,13 @@ const Sidebar = () => {
         console.log("Erreur lors de la récupération des structures");
         return;
       } else {
+        console.log("resultStructures", resultStructures);
         const resultStructuresContent = await resultStructures.json();
         setStructures(resultStructuresContent);
       }
     }
     getStructures();
-  }, [myTokenAd, getServerAddress]);
+  }, [myTokenAd, myTokenSt, getServerAddress]);
 
   const [isDropdownOpen, setDropdownOpen] = useState(false);
 
@@ -44,10 +47,8 @@ const Sidebar = () => {
     setDropdownOpen(!isDropdownOpen);
   };
 
-  // La sidebar reste toujours ouverte, supprimez `isOpen`
   return (
     <aside className="sidebar open">
-      {/* Supprimez l'élément du bouton de basculement */}
       <ul>
         {structures.map((structure) => (
           <li
