@@ -13,8 +13,9 @@ const Hierarchy = () => {
         const resultStructure = await fetch(
         serverAddress +
             "structures/" +
-            idStructure +
-            "/hierarchy" ,
+            myStructureId +
+            "/hierarchy/" 
+             +idStructure,
         {
             method: "POST",
             headers: {
