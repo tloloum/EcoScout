@@ -1,23 +1,28 @@
 import React, { useContext, useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import { ServerContext } from "../contexts/Server";
 import "../styles/AddImpact.scss";
 import { AuthAdContext } from "../contexts/AuthAd";
+import { useNavigate } from "react-router-dom";
 
-const AddImpact = () => {
+const AddImpactPage = () => {
   const [impactName, setImpactName] = useState([]);
+  const navigate = useNavigate();
+  const { structName: structName } = useParams();
   const [searchInput, setSearchInput] = useState("");
+  const [selectedEventId, setSelectedEventId] = useState("");
   const [selectedImpact, setSelectedImpact] = useState(null);
   const [quantity, setQuantity] = useState("");
+  const [nombrePersonne, setNombrePersonne] = useState("");
   const [selectedUnit, setSelectedUnit] = useState("");
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [verifCHoix, setVerifCHoix] = useState(false);
+  const [event, setEvent] = useState([]);
   const [units, setUnits] = useState([]);
-  const [nomEvent, setNomEvent] = useState([]);
   const { getServerAddress } = useContext(ServerContext);
   const { myTokenAd } = useContext(AuthAdContext);
 
-  // Function to remove all double quotes from a string
   const removeDoubleQuotes = (input) => {
     if (typeof input !== "string") {
       throw new TypeError("Expected a string as input.");
@@ -25,7 +30,6 @@ const AddImpact = () => {
     return input.replace(/"+/g, "");
   };
 
-  // Function to remove duplicates from an array based on a specific key
   const removeDuplicatesByKey = (array, key) => {
     const seen = new Set();
     return array.filter((item) => {
@@ -36,7 +40,6 @@ const AddImpact = () => {
     });
   };
 
-  // Fetch all impact names from the server
   const fetchAllName = async () => {
     const serverAddress = getServerAddress();
     const result = await fetch(`${serverAddress}impact/allname`, {
@@ -57,48 +60,65 @@ const AddImpact = () => {
         "id_impact"
       );
       setImpactName(uniqueImpacts);
+      console.log("Impacts:", uniqueImpacts);
     } else {
       console.log("Error fetching impact names");
     }
   };
 
-  // Fetch data once on component mount
   useEffect(() => {
     fetchAllName();
   }, []);
 
-  // Update the search input value and make the dropdown visible
   const handleSearchInputChange = (e) => {
     setSearchInput(e.target.value);
     setDropdownVisible(true);
   };
 
-  // Select the impact and show the quantity input
   const handleImpactSelect = (impact) => {
     setSelectedImpact(impact);
     setDropdownVisible(false);
-    setSearchInput(impact.nom_impact); // Update the search input to the name string
+    setSearchInput(impact.nom_impact);
     setVerifCHoix(true);
   };
 
-  // Update the selected quantity value
   const handleQuantityChange = (e) => {
     setQuantity(e.target.value);
   };
 
-  // Update the selected unit value
   const handleUnitChange = (e) => {
     setSelectedUnit(e.target.value);
   };
 
-  // Filter results based on search input
+  const handleNombrePersonneChange = (e) => {
+    setNombrePersonne(e.target.value);
+  };
+  
+  const handleEventChange = (e) => {
+    setSelectedEventId(e.target.value);
+  };
+
   const filteredImpacts = impactName.filter((impact) =>
     impact.nom_impact.toLowerCase().includes(searchInput.toLowerCase())
   );
 
   const AddAnImpact = async () => {
-    if (!selectedImpact || !quantity || !selectedUnit) {
+    if (
+      !selectedImpact ||
+      !quantity ||
+      !selectedUnit ||
+      !selectedImpact.id_impact
+    ) {
       console.log("Please fill in all fields");
+      return;
+    }
+
+    if (
+      !impactName.find(
+        (impact) => impact.id_impact === selectedImpact.id_impact
+      )
+    ) {
+      console.log("Invalid impact selected");
       return;
     }
 
@@ -111,10 +131,10 @@ const AddImpact = () => {
           Authorization: `Bearer ${myTokenAd}`,
         },
         body: JSON.stringify({
-          id_evenement: 1, // Replace with actual event ID
+          id_evenement: selectedEventId,
           id_impact: selectedImpact.id_impact,
           valeur: quantity,
-          nombre_personnes: 1, // Replace with actual number of people
+          nombre_personnes: nombrePersonne,
         }),
       });
 
@@ -123,6 +143,10 @@ const AddImpact = () => {
         setSelectedImpact(null);
         setQuantity("");
         setSelectedUnit("");
+        setNombrePersonne("");
+        setVerifCHoix(false);
+        selectedEventId("");
+        navigate(`/homeStruct/${structName}`);
       } else {
         console.log("Error adding impact");
       }
@@ -131,7 +155,6 @@ const AddImpact = () => {
     }
   };
 
-  // Fetch units when an impact is selected
   useEffect(() => {
     if (!verifCHoix || !selectedImpact) {
       return;
@@ -152,7 +175,7 @@ const AddImpact = () => {
         if (result.ok) {
           const resultContent = await result.json();
           console.log("Units:", resultContent);
-          setUnits(resultContent); // Assuming `resultContent` is an array of unit names
+          setUnits(resultContent);
         } else {
           console.log("Error fetching impact units");
         }
@@ -164,10 +187,7 @@ const AddImpact = () => {
   }, [verifCHoix, selectedImpact]);
 
   useEffect(() => {
-    if (!selectedImpact) {
-      return;
-    }
-    async function getEvents() {
+    async function getEvent() {
       try {
         const serverAddress = getServerAddress();
         const result = await fetch(`${serverAddress}events/allevents/${structName}`, {
@@ -181,23 +201,27 @@ const AddImpact = () => {
         if (result.ok) {
           const resultContent = await result.json();
           console.log("Events:", resultContent);
-          setNomEvent(resultContent); // Assuming `resultContent` is an array of event names
-        } else {
-          console.log("Error fetching events");
+          setEvent(resultContent);
         }
       } catch (err) {
         console.error("Error:", err);
       }
     }
-    getEvents();
-  }, [selectedImpact]);
+
+    getEvent();
+  }, [verifCHoix, selectedImpact]);
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault(); // Prevent default form submission behavior
+    AddAnImpact(); // Call the function to add the impact
+  };
 
   return (
     <div className="add-impact">
       <Sidebar />
       <div className="content">
         <h1>Add Impact</h1>
-        <form>
+        <form onSubmit={handleFormSubmit}>
           <div className="input-container">
             <input
               type="text"
@@ -236,6 +260,8 @@ const AddImpact = () => {
               <input
                 type="number"
                 placeholder="Nombre de personnes"
+                value={nombrePersonne}
+                onChange={handleNombrePersonneChange}
                 className="quantity-input"
               />
             </div>
@@ -243,17 +269,22 @@ const AddImpact = () => {
 
           {selectedImpact && (
             <div className="choice_event">
-              <select>
-
+              <select 
+                value={selectedEventId}
+                onChange={handleEventChange}
+                className="event-select"
+              >
+                <option value="">Choisir un événement</option>
+                {event.map((event, index) => (
+                  <option key={index} value={event.id_evenement}>
+                    {event.nom_evenement} {event.date_debut.slice(0,10)}
+                  </option>
+                ))}
               </select>
             </div>
           )}
 
-          {selectedImpact && (
-            <button type="button" onClick={AddAnImpact}>
-              Add Impact
-            </button>
-          )}
+          {selectedImpact && <button type="submit">Add Impact</button>}
         </form>
 
         {dropdownVisible && (
@@ -274,4 +305,4 @@ const AddImpact = () => {
   );
 };
 
-export default AddImpact;
+export default AddImpactPage;
