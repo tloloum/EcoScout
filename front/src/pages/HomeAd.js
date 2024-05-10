@@ -112,8 +112,16 @@ const Profile = () => {
     navigate("/homead");
   }
 
+  const initPageLastUser = () => {
+    if (Name === "" && FirstName === "") {
+      setFirstName("CHANGER");
+      setName("PRENOM");
+    }
+  };
+
   return (
     <div className="home-struct-ad">
+      {initPageLastUser()}
       <Sidebar />
       <div className="content">
         <div className="name">

@@ -16,7 +16,6 @@ import Structures from "./pages/Structures";
 import AddEvent from "./pages/AddEvent";
 import AddImpactPage from "./pages/AddImpactPage";
 import HomeStructAd from "./pages/HomeStructAd";
-import Choose from "./pages/user/Choose";
 import ChooseAccountType from "./pages/user/ChooseAccountType";
 import Login from "./pages/user/Login";
 import Register from "./pages/user/Register";
@@ -59,10 +58,6 @@ const App = () => {
                 <Route path="/join" element={<JoinStructAd />} />
                 <Route path="/hierarchy" element={<JoinHierarchy />} />
                 <Route path="/demands" element={<SeeDemands />} />
-                <Route
-                  path="/choose"
-                  element={<PrivateRoute component={<Choose />} />}
-                />
                 <Route
                   path="/registerAdherent"
                   element={<PrivateRoute component={<RegisterAdherent />} />}
