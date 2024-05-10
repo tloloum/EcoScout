@@ -27,6 +27,7 @@ import AddEvent from "./pages/AddEvent";
 
 import HomeStruct from "./pages/HomeStruct";
 import JoinStructAd from "./pages/JoinStructAd";
+import JoinHierarchy from "./pages/JoinHierarchy";
 import SeeDemands from "./pages/SeeDemands";
 import Welcome from "./pages/user/Welcome";
 
@@ -54,6 +55,7 @@ const App = () => {
                 <Route path="/homestruct" element={<HomeStruct />} />
                 <Route path="/homeStruct/:name" element={<PrivateRoute component={<HomeStructAd />} />} />
                 <Route path="/join" element={<JoinStructAd />} />
+                <Route path="/hierarchy" element={<JoinHierarchy />} />
                 <Route path="/demands" element={<SeeDemands />} />
                 <Route
                   path="/choose"

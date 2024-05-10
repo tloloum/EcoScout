@@ -40,6 +40,7 @@ const HomeStruct = () => {
                 <button onClick={() => navigate('/demands')}>Demande(s) en attente</button>
 
                 <button onClick={() => navigate('/addEvent')}>Ajouter un événement</button>
+                <button onClick={() => navigate('/hierarchy')}>Gérer la hierarchy</button>
             </div>
         </div>
     )
