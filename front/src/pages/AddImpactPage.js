@@ -30,14 +30,14 @@ const AddImpactPage = () => {
     return input.replace(/"+/g, "");
   };
 
-  const removeDuplicatesByKey = (array, key) => {
-    const seen = new Set();
-    return array.filter((item) => {
-      const value = item[key];
-      if (seen.has(value)) return false;
-      seen.add(value);
-      return true;
+  const removeDuplicateByName = (impactName) => {
+    const uniqueImpact = [];
+    impactName.forEach((impact) => {
+      if (!uniqueImpact.find((unique) => unique.nom_impact === impact.nom_impact)) {
+        uniqueImpact.push(impact);
+      }
     });
+    return uniqueImpact;
   };
 
   const fetchAllName = async () => {
@@ -55,12 +55,8 @@ const AddImpactPage = () => {
         ...impact,
         nom_impact: removeDoubleQuotes(impact.nom_impact),
       }));
-      const uniqueImpacts = removeDuplicatesByKey(
-        sanitizedResults,
-        "id_impact"
-      );
+      const uniqueImpacts = removeDuplicateByName(sanitizedResults);
       setImpactName(uniqueImpacts);
-      console.log("Impacts:", uniqueImpacts);
     } else {
       console.log("Error fetching impact names");
     }
@@ -145,7 +141,7 @@ const AddImpactPage = () => {
         setSelectedUnit("");
         setNombrePersonne("");
         setVerifCHoix(false);
-        selectedEventId("");
+        setSelectedEventId("");
         navigate(`/homeStruct/${structName}`);
       } else {
         console.log("Error adding impact");
@@ -174,7 +170,6 @@ const AddImpactPage = () => {
 
         if (result.ok) {
           const resultContent = await result.json();
-          console.log("Units:", resultContent);
           setUnits(resultContent);
         } else {
           console.log("Error fetching impact units");
