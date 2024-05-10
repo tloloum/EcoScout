@@ -38,12 +38,6 @@ const Sidebar = () => {
     getStructures();
   }, [myTokenAd, getServerAddress]);
 
-  //Récupérer les adhérents et structures de l'utilisateur
-  const profiles = [
-    { name: "Profil 1", fullName: "Jean Dupont" },
-    { name: "Profil 2", fullName: "Marie Curie" },
-    { name: "Profil 3", fullName: "Isaac Newton" },
-  ];
   const [isDropdownOpen, setDropdownOpen] = useState(false);
 
   const toggleDropdown = () => {
