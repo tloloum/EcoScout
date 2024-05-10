@@ -4,7 +4,7 @@ import { AuthAdContext } from "../contexts/AuthAd";
 import { ServerContext } from "../contexts/Server";
 import { useNavigate } from "react-router-dom";
 
-const SearchStruct = () => {
+const SearchStruct = ({structureSubmit}) => {
   const { getServerAddress } = useContext(ServerContext);
   const { myToken, myUserId } = useContext(AuthContext);
   const { myAdherentId, myTokenAd } = useContext(AuthAdContext);
@@ -71,43 +71,7 @@ const SearchStruct = () => {
     navigate("/homead");
   };
 
-  //Fonction pour demander à join une structure en temps qu'adhérent. Ne marche pas pour l'instant
-  const structureSubmit = async () => {
-    const serverAddress = getServerAddress();
-    console.log(
-      serverAddress +
-        "structures/demand/" +
-        idStructure +
-        "/adherent/" +
-        myAdherentId
-    );
-    const resultStructure = await fetch(
-      serverAddress +
-        "structures/demand/" +
-        idStructure +
-        "/adherent/" +
-        myAdherentId,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + myTokenAd,
-        },
-      }
-    );
-    if (resultStructure.status !== 201) {
-      console.log(
-        "Erreur lors de la demande de join, code d'erreur:" +
-          resultStructure.status
-      );
-      return;
-    } else {
-      console.log(serverAddress + "structures");
-      const resultStructureContent = await resultStructure.json();
-      console.log(resultStructureContent);
-    }
-    setShowForm(false);
-  };
+  
 
   return (
     <div className="container">
@@ -136,7 +100,7 @@ const SearchStruct = () => {
               {structure.nom_structure}
             </button>
             {showForm && (
-              <button onClick={structureSubmit} className="submit-button">
+              <button onClick={()=>structureSubmit(idStructure)} className="submit-button">
                 Rejoindre
               </button>
             )}
