@@ -86,10 +86,10 @@ let cutUniteAfterSlash = (unite) => {
 
 exports.getImpactUnit = async (req, res, next) => {
   const id_impact = req.params.id_impact;
-  const query = `SELECT unite FROM Nom_impact WHERE id_impact = ${id_impact}`;
+  const query = `SELECT nom_impact, unite FROM Nom_impact WHERE id_impact = ${id_impact}`;
   const rows = await utils.send_query_select(query);
   const unite = cutUniteAfterSlash(rows[0].unite);
-  return res.status(200).json({ unite: unite });
+  return res.status(200).json({ unite: unite, nom_impact: rows[0].nom_impact });
 }
 
 exports.addImpact = async (req, res, next) => { 

@@ -5,6 +5,7 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const utils = require("../bdd/utils/utils.js");
+const connection = require("../bdd/utils/connection.js");
 
 const check_if_exists_user = (mail) =>
   utils.check_if_exists("Utilisateurs", "mail", mail);
