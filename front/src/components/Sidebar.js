@@ -74,6 +74,11 @@ const Sidebar = () => {
       <ul>
         <li onClick={() => navigate("/evenements")}>Mes évènements</li>
       </ul>
+      <ul>
+        <li key="join" onClick={() => navigate("/badges")}>
+          Voir mes badges
+        </li>
+      </ul>
       <ul
         className="user-actions-div"
         onClick={() => {
@@ -86,9 +91,8 @@ const Sidebar = () => {
       </ul>
       {isDropdownOpen && (
         <ul className="dropdown drop-up">
-          
           <ListOfAdherents buttonNew={true} />
-          
+
           <ListOfStructures buttonNew={true} />
         </ul>
       )}
