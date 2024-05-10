@@ -252,7 +252,7 @@ describe("Structures API", () => {
   it("should delete a demand", async () => {
     const structureId = 1;
     const adherentId = 1;
-    // console.log(`/structures/demand/${structureId}/adherent/${adherentId}`);
+    console.log(`/structures/demand/${structureId}/adherent/${adherentId}`);
     const response = await request(app)
       .delete(`/structures/demand/${structureId}/adherent/${adherentId}`)
       .set("Authorization", `Bearer ${structureToken}`)
@@ -263,6 +263,16 @@ describe("Structures API", () => {
     );
   });
   it("should join a hierrarchy", async () => {
+    const res = await request(app)
+      .post("/structures/create")
+      .set("Authorization", `Bearer ${userToken}`)
+      .send({
+        nom_structure: "StructTest2",
+      });
+    expect(res.body).toHaveProperty(
+      "message",
+      "Structure created successfully"
+    );
     const structureId = 1;
     const structureId2 = 2;
     // const res = await request(app)
@@ -275,7 +285,7 @@ describe("Structures API", () => {
     const response = await request(app)
       .post(`/structures/${structureId}/hierarchy/${structureId2}`)
       .set("Authorization", `Bearer ${structureToken}`)
-      .expect(200);
+    expect(response.statusCode).toBe(200);
     expect(response.body).toHaveProperty(
       "message",
       "Structure joined another successfully"

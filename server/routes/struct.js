@@ -178,11 +178,7 @@ router.post(
  * @apiSuccess (200) {String} message Adhérent supprimé avec succès
  */
 // TODO : Join Hierarchy ou join structure from structure ?
-router.post(
-  "/:structureId/hierarchy/:structuremereId",
-  auth_struct,
-  structCtrl.joinHierarchy
-);
+router.post("/:structureId/hierarchy/:structuremereId",auth_struct,structCtrl.joinHierarchy);
 
 // Récupérer les structures rejointe par un adherent
 /**

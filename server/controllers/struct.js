@@ -230,24 +230,22 @@ exports.joinStruct = (req, res, next) => {
 
 exports.joinHierarchy = (req, res, next) => {
   const structureId = parseInt(req.params.structureId, 10);
-  const structuremereId = parseInt(req.params.structureId, 10);
+  const structuremereId = parseInt(req.params.structuremereId, 10);
   console.log("hey");
   if (structureId !== req.auth.structureId) {
     return res.status(401).json({ message: "Unauthorized" });
   } else {
     const query = `UPDATE Structur SET id_structur_mere=${structuremereId} WHERE id_structur=${structureId}`;
-    utils
-      .send_query_insert(
-        query,
-        res,
-        200,
-        "Structure joined another successfully"
-      )
-      .catch((error) => {
+    connection.query(query, (error, result) => {
+      if (error) {
         res.status(500).json({ error });
-      });
+      } else {
+        res.status(200).json({ message: "Structure joined another successfully" });
+      }
+    });
   }
 };
+
 
 exports.getStructsFromAdherent = async (req, res, next) => {
   const adherentId = req.auth.adherentId;
