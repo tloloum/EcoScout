@@ -8,13 +8,17 @@ import { ServerContext } from "../contexts/Server";
 const ListOfAdherents = (props) => {
   const { myToken, myUserId } = useContext(AuthContext);
   const { getServerAddress } = useContext(ServerContext);
-  const { setTokenAd, setUserIdAd, setAdherentId, loginAd, setFirstNameAd} =
+  const { setTokenAd, setUserIdAd, setAdherentId, loginAd, setFirstNameAd } =
     useContext(AuthAdContext);
+<<<<<<< HEAD
   const { setTokenSt, setUserIdSt, setStructureId, setNameSt, setDateSt} = useContext(AuthStContext);
+=======
+  const { setTokenSt, setUserIdSt, setStructureId } = useContext(AuthStContext);
+>>>>>>> 1099d8a532a9dd68a2d05e0ff57440d16f307688
 
   const navigate = useNavigate();
   const [adherents, setAdherents] = useState([]);
-  
+
   useEffect(() => {
     const serverAddress = getServerAddress();
 
@@ -110,22 +114,35 @@ const ListOfAdherents = (props) => {
     }
   };
 
-
   const [showMinus, setShowMinus] = useState(false);
 
   const handleDeleteButton = () => {
     // Afficher ou masquer le "-" après chaque nom d'adhérent
-    setShowMinus(prevShowMinus => !prevShowMinus);
+    setShowMinus((prevShowMinus) => !prevShowMinus);
   };
 
-  const delButton =  (adherent) => (<a className="ad-suppr-button" onClick={() => handleDeleteAdherent(adherent.id_adherent)}>-</a>)
+  const delButton = (adherent) => (
+    <a
+      className="ad-suppr-button"
+      onClick={() => handleDeleteAdherent(adherent.id_adherent)}
+    >
+      -
+    </a>
+  );
 
   return (
     <>
-    <li className="manage-ad-str">
-        Adhérents 
-        <a className="ad-add-button" onClick={() => navigate("/registerAdherent")}>+</a>
-        <a className="ad-suppr-button" onClick={() => handleDeleteButton()}>-</a>
+      <li className="manage-ad-str">
+        Adhérents
+        <a
+          className="ad-add-button"
+          onClick={() => navigate("/registerAdherent")}
+        >
+          +
+        </a>
+        <a className="ad-suppr-button" onClick={() => handleDeleteButton()}>
+          -
+        </a>
       </li>
       {adherents.map((adherent) => (
         <li key={adherent.id_adherent}
@@ -141,6 +158,12 @@ const ListOfAdherents = (props) => {
             }}
           >
             {adherent.nom_ad} {adherent.prenom_ad} {showMinus && delButton(adherent)}
+          <div className="ad-actions">
+            <span className="id-ad">
+              {adherent.nom_ad} {adherent.prenom_ad}
+            </span>
+            <span className="suppr-ad">{showMinus && delButton(adherent)}</span>
+          </div>
         </li>
       ))}
       {/* {newAdherent()} */}

@@ -20,6 +20,9 @@
   object-fit: cover;
   border-radius: 10px;
 }
+.badge-img-bw {
+  filter: grayscale(100%);
+}
 
 .badge-details {
   position: absolute;
