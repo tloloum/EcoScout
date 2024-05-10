@@ -26,24 +26,35 @@ const ListOfEvents = (props) => {
       if (!myToken || !myUserId) {
         return;
       }
-      // Récupérer tous les événements d'une structure (depuis le token d'authentification structure)
       if (!myStructToken || !myStructId) {
-        resultEvent = await fetch(serverAddress + "events/user/allevents/", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + myStructToken,
-          },
-        });
-      } else {
-        // Récupérer tous les événements d'une structure (depuis le token d'authentification adhérent)
-        resultEvent = await fetch(serverAddress + "events/ad/" + myStructId, {
+        try{
+          // Récupérer tous les événements d'une structure (depuis le token d'authentification adhérent)
+          resultEvent = await fetch(serverAddress + "events/ad/" + myStructId, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
             Authorization: "Bearer " + myAdToken,
           },
         });
+
+        }
+        catch(e){
+          console.log(e);
+        }
+      } else {
+        try{
+          // Récupérer tous les événements d'une structure (depuis le token d'authentification structure)
+          resultEvent = await fetch(serverAddress + "events/user/allevents/", {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + myStructToken,
+            },
+          });
+        }
+        catch(e){
+          console.log(e);
+        }
       }
 
       if (resultEvent.status !== 200) {
@@ -67,36 +78,6 @@ const ListOfEvents = (props) => {
     myStructId,
     myAdToken,
   ]);
-
-  // ???
-  async function loginEvent(EventId) {
-    const serverAddress = getServerAddress();
-    console.log(serverAddress + "Events/loginstruct");
-
-    const resultLoginEvent = await fetch(serverAddress + "Events/loginstruct", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + myToken,
-      },
-      body: JSON.stringify({
-        EventId: EventId,
-      }),
-    });
-
-    if (resultLoginEvent.status !== 201) {
-      console.log("Erreur lors de la connexion de la Event");
-      // console.log(resultLoginEvent.status);
-      return;
-    } else {
-      const resultLoginEventContent = await resultLoginEvent.json();
-      setTokenSt(resultLoginEventContent.token);
-      setUserIdSt(resultLoginEventContent.userId);
-      setEventId(EventId);
-      loginSt();
-      navigate("/homestruct");
-    }
-  }
 
   const newEvent = () => {
     const buttonNew = props.buttonNew;
@@ -126,7 +107,6 @@ const ListOfEvents = (props) => {
               onClick={() => {
                 setNameSt(Event.nom_Event);
                 setDateSt(Event.date_creation);
-                loginEvent(Event.id_structur);
               }}
             >
               {Event.nom_Event}
