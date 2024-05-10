@@ -139,7 +139,12 @@ describe("Event API", () => {
     expect(res.body[0]).toHaveProperty("id_evenement");
     expect(res.body[0].nom_evenement).toEqual("EventTest1");
   });
-
+  it("should get an event by its name", async () => {
+    const res = await request(app)
+      .get("/events/getevent/EventTest1")
+      .set("Authorization", `Bearer ${Usertoken}`);
+    expect(res.statusCode).toEqual(200);
+  });
   // Test de l'inscription à un événement par une structure
   it("should join an event by a structure", async () => {
     const res = await request(app)
