@@ -4,9 +4,11 @@ import Sidebar from "../components/Sidebar";
 import { ServerContext } from "../contexts/Server";
 import "../styles/AddImpact.scss";
 import { AuthAdContext } from "../contexts/AuthAd";
+import { useNavigate } from "react-router-dom";
 
 const AddImpactPage = () => {
   const [impactName, setImpactName] = useState([]);
+  const navigate = useNavigate();
   const { structName: structName } = useParams();
   const [searchInput, setSearchInput] = useState("");
   const [selectedEventId, setSelectedEventId] = useState("");
@@ -141,6 +143,10 @@ const AddImpactPage = () => {
         setSelectedImpact(null);
         setQuantity("");
         setSelectedUnit("");
+        setNombrePersonne("");
+        setVerifCHoix(false);
+        selectedEventId("");
+        navigate(`/homeStruct/${structName}`);
       } else {
         console.log("Error adding impact");
       }
