@@ -102,6 +102,11 @@ const ListOfAdherents = (props) => {
         console.log("Erreur lors de la suppression de l'adhérent");
       }
     }
+    if (adherents.length === 1) {
+      navigate("/registerAdherent");
+    } else {
+      loginAdherent(adherents[0].id_adherent, adherents[0].prenom_ad);
+    }
   };
 
 
