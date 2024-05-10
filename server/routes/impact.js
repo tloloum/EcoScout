@@ -20,7 +20,7 @@ router.post("/add", auth_ad, impactCtrl.addImpact);
 router.get("/:id_evenement", impactCtrl.getImpactByEvent);
 
 router.get("/calcul/:id_impact_event", impactCtrl.getCalculImpact);
-router.get("/calcul/:id_evenement", impactCtrl.getCalculEvent);
+router.get("/calcul/event/:id_evenement", impactCtrl.getCalculEvent);
 
 
 router.get("/fill", impactCtrl.fillImpact);
