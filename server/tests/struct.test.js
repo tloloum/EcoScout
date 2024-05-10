@@ -292,6 +292,19 @@ describe("Structures API", () => {
     );
   });
 
+  it("should add an admin to a struct", async () => {
+    const structureId = 1;
+    const adherentId = 1;
+    const response = await request(app)
+      .post(`/structures/admin/${structureId}/adherent/${adherentId}`)
+      .set("Authorization", `Bearer ${structureToken}`)
+      .expect(201);
+    expect(response.body).toHaveProperty(
+      "message",
+      "Admin added to structure successfully"
+    );
+  });
+
   it("should delete a struct", async () => {
     const structureId = 1;
     const response = await request(app)

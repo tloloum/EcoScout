@@ -322,3 +322,20 @@ exports.deleteDemand = (req, res, next) => {
       res.status(500).json({ error });
     });
 };
+// cree et ajoute un admin à une structure
+exports.addAdmin = (req, res, next) => {
+  const structureId = parseInt(req.params.structureId, 10);
+  const adherentId = parseInt(req.params.adherentId, 10);
+  const date_creation = new Date().toISOString().slice(0, 19).replace("T", " ");
+  if (structureId !== req.auth.structureId) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+  const query = `INSERT INTO Admins (id_admin, debut_mandat, id_structure, id_adherent) VALUES (0 ,${date_creation} ,${structureId}, ${adherentId})`;
+  connection.query(query, (error, results, fields) => {
+    if (error) {
+      res.status(500).json({ error });
+    } else {
+      res.status(201).json({ message: "Admin added successfully" });
+    }
+  });
+};
