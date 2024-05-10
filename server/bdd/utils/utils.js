@@ -40,6 +40,15 @@ exports.send_query_select = async (msg) => {
   }
 };
 
+exports.send_query_delete = async (query) => {
+  try {
+    const [result] = await connection.query(query);
+    return result;
+  } catch (error) {
+    throw error;
+  }
+};
+
 /**
  * Vérifie si une valeur existe dans une table donnée.
  * @param {string} table - Le nom de la table.

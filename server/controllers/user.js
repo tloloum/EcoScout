@@ -5,6 +5,7 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const utils = require("../bdd/utils/utils.js");
+const connection = require("../bdd/utils/connection.js");
 
 const check_if_exists_user = (mail) =>
   utils.check_if_exists("Utilisateurs", "mail", mail);
@@ -209,14 +210,52 @@ exports.deleteAdherent = (req, res, next) => {
         return res.status(401).json({ message: "Unauthorized" });
       }
       const delete_query = `DELETE FROM Adherents WHERE id_user='${userId}' AND id_adherent='${adherentId}'`;
-      utils.send_query_insert(
-        delete_query,
-        res,
-        200,
-        "Adherent deleted successfully"
+      connection.query(delete_query, (error) => {
+        if (error) {
+          return res.status(500).json({ error });
+        } else {
+          const select_query = `SELECT * FROM Adherents WHERE id_user='${userId}' AND id_adherent='${adherentId}'`;
+          utils.send_query_select(select_query)
+            .then((rows) => {
+              if (rows.length === 0) {
+                return res.status(200).json({ message: "Adherent deleted successfully" });
+              } else {
+                return res.status(500).json({ error: "Failed to delete adherent" });
+              }
+            })
+            .catch((error) => {
+              return res.status(500).json({ error });
+            });
+        }
+      }
       );
     })
     .catch((error) => {
-      res.status(500).json({ error });
+      return res.status(500).json({ error });
     });
 };
+// exports.deleteAdherent = (req, res, next) => {
+//   const userId = parseInt(req.params.userId, 10);
+//   const adherentId = parseInt(req.params.adherentId, 10);
+//   if (userId !== req.auth.userId) {
+//     return res.status(401).json({ message: "Unauthorized" });
+//   }
+//   const query_verif = `SELECT * FROM Adherents WHERE id_user='${userId}' AND id_adherent='${adherentId}'`;
+//   utils
+//     .send_query_select(query_verif)
+//     .then((rows) => {
+//       if (rows.length === 0) {
+//         return res.status(401).json({ message: "Unauthorized" });
+//       }
+//       const delete_query = `DELETE FROM Adherents WHERE id_user='${userId}' AND id_adherent='${adherentId}'`;
+//       utils.send_query_insert(
+//         delete_query,
+//         res,
+//         200,
+//         "Adherent deleted successfully"
+//       );
+//     })
+//     .catch((error) => {
+//       res.status(500).json({ error });
+//     });
+// };
