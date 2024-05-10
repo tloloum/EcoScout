@@ -210,12 +210,11 @@ exports.removeMember = (req, res, next) => {
 //   });
 // };
 
-
 exports.joinStruct = (req, res, next) => {
-  const structureId = parseInt(req.params.structureId,10);
-  const adherentId = parseInt(req.params.adherentId,10);
+  const structureId = parseInt(req.params.structureId, 10);
+  const adherentId = parseInt(req.params.adherentId, 10);
   const date_join = new Date().toISOString().slice(0, 19).replace("T", " ");
-  if(structureId!=req.auth.structureId){
+  if (structureId != req.auth.structureId) {
     return res.status(401).json({ message: "Unauthorized" });
   }
   const query = `INSERT INTO Participants_Struct (date_join, id_structure, id_adherent) VALUES ('${date_join}', '${structureId}', '${adherentId}')`;
@@ -223,18 +222,21 @@ exports.joinStruct = (req, res, next) => {
     if (error) {
       res.status(500).json({ error });
     } else {
-      res.status(201).json({ message: "Adherent added to structure successfully" });
+      res
+        .status(201)
+        .json({ message: "Adherent added to structure successfully" });
     }
   });
 };
 
 exports.joinHierarchy = (req, res, next) => {
   const structureId = parseInt(req.params.structureId, 10);
-  const structureIdMere = req.body.structureId;
+  const structuremereId = parseInt(req.params.structureId, 10);
+  console.log("hey");
   if (structureId !== req.auth.structureId) {
     return res.status(401).json({ message: "Unauthorized" });
   } else {
-    const query = `UPDATE Structur SET id_structur_mere=${structureIdMere} WHERE id ) ${structureId}`;
+    const query = `UPDATE Structur SET id_structur_mere=${structuremereId} WHERE id_structur=${structureId}`;
     utils
       .send_query_insert(
         query,
@@ -301,7 +303,6 @@ exports.joinDemand = (req, res, next) => {
 exports.deleteDemand = (req, res, next) => {
   const adherentId = parseInt(req.params.adherentId, 10);
   const structureId = parseInt(req.params.structureId, 10);
-  console.log("coucou");
   if (structureId !== req.auth.structureId) {
     return res.status(401).json({ message: "Unauthorized" });
   }

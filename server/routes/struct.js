@@ -76,13 +76,13 @@ router.get("/allstruct", auth, structCtrl.getAllStruct);
 
 /**
  * @api {get} / Renvoyer une structure à partir de son nom
- * @apiName 
+ * @apiName
  * @apiGroup Structures
- * 
+ *
  * @apiParam (header) ??
  * @apiParam (body) {String} structName Nom de la structure recherchée
- * 
- * @apiSuccess (200) 
+ *
+ * @apiSuccess (200)
  * @apiError (500) {Object} error Erreur serveur
  * @apiError (401) message Unauthorized
  */
@@ -161,19 +161,28 @@ router.delete("/delmembers/:id_p_struct", auth_struct, structCtrl.removeMember);
  *
  * @apiSuccess (201) {String} message Adhérent ajouté avec succès
  */
-router.post("/:structureId/join/:adherentId", auth_struct, structCtrl.joinStruct);
+router.post(
+  "/:structureId/join/:adherentId",
+  auth_struct,
+  structCtrl.joinStruct
+);
 /**
  * @api {post} /:structureId/leave Quitter une structure
  * @apiName leaveStruct
  * @apiGroup Structures
  *
  * @apiParam (params) {Number} structureId Id de la structure
+ * @apiParam (params) {Number} StructuremereId Id de la structure mère
  * @apiParam (header) {String} Authorization Token d'authentification adherent
  *
  * @apiSuccess (200) {String} message Adhérent supprimé avec succès
  */
-// TODO : Join Hierarchy ou join structure from structure ? 
-router.post("/:structureId/hierarchy", auth_struct, structCtrl.joinHierarchy);
+// TODO : Join Hierarchy ou join structure from structure ?
+router.post(
+  "/:structureId/hierarchy/:structuremereId",
+  auth_struct,
+  structCtrl.joinHierarchy
+);
 
 // Récupérer les structures rejointe par un adherent
 /**
@@ -190,29 +199,36 @@ router.get("/adherent", auth_ad, structCtrl.getStructsFromAdherent);
 
 // Route pour récupérer les demandes de join à une structure
 /**
- * @api {get} /demand/:structureId 
+ * @api {get} /demand/:structureId
  * @apiName getJoinDemand
  * @apiGroup Structures, peut être à modifier
- * 
+ *
  * @apiParam (params) {Number} structureId Id de la structure
- * 
+ *
  * @apiSuccess (200) {}
  */
 router.get("/demand/:structureId", auth_struct, structCtrl.getJoinDemand);
-
 
 //Route pour qu'un adhérent demande à rejoindre une structure
 /**
  * @api {post} /demand/:structureId/adherent/:adherentId
  * @apiName joinDemand
  * @apiGroup Structure, peut être à modifier
- * 
+ *
  * @apiParam (params)
  */
-router.post("/demand/:structureId/adherent/:adherentId", auth_ad, structCtrl.joinDemand);
+router.post(
+  "/demand/:structureId/adherent/:adherentId",
+  auth_ad,
+  structCtrl.joinDemand
+);
 
 //Route pour supprimer une demande, à utiliser quand un structure accepte ou refuse un adhérent
-router.delete("/demand/:structureId/adherent/:adherentId", auth_struct, structCtrl.deleteDemand);
+router.delete(
+  "/demand/:structureId/adherent/:adherentId",
+  auth_struct,
+  structCtrl.deleteDemand
+);
 
 router.use((req, res, next) => {
   console.log("Aucune route structure atteinte :" + req.url);
