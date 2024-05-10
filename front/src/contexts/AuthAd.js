@@ -13,8 +13,8 @@ const AuthAdContext = createContext({
 
 const AuthAdContextProvider = (props) => {
   const [isAuthenticatedAd, setIsAuthenticatedAd] = useState(false);
-  const [myTokenAd, setMyTokenAd] = useState();
-  const [myUserIdAd, setMyUserIdAd] = useState();
+  const [myTokenAd, setMyTokenAd] = useState(null);
+  const [myUserIdAd, setMyUserIdAd] = useState(null);
   const [myAdherentId, setMyAdherentId] = useState();
   const [myFirstNameAd, setMyFirstNameAd] = useState("");
 

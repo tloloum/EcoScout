@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/Auth";
 import { AuthAdContext } from "../contexts/AuthAd";
+import { AuthStContext } from "../contexts/AuthSt";
 import { ServerContext } from "../contexts/Server";
 
 const ListOfAdherents = (props) => {
@@ -9,6 +10,7 @@ const ListOfAdherents = (props) => {
   const { getServerAddress } = useContext(ServerContext);
   const { setTokenAd, setUserIdAd, setAdherentId, loginAd, setFirstNameAd} =
     useContext(AuthAdContext);
+  const { setTokenSt, setUserIdSt, setStructureId} = useContext(AuthStContext);
 
   const navigate = useNavigate();
   const [adherents, setAdherents] = useState([]);
@@ -90,7 +92,6 @@ const ListOfAdherents = (props) => {
           },
         }
       );
-      console.log(result.status);
       if (result.status === 200) {
         // Remove the deleted adherent from the local state
         setAdherents((prevAdherents) =>
@@ -131,6 +132,9 @@ const ListOfAdherents = (props) => {
             className="choose-adherant-container"
             onClick={() => {
               loginAdherent(adherent.id_adherent, adherent.prenom_ad);
+              setTokenSt(null);
+              setUserIdSt(null);
+              setStructureId(null);
             }}
           >
             {adherent.nom_ad} {adherent.prenom_ad} {showMinus && delButton(adherent)}

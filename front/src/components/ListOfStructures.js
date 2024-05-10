@@ -2,10 +2,12 @@ import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/Auth";
 import { AuthStContext } from "../contexts/AuthSt";
+import { AuthAdContext } from "../contexts/AuthAd";
 import { ServerContext } from "../contexts/Server";
 
 const ListOfStructures = (props) => {
   const { myToken, myUserId } = useContext(AuthContext);
+  const { myTokenAd, setTokenAd, setUserIdAd, setFirstNameAd } = useContext(AuthAdContext);
   const { getServerAddress } = useContext(ServerContext);
 
   const {
@@ -115,6 +117,9 @@ const ListOfStructures = (props) => {
             setNameSt(structure.nom_structure);
             setDateSt(structure.date_creation);
             loginStructure(structure.id_structur);
+            setTokenAd(null);
+            setFirstNameAd("");
+            setUserIdAd(null);
           }}
         >
           {structure.nom_structure} {showMinus && delButton(structure)}
