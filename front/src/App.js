@@ -13,6 +13,9 @@ import HomeAd from "./pages/HomeAd";
 // import Profile from "./pages/Profile";
 import Structures from "./pages/Structures";
 
+import AddEvent from "./pages/AddEvent";
+import AddImpactPage from "./pages/AddImpactPage";
+import HomeStructAd from "./pages/HomeStructAd";
 import Choose from "./pages/user/Choose";
 import ChooseAccountType from "./pages/user/ChooseAccountType";
 import Login from "./pages/user/Login";
@@ -20,11 +23,8 @@ import Register from "./pages/user/Register";
 import RegisterAdherent from "./pages/user/RegisterAdherent";
 import RegisterEvent from "./pages/user/RegisterEvent";
 import RegisterStructure from "./pages/user/RegisterStructure";
-import HomeStructAd from "./pages/HomeStructAd";
-import Impact from "./pages/user/Impact";
-import AddImpactPage from "./pages/AddImpactPage";
-import AddEvent from "./pages/AddEvent";
 
+import Badges from "./pages/Badges";
 import HomeStruct from "./pages/HomeStruct";
 import JoinStructAd from "./pages/JoinStructAd";
 import SeeDemands from "./pages/SeeDemands";
@@ -52,7 +52,10 @@ const App = () => {
                 />
                 <Route path="/homead" element={<HomeAd />} />
                 <Route path="/homestruct" element={<HomeStruct />} />
-                <Route path="/homeStruct/:name" element={<PrivateRoute component={<HomeStructAd />} />} />
+                <Route
+                  path="/homeStruct/:name"
+                  element={<PrivateRoute component={<HomeStructAd />} />}
+                />
                 <Route path="/join" element={<JoinStructAd />} />
                 <Route path="/demands" element={<SeeDemands />} />
                 <Route
@@ -88,6 +91,11 @@ const App = () => {
                 <Route
                   path="/addEvent/:structName"
                   element={<PrivateRoute component={<AddEvent />} />}
+                />
+
+                <Route
+                  path="/badges"
+                  element={<PrivateRoute component={<Badges />} />}
                 />
                 {/*################################*/}
                 {/*A enlever une fois que le bug de modification de profil sera terminé */}
