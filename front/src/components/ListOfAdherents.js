@@ -77,15 +77,16 @@ const ListOfAdherents = (props) => {
   };
 
   const handleDeleteAdherent = async (adherentId) => {
+    console.log("Suppression de l'adhérent " + adherentId + myToken);
     const serverAddress = getServerAddress();
     if (window.confirm("Êtes-vous sûr de vouloir supprimer cet adhérent ?")) {
       const result = await fetch(
-        `${serverAddress}user/${myUserId}/adherents/${adherentId}`,
+        `${serverAddress}user/${myUserId}/adherent/${adherentId}`,
         {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + myTokenAd,
+            Authorization: "Bearer " + myToken,
           },
         }
       );
