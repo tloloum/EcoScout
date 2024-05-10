@@ -4,6 +4,7 @@ const path = require("path");
 const app = require("../app");
 const connection = require("../bdd/utils/connection");
 const exp = require("constants");
+const impactCtrl = require('../controllers/impact')
 
 /**
  * Réinitialise la base de données avant de lancer les tests.
@@ -39,6 +40,7 @@ async function resetDatabase() {
  */
 beforeAll(async () => {
   await resetDatabase();
+  // impactCtrl.fill_impact_name();
 }, 30000);
 
 /**

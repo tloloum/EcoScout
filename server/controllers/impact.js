@@ -7,37 +7,49 @@ const utils = require("../bdd/utils/utils.js");
 const fetch = require("node-fetch");
 const connection = require("../bdd/utils/connection.js");
 
-let fill_impact_name = async () => {
+exports.fill_impact_name = async (req,res,next) => {
   let url =
-    "https://data.ademe.fr/data-fair/api/v1/datasets/base-carboner/lines?page=1&after=1&size=1000&sort=&select=Nom_base_fran%C3%A7ais,Unit%C3%A9_fran%C3%A7ais,Total_poste_non_d%C3%A9compos%C3%A9&q_mode=simple";
+      "https://data.ademe.fr/data-fair/api/v1/datasets/base-carboner/lines?page=1&after=1&size=1000&sort=&select=Nom_base_fran%C3%A7ais,Unit%C3%A9_fran%C3%A7ais,Total_poste_non_d%C3%A9compos%C3%A9&q_mode=simple";
   let hasNextPage = true;
 
   while (hasNextPage) {
-    const response = await fetch(url);
-    const dataJson = await response.json();
+      const response = await fetch(url);
+      const dataJson = await response.json();
 
-    const stored_results = dataJson.results;
-    for (let i = 0; i < stored_results.length; i++) {
-      const nomImpact = stored_results[i].Nom_base_français.replace(/'/g, "''");
-      let unite = "NULL"
-      if (stored_results[i].Unité_français)
-        unite = stored_results[i].Unité_français.replace(/'/g, "''");
-      const insert_query = `INSERT INTO Nom_impact (nom_impact, unite, total_poste_non_decompose) VALUES ('${nomImpact}', '${unite}', ${stored_results[i].Total_poste_non_décomposé})`;
-      connection.query(insert_query, (error) => {
-        if (error) {
-          throw error;
-        } else {
-          console.log("Inserted : " + nomImpact + " " + stored_results[i].Unité_français + " " + stored_results[i].Total_poste_non_décomposé);
-        }
-      });
-    }
+      const storedResults = dataJson.results;
+      for (let i = 0; i < storedResults.length; i++) {
+          const nomImpact = storedResults[i].Nom_base_français.replace(/'/g, "''");
 
-    if (dataJson.next) {
-      url = dataJson.next;
-    } else {
-      hasNextPage = false;
-    }
+          // Prepare unit value
+          let unite = "NULL";
+          if (storedResults[i].Unité_français) {
+              unite = storedResults[i].Unité_français.replace(/'/g, "''");
+          }
+
+          // Total poste value
+          const totalPosteNonDecompose = storedResults[i].Total_poste_non_décomposé;
+
+          // Parameterized query to insert the values safely
+          const insertQuery = `INSERT INTO Nom_impact (nom_impact, unite, total_poste_non_decompose) VALUES (?, ?, ?)`;
+          const queryValues = [nomImpact, unite, totalPosteNonDecompose];
+
+          // Execute the query
+          connection.query(insertQuery, queryValues, (error) => {
+              if (error) {
+                  throw error;
+              }
+          });
+      }
+
+      // Determine if there is a next page
+      if (dataJson.next) {
+          url = dataJson.next;
+      } else {
+          hasNextPage = false;
+      }
   }
+
+  return res.status(200).json({ message: "Impact name filled" });
 };
 
 exports.fillImpact = async (req, res, next) => {
@@ -45,8 +57,20 @@ exports.fillImpact = async (req, res, next) => {
   return res.status(200).json({ message: "Impact name filled" });
 }
 
+exports.getAllUnits = async (req, res, next) => {
+  const id_impact = req.params.id_impact;
+  const name_query = `SELECT Nom_impact FROM Nom_impact WHERE id_impact = ${id_impact}`;
+  const rows = await utils.send_query_select(name_query);
+  console.log(rows);
+  const nom_impact = rows[0].Nom_impact;
+  console.log(nom_impact);
+  const query = `SELECT unite, id_impact FROM Nom_impact WHERE nom_impact = '${nom_impact}'`;
+  const rows2 = await utils.send_query_select(query);
+  console.log(rows2);
+  return res.status(200).json(rows2);
+}
+
 exports.getAllImpactName = async (req, res, next) => {
-  // await fill_impact_name();
   const query = "SELECT * FROM Nom_impact";
   const rows = await utils.send_query_select(query);
   return res.status(200).json(rows);
@@ -68,11 +92,17 @@ exports.getImpactUnit = async (req, res, next) => {
   return res.status(200).json({ unite: unite });
 }
 
-exports.addImpact = async (req, res, next) => {
+exports.addImpact = async (req, res, next) => { 
   const id_adherent = req.auth.adherentId;
   const query = `INSERT INTO Impact (id_evenement, id_impact, valeur, nombre_personnes, id_adherent) VALUES (${req.body.id_evenement}, ${req.body.id_impact}, ${req.body.valeur}, ${req.body.nombre_personnes}, ${id_adherent})`;
-  const rows = await utils.send_query_insert(query);
-  return res.status(200).json({ message: "Impact added" });
+  connection.query(query, (error) => {
+      if (error) {
+          throw error;
+      } else {
+          return res.status(200).json({ message: "Impact added" });
+      }
+  }
+  );
 };
 
 exports.getImpactByEvent = async (req, res, next) => {

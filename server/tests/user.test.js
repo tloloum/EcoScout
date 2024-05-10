@@ -463,6 +463,15 @@ describe("Adherent Management", () => {
       "Adherent deleted successfully"
     );
 
+    const query_verif = `SELECT COUNT(*) AS count FROM Adherents WHERE id_adherent = ${adherentId}`;
+    connection.query(query_verif, (error, rows) => {
+      if (error) {
+        throw error;
+      } else {
+        expect(rows[0].count).toBe(0);
+      }
+    });
+
     const getResponse = await request(app)
       .get(`/user/${userId}/adherent/${adherentId}`)
       .set("Authorization", `Bearer ${adherentToken}`)
