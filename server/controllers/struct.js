@@ -99,7 +99,6 @@ exports.searchStruct = async (req, res, next) => {
   utils
     .send_query_select(query)
     .then((rows) => {
-      console.log(rows);
       res.status(200).json(rows);
     })
     .catch((error) => {

@@ -66,32 +66,57 @@ exports.createEvent = (req, res, next) => {
   });
 };
 
+// Fonction pour obtenir les événements d'une structure via `structureId`.
 exports.getEventStruct = (req, res, next) => {
   if (!req.auth.structureId) {
     return res.status(401).json({ message: "Unauthorized" });
   }
+
   const structId = req.auth.structureId;
-  const query = `SELECT * FROM Evenements WHERE id_evenement IN (SELECT id_evenement FROM Organisateurs WHERE id_structure = '${structId}')`;
-  connection.query(query, (error, rows) => {
+  const query = `
+    SELECT * FROM Evenements
+    WHERE id_evenement IN (
+      SELECT id_evenement
+      FROM Organisateurs
+      WHERE id_structur = ?
+    )
+  `;
+
+  // Utilisez un tableau pour passer les valeurs paramétrées.
+  connection.query(query, [structId], (error, rows) => {
     if (error) {
-      throw error;
+      return next(error); // Utilisez `next` pour gérer les erreurs.
     } else {
       res.status(200).json(rows);
     }
   });
 };
 
+// Fonction pour obtenir les événements d'une structure via `nom_structure`.
 exports.getEventByStructure = (req, res, next) => {
   const nom_structure = req.params.nom_structure;
-  const query = `SELECT * FROM Evenements WHERE id_evenement IN (SELECT id_evenement FROM Organisateurs WHERE id_structure = (SELECT id_structure FROM Structur WHERE nom_structure = '${nom_structure}'))`;
-  connection.query(query, (error, rows) => {
+  const query = `
+    SELECT * FROM Evenements
+    WHERE id_evenement IN (
+      SELECT id_evenement
+      FROM Organisateurs
+      WHERE id_structure = (
+        SELECT id_structur
+        FROM Structur
+        WHERE nom_structure = ?
+      )
+    )
+  `;
+
+  // Utilisez un tableau pour passer les valeurs paramétrées.
+  connection.query(query, [nom_structure], (error, rows) => {
     if (error) {
-      throw error;
+      return next(error); // Utilisez `next` pour gérer les erreurs.
     } else {
+      console.log(nom_structure, rows);
       res.status(200).json(rows);
     }
-  }
-  );
+  });
 };
 
 exports.getEventAd = (req, res, next) => {
