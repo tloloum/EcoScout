@@ -7,7 +7,7 @@ import { ServerContext } from "../contexts/Server";
 const ListOfAdherents = (props) => {
   const { myToken, myUserId } = useContext(AuthContext);
   const { getServerAddress } = useContext(ServerContext);
-  const { setTokenAd, setUserIdAd, setAdherentId, loginAd, setFirstNameAd, myTokenAd} =
+  const { setTokenAd, setUserIdAd, setAdherentId, loginAd, setFirstNameAd} =
     useContext(AuthAdContext);
 
   const navigate = useNavigate();
@@ -118,7 +118,7 @@ const ListOfAdherents = (props) => {
     <>
     <li className="manage-ad-str">
         Adhérents 
-        <a  className="ad-add-button" onClick={() => navigate("/registerAdherent")}>+</a>
+        <a className="ad-add-button" onClick={() => navigate("/registerAdherent")}>+</a>
         <a className="ad-suppr-button" onClick={() => handleDeleteButton()}>-</a>
       </li>
       {adherents.map((adherent) => (
