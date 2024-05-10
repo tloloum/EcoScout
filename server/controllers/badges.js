@@ -74,8 +74,18 @@ exports.updateBadgesFromAd = (req, res, next) => {
 };
 
 exports.updateBadgesFromStruct = (req, res, next) => {
-  // if (req.body.structureId == undefined) {
-  //   return res.status(400).json({ message: "Missing required fields" });
-  // }
+  const structId = parseInt(req.params.structureId,10);
+  if (req.auth.structureId != structId) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+  const badgeId = parseInt(req.params.id_badges, 10);
+  const query = `UPDATE Badges SET statut = TRUE WHERE Badges.id_badges = '${badgeId}' AND Badges.id_structure = '${structId}'`;
+  connection.query(query, (error, rows) => {
+    if (error) {
+      throw error;
+    } else {
+      res.status(200).json({ message: "Badge updated" });
+    }
+  });
   //TODO
 };
