@@ -153,7 +153,6 @@ const ListOfAdherents = (props) => {
               setDateSt("");
             }}
           >
-            {adherent.nom_ad} {adherent.prenom_ad} {showMinus && delButton(adherent)}
           <div className="ad-actions">
             <span className="id-ad">
               {adherent.nom_ad} {adherent.prenom_ad}
