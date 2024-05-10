@@ -10,11 +10,7 @@ const ListOfAdherents = (props) => {
   const { getServerAddress } = useContext(ServerContext);
   const { setTokenAd, setUserIdAd, setAdherentId, loginAd, setFirstNameAd } =
     useContext(AuthAdContext);
-<<<<<<< HEAD
   const { setTokenSt, setUserIdSt, setStructureId, setNameSt, setDateSt} = useContext(AuthStContext);
-=======
-  const { setTokenSt, setUserIdSt, setStructureId } = useContext(AuthStContext);
->>>>>>> 1099d8a532a9dd68a2d05e0ff57440d16f307688
 
   const navigate = useNavigate();
   const [adherents, setAdherents] = useState([]);
