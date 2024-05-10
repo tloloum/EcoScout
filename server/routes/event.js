@@ -5,6 +5,7 @@ const router = express.Router();
 const eventCtrl = require("../controllers/event");
 const auth_struct = require("../middleware/auth_struct");
 const auth_ad = require("../middleware/auth_ad");
+const auth = require("../middleware/auth");
 
 /**
  * @api {post} /events/create Création d'un événement
@@ -34,6 +35,8 @@ router.post("/create", auth_struct, eventCtrl.createEvent);
  * @apiError (500) {Object} error Erreur serveur
  */
 router.get("/struct/allevents", auth_struct, eventCtrl.getEventStruct);
+
+router.get("/getevent/:nom_event", auth, eventCtrl.getEventByName);
 
 router.get("/allevents/:nom_structure", eventCtrl.getEventByStructure);
 /**
