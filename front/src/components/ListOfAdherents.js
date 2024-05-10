@@ -7,7 +7,7 @@ import { ServerContext } from "../contexts/Server";
 const ListOfAdherents = (props) => {
   const { myToken, myUserId } = useContext(AuthContext);
   const { getServerAddress } = useContext(ServerContext);
-  const { setTokenAd, setUserIdAd, setAdherentId, loginAd, setFirstNameAd, myTokenAd} =
+  const { setTokenAd, setUserIdAd, setAdherentId, loginAd, setFirstNameAd} =
     useContext(AuthAdContext);
 
   const navigate = useNavigate();
@@ -77,15 +77,16 @@ const ListOfAdherents = (props) => {
   };
 
   const handleDeleteAdherent = async (adherentId) => {
+    console.log("Suppression de l'adhérent " + adherentId + myToken);
     const serverAddress = getServerAddress();
     if (window.confirm("Êtes-vous sûr de vouloir supprimer cet adhérent ?")) {
       const result = await fetch(
-        `${serverAddress}user/${myUserId}/adherents/${adherentId}`,
+        `${serverAddress}user/${myUserId}/adherent/${adherentId}`,
         {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + myTokenAd,
+            Authorization: "Bearer " + myToken,
           },
         }
       );
@@ -117,7 +118,7 @@ const ListOfAdherents = (props) => {
     <>
     <li className="manage-ad-str">
         Adhérents 
-        <a  className="ad-add-button" onClick={() => navigate("/registerAdherent")}>+</a>
+        <a className="ad-add-button" onClick={() => navigate("/registerAdherent")}>+</a>
         <a className="ad-suppr-button" onClick={() => handleDeleteButton()}>-</a>
       </li>
       {adherents.map((adherent) => (
