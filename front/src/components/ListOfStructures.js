@@ -14,24 +14,21 @@ const ListOfStructures = (props) => {
     setTokenSt,
     setUserIdSt,
     setStructureId,
-    loginSt,
     setNameSt,
     setDateSt,
-    getNameSt,
+    loginSt
   } = useContext(AuthStContext);
 
   const navigate = useNavigate();
   const [structures, setStructures] = useState([]);
+  const [showMinus, setShowMinus] = useState(false);
 
   useEffect(() => {
     const serverAddress = getServerAddress();
 
-    // Partie recherche des Structures
-
+    // Fetch structures associated with the current user
     async function showStructures() {
-      if (!myToken || !myUserId) {
-        return;
-      }
+      if (!myToken || !myUserId) return;
 
       const resultStructure = await fetch(
         serverAddress + "structures/user/" + myUserId,
@@ -49,7 +46,6 @@ const ListOfStructures = (props) => {
         return;
       } else {
         const resultStructureContent = await resultStructure.json();
-        // console.log(resultStructureContent);
         if (resultStructureContent.length > 0) {
           setStructures(resultStructureContent);
         }
@@ -59,7 +55,7 @@ const ListOfStructures = (props) => {
     showStructures();
   }, [getServerAddress, myToken, myUserId]);
 
-  async function loginStructure(structureId) {
+  async function loginStructure(structureId, structureName, structureDate) {
     const serverAddress = getServerAddress();
     console.log(serverAddress + "structures/loginstruct");
 
@@ -79,60 +75,61 @@ const ListOfStructures = (props) => {
 
     if (resultLoginStructure.status !== 201) {
       console.log("Erreur lors de la connexion de la structure");
-      // console.log(resultLoginStructure.status);
       return;
     } else {
       const resultLoginStructureContent = await resultLoginStructure.json();
-      console.log(resultLoginStructureContent);
       setTokenSt(resultLoginStructureContent.token);
       setUserIdSt(resultLoginStructureContent.userId);
       setStructureId(structureId);
+      setNameSt(structureName);
+      setDateSt(structureDate);
       loginSt();
-      navigate("/homeStruct" + "/" + getNameSt());
+      navigate("/homeStruct/" + structureName);
     }
   }
 
-  const handleDeleteStruct = async (scrutureId) => {
+  const handleDeleteStruct = async (structureId) => {
+    // Implementation for structure deletion can go here
   };
-
-  const [showMinus, setShowMinus] = useState(false);
 
   const handleDeleteButton = () => {
-    // Afficher ou masquer le "-" après chaque nom d'adhérent
-    setShowMinus(prevShowMinus => !prevShowMinus);
+    setShowMinus((prevShowMinus) => !prevShowMinus);
   };
 
-  const delButton =  (structure) => (<a className="ad-suppr-button" onClick={() => handleDeleteStruct(structure.id_adherent)}>-</a>)
+  const delButton = (structure) => (
+    <a className="ad-suppr-button" onClick={() => handleDeleteStruct(structure.id_structur)}>
+      -
+    </a>
+  );
 
   return (
     <>
       <li className="manage-ad-str">
-        Structures 
-        <a  className="ad-add-button" onClick={() => navigate("/registerStructure")}>+</a>
-        <a className="ad-suppr-button" onClick={() => handleDeleteButton()}>-</a>
+        Structures
+        <a className="ad-add-button" onClick={() => navigate("/registerStructure")}>
+          +
+        </a>
+        <a className="ad-suppr-button" onClick={() => handleDeleteButton()}>
+          -
+        </a>
       </li>
       {structures.map((structure) => (
         <li
           key={structure.id_structur}
           className="choose-adherant-container"
           onClick={() => {
-            setNameSt(structure.nom_structure);
-            setDateSt(structure.date_creation);
-            loginStructure(structure.id_structur);
             setTokenAd(null);
             setFirstNameAd("");
             setUserIdAd(null);
+            loginStructure(structure.id_structur, structure.nom_structure, structure.date_creation);
           }}
         >
           <div className="ad-actions">
-            <span className="id-ad">
-            {structure.nom_structure}
-            </span>
+            <span className="id-ad">{structure.nom_structure}</span>
             <span className="suppr-ad">{showMinus && delButton(structure)}</span>
           </div>
         </li>
       ))}
-      {/* {newStructure()} */}
     </>
   );
 };
