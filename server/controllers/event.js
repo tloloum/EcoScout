@@ -113,7 +113,6 @@ exports.getEventByStructure = (req, res, next) => {
     if (error) {
       return next(error); // Utilisez `next` pour gérer les erreurs.
     } else {
-      console.log(nom_structure, rows);
       res.status(200).json(rows);
     }
   });

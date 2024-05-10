@@ -61,12 +61,9 @@ exports.getAllUnits = async (req, res, next) => {
   const id_impact = req.params.id_impact;
   const name_query = `SELECT Nom_impact FROM Nom_impact WHERE id_impact = ${id_impact}`;
   const rows = await utils.send_query_select(name_query);
-  console.log(rows);
   const nom_impact = rows[0].Nom_impact;
-  console.log(nom_impact);
   const query = `SELECT unite, id_impact FROM Nom_impact WHERE nom_impact = '${nom_impact}'`;
   const rows2 = await utils.send_query_select(query);
-  console.log(rows2);
   return res.status(200).json(rows2);
 }
 
