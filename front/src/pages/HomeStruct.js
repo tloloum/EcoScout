@@ -1,11 +1,9 @@
 import React, { useContext, useState, useEffect } from "react";
 import { AuthStContext } from "../contexts/AuthSt";
 import { AuthContext } from "../contexts/Auth";
-import logo from "../assets/img/logo.jpeg";
 import Sidebar from "../components/Sidebar";
-import { useParams } from "react-router-dom";
-import { AuthAdContext } from "../contexts/AuthAd";
 import { useNavigate } from "react-router-dom";
+import { AuthAdContext } from "../contexts/AuthAd";
 import { ServerContext } from "../contexts/Server";
 
 const HomeStruct = () => {
@@ -15,14 +13,14 @@ const HomeStruct = () => {
   const { myToken } = useContext(AuthContext);
   const [structInfo, setStructInfo] = useState(null);
   const [eventsInfo, setEventsInfo] = useState([]);
-  const [error, setError] = useState(null);
   const [impactList, setImpactList] = useState([]);
   const [totalImpact, setTotalImpact] = useState(0);
+  const [error, setError] = useState(null);
   const [errorEvent, setErrorEvent] = useState(null);
-  const [isLoading, setIsLoading] = useState(true); // New loading state
+  const [isLoading, setIsLoading] = useState(true);
+  const [isMenuOpen, setIsMenuOpen] = useState(false); // New state for the menu visibility
   const navigate = useNavigate();
-  const { myTokenSt, isAuthenticatedSt, getNameSt, signOutSt } =
-    useContext(AuthStContext);
+  const { myTokenSt, getNameSt, signOutSt } = useContext(AuthStContext);
   const { signOut, isAuthenticated } = useContext(AuthContext);
   const nameSt = getNameSt();
 
@@ -39,6 +37,11 @@ const HomeStruct = () => {
     } else {
       navigate("/");
     }
+  };
+
+  // Toggle the visibility of the menu
+  const toggleMenu = () => {
+    setIsMenuOpen((prev) => !prev);
   };
 
   // Get structure information
@@ -59,10 +62,12 @@ const HomeStruct = () => {
           setStructName(resultStructInfoContent.nom_structure);
           setStructInfo(resultStructInfoContent);
         } else {
+          const textResponse = await resultStructInfo.text(); // Get full response as text for debugging
+          console.error("Error Response:", textResponse);
           setError("Erreur lors de la récupération des informations.");
         }
       } catch (err) {
-        console.error("Erreur :", err);
+        console.error("Erreur:", err);
         setError("Erreur lors de la récupération des informations.");
       }
     }
@@ -71,12 +76,7 @@ const HomeStruct = () => {
 
   // Get structure events
   useEffect(() => {
-    if (myTokenAd !== null) {
-      return;
-    }
     async function getEvents() {
-      console.log("getting events for " + structName);
-      setEventsInfo([]);
       try {
         const serverAddress = getServerAddress();
         const resultEvents = await fetch(
@@ -93,29 +93,41 @@ const HomeStruct = () => {
         if (resultEvents.ok) {
           const resultEventsContent = await resultEvents.json();
           if (resultEventsContent.length === 0) {
+            setEventsInfo([]);
+            setImpactList([]);
             setErrorEvent("Aucun événement trouvé.");
+          } else {
+            const eventsWithState = resultEventsContent.map((event) => ({
+              ...event,
+              isOpen: false,
+            }));
+            setEventsInfo(eventsWithState);
+            setErrorEvent(null); // Clear any previous errors if events are found
           }
-          const eventsWithState = resultEventsContent.map((event) => ({
-            ...event,
-            isOpen: false,
-          }));
-          setEventsInfo(eventsWithState);
         } else {
+          const textResponse = await resultEvents.text(); // Get full response as text for debugging
+          console.error("Error Response:", textResponse);
+          setEventsInfo([]);
+          setImpactList([]);
           setErrorEvent("Erreur lors de la récupération des événements.");
         }
       } catch (err) {
-        console.error("Erreur :", err);
+        console.error("Erreur:", err);
+        setEventsInfo([]);
+        setImpactList([]);
         setErrorEvent("Erreur lors de la récupération des événements.");
       }
-      console.log(eventsInfo);
+      setIsLoading(false);
     }
-    getEvents();
-  }, [myToken, getServerAddress, structName]);
+
+    if (myTokenAd === null) {
+      getEvents();
+    }
+  }, [myToken, getServerAddress, structName, myTokenAd]);
 
   // Get the impact list for each event
   useEffect(() => {
     async function fetchImpactList() {
-      console.log("Fetching impact list with " + structName);
       const newImpactList = [];
       for (const event of eventsInfo) {
         try {
@@ -139,13 +151,14 @@ const HomeStruct = () => {
         }
       }
       setImpactList(newImpactList);
-      setIsLoading(false); // Set loading state to false after data is loaded
     }
 
     if (eventsInfo.length > 0) {
       fetchImpactList();
+    } else {
+      setImpactList([]); // Clear impact list if no events are present
     }
-  }, [eventsInfo, structName, getServerAddress]);
+  }, [eventsInfo, getServerAddress]);
 
   // Calculate the total impact
   useEffect(() => {
@@ -187,7 +200,7 @@ const HomeStruct = () => {
   }
 
   return (
-    <div className="home-struct-ad">
+    <div className="home-struct">
       <Sidebar />
       <div className="content">
         <div className="name">
@@ -238,15 +251,17 @@ const HomeStruct = () => {
             </div>
           </div>
         </div>
-        <div className="list-members">
-          <h2>Liste des membres</h2>
-          {/* Ajoutez votre liste de membres ici */}
+        <div className="list-members" onClick={toggleMenu}>
+          <h2>Gérer les membres</h2>
         </div>
+        {isMenuOpen && (
+          <ul className="manage-members-menu">
+            <li onClick={() => navigate("/membersList")}>Liste des membres</li>
+            <li onClick={() => navigate("/demands")}>Demandes en attente</li>
+            <li onClick={() => navigate("/hierarchy")}>Gérer la hiérarchie</li>
+          </ul>
+        )}
       </div>
-      <button onClick={() => navigate("/demands")}>
-        Demande(s) en attente
-      </button>
-      <button onClick={() => navigate("/hierarchy")}>Gérer la hierarchy</button>
     </div>
   );
 };
