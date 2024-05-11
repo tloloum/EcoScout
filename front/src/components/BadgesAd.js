@@ -1,8 +1,16 @@
-import React from "react";
-import badge1 from "../assets/img/badge.jpeg";
-import badge2 from "../assets/img/badge2.jpeg";
+import React, { useContext, useEffect, useState } from "react";
+import badge1 from "../assets/img/badgeAd/badge1.jpeg";
+import badge2 from "../assets/img/badgeAd/badge2.jpeg";
+import badge3 from "../assets/img/badgeAd/badge3.jpeg";
+import badge4 from "../assets/img/badgeAd/badge4.jpeg";
+import { AuthAdContext } from "../contexts/AuthAd";
+import { ServerContext } from "../contexts/Server";
 
 const BadgesAd = () => {
+  const { getServerAddress } = useContext(ServerContext);
+  const { myAdherentId, myTokenAd } = useContext(AuthAdContext);
+  const [badges, setBadges] = useState([]);
+
   const PossibleBadgesAd = [
     {
       name: "Badge 1",
@@ -12,23 +20,61 @@ const BadgesAd = () => {
     },
     {
       name: "Badge 2",
-      description: "condition d'obtention du badge 2",
+      description: "Recommander l'application à 3 amis",
       src: badge2,
-      hasTheBadge: true,
+      hasTheBadge: false,
     },
     {
       name: "Badge 3",
-      description: "condition d'obtention du badge 3",
-      src: "",
+      description: "Rejoindre une communauté de 10 adhérents",
+      src: badge3,
       hasTheBadge: false,
     },
     {
       name: "Badge 4",
-      description: "condition d'obtention du badge ",
-      src: "",
+      description: "Avoir un impact co2 réduit de 10% entre deux évènements",
+      src: badge4,
       hasTheBadge: false,
     },
   ];
+  useEffect(() => {
+    const fetchBadges = async () => {
+      try {
+        const serverAddress = getServerAddress();
+        const response = await fetch(
+          `${serverAddress}adherent/${myAdherentId}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${myTokenAd}`,
+            },
+          }
+        );
+        console.log(response);
+        if (response.ok) {
+          const data = await response.json();
+          setBadges(data);
+          if (data.badges) {
+            data.badges.forEach((badge) => {
+              PossibleBadgesAd.forEach((possibleBadge) => {
+                if (badge === possibleBadge.name) {
+                  possibleBadge.hasTheBadge = true;
+                  possibleBadge.description = badge.description;
+                }
+              });
+            });
+          }
+        } else {
+          console.log("Erreur lors de la récupération des badges");
+        }
+      } catch (error) {
+        console.error("Error fetching badges:", error);
+      }
+    };
+
+    fetchBadges();
+  }, [getServerAddress]);
   return (
     <div>
       <div className="badges-list">

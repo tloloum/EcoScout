@@ -1,9 +1,12 @@
 .badges-list ul {
+  display: flex;
+  flex-wrap: wrap;
   list-style-type: none;
+  justify-content: space-between;
   padding: 0;
 }
-
 .badge-item {
+  flex-wrap: wrap;
   display: inline-block;
   margin: 10px;
   position: relative;
@@ -44,7 +47,7 @@
   opacity: 1;
 }
 
-.badge-details h2,
+.badge-details h4,
 .badge-details p {
   margin: 5px;
   text-align: center;
@@ -53,3 +56,9 @@
 .badge-item:hover {
   transform: scale(1.1);
 }
+// @media (max-width: 768px) {
+//   .badge-item {
+//     width: 50%; /* Set width to 100% on smaller screens */
+//     height: 50%;
+//   }
+// }
