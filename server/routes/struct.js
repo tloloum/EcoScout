@@ -226,7 +226,7 @@ router.delete(
   structCtrl.deleteDemand
 );
 
-//Route pour ajouter un admin à une structure
+//Route pour creer et ajouter un admin à une structure
 router.post("/admin/:structureId/adherent/:adherentId", auth_struct, structCtrl.addAdmin);
 
 router.use((req, res, next) => {
