@@ -11,7 +11,7 @@ const AddEvent = () => {
     const [lieu, setLieu] = useState('');
     const [duree, setDuree] = useState('');
     const [error, setError] = useState(null);
-    const { myTokenSt } = useContext(AuthStContext);
+    const { myTokenSt, myNameSt } = useContext(AuthStContext);
     const { getServerAddress } = useContext(ServerContext);
     const navigate = useNavigate();
 
@@ -63,7 +63,7 @@ const AddEvent = () => {
                 setError('Erreur lors de la création de l\'événement');
                 return;
             } else {
-                navigate('/homeStruct');
+                navigate(`/homeStruct/${myNameSt}`);
             }
         } catch (error) {
             console.error('Error fetching events:', error);
