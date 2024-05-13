@@ -29,6 +29,7 @@ import JoinStructAd from "./pages/JoinStructAd";
 import JoinHierarchy from "./pages/JoinHierarchy";
 import SeeDemands from "./pages/SeeDemands";
 import Welcome from "./pages/user/Welcome";
+import ListAdStruct  from "./pages/ListAdStruct";
 
 const App = () => {
   const { isAuthenticatedAd } = useContext(AuthAdContext);
@@ -88,6 +89,11 @@ const App = () => {
                 <Route
                   path="/addEvent/:structName"
                   element={<PrivateRoute component={<AddEvent />} />}
+                />
+
+                <Route
+                  path="/membersList"
+                  element={<PrivateRoute component={<ListAdStruct />} />}
                 />
 
                 <Route
