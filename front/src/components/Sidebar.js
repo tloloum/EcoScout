@@ -63,11 +63,12 @@ const Sidebar = () => {
           </li>
         ))}
       </ul>
-      <ul>
+      {myTokenAd!=undefined && <ul>
         <li key="join" onClick={() => navigate("/join")}>
           Rejoindre une structure
         </li>
       </ul>
+      }
       <ul>
         <li onClick={() => navigate("/evenements")}>Mes évènements</li>
       </ul>
