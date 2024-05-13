@@ -40,9 +40,9 @@ const ListOfParticipants = (props) => {
             } else {
                 const resultParticipantContent = await resultParticipant.json();
                 console.log(JSON.stringify(resultParticipantContent));
-                console.log("Participants récupérés avec succès "+ resultParticipantContent.length);
+                console.log("Participants récupérés avec succès "+ resultParticipantContent.length); //ici la longueur = undefined je recoi uniquement le message de succes
                 if (resultParticipantContent.length > 0) {
-                    console.log(resultParticipantContent+ "adza");
+                    console.log(resultParticipantContent+ "adza"); // je rentre jamais la donc pas de participant 
                     setParticipants(resultParticipantContent);
                 }
             }
