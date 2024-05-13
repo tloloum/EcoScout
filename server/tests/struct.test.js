@@ -301,7 +301,7 @@ describe("Structures API", () => {
       .expect(201);
     expect(response.body).toHaveProperty(
       "message",
-      "Admin added to structure successfully"
+      "Admin added successfully"
     );
   });
 
