@@ -109,6 +109,7 @@ exports.searchStruct = async (req, res, next) => {
 exports.updateStruct = (req, res, next) => {
   const structureId = req.auth.structureId;
   const newname = req.body.newname;
+  
   const query = `UPDATE Structur SET nom_structure = '${newname}' WHERE id_structur = '${structureId}' `;
   utils.send_query_insert(query, res, 200, "Structure updated successfully");
 };
@@ -341,3 +342,20 @@ exports.addAdmin = (req, res, next) => {
     }
   });
 };
+
+
+// liste les membres d'une structure
+exports.getMembersStruct = (req, res, next) => {
+  const structureId = parseInt(req.params.structureId, 10);
+  if (structureId !== req.auth.structureId) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+  const query = `SELECT Adherents.id_adherent, Adherents.nom_ad, Adherents.prenom_ad FROM Adherents JOIN Participants_Struct ON Adherents.id_adherent = Participants_Struct.id_adherent WHERE Participants_Struct.id_structure = '${structureId}'`;
+  connection.query(query, (error, results, fields) => {
+    if (error) {
+      res.status(500).json({ error });
+    } else {
+      res.status(200).json({ message: "Liste des adherents dans la structure" });
+    }
+  });
+}

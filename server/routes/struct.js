@@ -229,6 +229,9 @@ router.delete(
 //Route pour creer et ajouter un admin à une structure
 router.post("/admin/:structureId/adherent/:adherentId", auth_struct, structCtrl.addAdmin);
 
+//Route pour lister les membres d'une structure
+router.get("/getmembers/:structureId", auth_struct, structCtrl.getMembersStruct);
+
 router.use((req, res, next) => {
   console.log("Aucune route structure atteinte :" + req.url);
   res.status(404).json({ message: "404: Aucune route structure atteinte" });
