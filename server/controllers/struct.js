@@ -343,6 +343,24 @@ exports.addAdmin = (req, res, next) => {
   });
 };
 
+// supprime un membre d'une structure
+exports.deleteMemberStruct = (req, res, next) => {
+  const structureId = parseInt(req.params.structureId, 10);
+  const adherentId = parseInt(req.params.adherentId, 10);
+  if (structureId !== req.auth.structureId) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+  const query = `DELETE FROM Participants_Struct WHERE id_structure=${structureId} AND id_adherent=${adherentId}`;
+  connection.query(query, (error, results, fields) => {
+    if (error) {
+      console.log(error);
+      res.status(500).json({ error });
+    } else {
+      res.status(200).json({ message: "Member deleted successfully" });
+    }
+  });
+}
+
 
 // liste les membres d'une structure
 exports.getMembersStruct = (req, res, next) => {

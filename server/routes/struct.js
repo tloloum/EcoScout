@@ -232,6 +232,10 @@ router.post("/admin/:structureId/adherent/:adherentId", auth_struct, structCtrl.
 //Route pour lister les membres d'une structure
 router.get("/getmembers/:structureId", auth_struct, structCtrl.getMembersStruct);
 
+//Route pour supprimer un membre d'une structure
+router.delete("/delmember/:structureId/adherent/:adherentId", auth_struct, structCtrl.deleteMemberStruct);
+
+
 router.use((req, res, next) => {
   console.log("Aucune route structure atteinte :" + req.url);
   res.status(404).json({ message: "404: Aucune route structure atteinte" });

@@ -317,6 +317,19 @@ describe("Structures API", () => {
     );
   });
 
+  it("should delete a member from a struct", async () => {
+    const structureId = 1;
+    const adherentId = 1;
+    const response = await request(app)
+      .delete(`/structures/delmember/${structureId}/adherent/${adherentId}`)
+      .set("Authorization", `Bearer ${structureToken}`)
+      .expect(200);
+    expect(response.body).toHaveProperty(
+      "message",
+      "Member deleted successfully"
+    );
+  });
+
   it("should delete a struct", async () => {
     const structureId = 1;
     const response = await request(app)
