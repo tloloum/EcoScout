@@ -37,7 +37,10 @@ const Sidebar = () => {
         setStructures(resultStructuresContent);
       }
     }
-    getStructures();
+    if (myTokenAd)
+      getStructures();
+    else
+      setStructures([]);
   }, [myTokenAd, myTokenSt, getServerAddress]);
 
   const [isDropdownOpen, setDropdownOpen] = useState(false);
@@ -53,7 +56,7 @@ const Sidebar = () => {
           <li
             key={structure[0].id_structur}
             onClick={() =>
-              navigate("/homeStruct/" + structure[0].nom_structure)
+              navigate("/homeStructAd/" + structure[0].nom_structure)
             }
           >
             {structure[0].nom_structure}

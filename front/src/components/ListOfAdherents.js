@@ -165,7 +165,7 @@ const ListOfAdherents = (props) => {
       loginAdherent(firstAdherent.id_adherent, firstAdherent.prenom_ad);
       setIsFirstRender(false); // Pour s'assurer que cet effet ne s'exécute qu'une seule fois
     }
-  }, [adherents, isFirstRender]);
+  }, [myToken, myUserId, getServerAddress, isFirstRender]);
 
   return (
     <>
