@@ -330,9 +330,11 @@ exports.addAdmin = (req, res, next) => {
   if (structureId !== req.auth.structureId) {
     return res.status(401).json({ message: "Unauthorized" });
   }
-  const query = `INSERT INTO Admin (id_admin, debut_mandat, id_structure, id_adherent) VALUES (0 ,${date_creation} ,${structureId}, ${adherentId})`;
+  const query = `INSERT INTO Admin (id_admin, debut_mandat, id_structure, id_adherent) VALUES (1 ,'${date_creation}' ,'${structureId}', '${adherentId}')`;
+  console.log("hey");
   connection.query(query, (error, results, fields) => {
     if (error) {
+      console.log(error);
       res.status(500).json({ error });
     } else {
       res.status(201).json({ message: "Admin added successfully" });
