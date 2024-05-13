@@ -24,20 +24,13 @@ const HomeStruct = () => {
   const { signOut, isAuthenticated } = useContext(AuthContext);
   const nameSt = getNameSt();
 
-  const deco = () => {
-    signOutSt();
-    signOut();
-    navigate("/");
+  const removeDoubleQuotes = (input) => {
+    if (typeof input !== "string") {
+      return input;
+    }
+    return input.replace(/"+/g, "");
   };
 
-  const switchProfil = () => {
-    signOutSt();
-    if (isAuthenticated) {
-      navigate("/choose");
-    } else {
-      navigate("/");
-    }
-  };
 
   // Toggle the visibility of the menu
   const toggleMenu = () => {
@@ -215,7 +208,7 @@ const HomeStruct = () => {
             <ul>
               {impactList.map((impact, index) => (
                 <li key={index}>
-                  <p>{impact.valeur}</p>
+                  <p>{removeDoubleQuotes(impact.nom_impact)}</p>
                   <p>Nombre personne : {impact.nombre_personnes}</p>
                 </li>
               ))}
