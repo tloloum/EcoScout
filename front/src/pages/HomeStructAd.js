@@ -20,6 +20,13 @@ const HomeStructAd = () => {
 
   const navigate = useNavigate();
 
+  const removeDoubleQuotes = (input) => {
+    if (typeof input !== "string") {
+      throw new TypeError("Expected a string as input.");
+    }
+    return input.replace(/"+/g, "");
+  };
+
   // Obtenir les informations de la structure
   useEffect(() => {
     async function getStructInfo() {
@@ -65,7 +72,6 @@ const HomeStructAd = () => {
             },
           }
         );
-
         if (resultEvents.ok) {
           const resultEventsContent = await resultEvents.json();
           const eventsWithState = resultEventsContent.map((event) => ({
@@ -109,7 +115,7 @@ const HomeStructAd = () => {
           console.error("Erreur :", err);
         }
       }
-      setImpactList(newImpactList);
+      setImpactList(newImpactList.slice(-3));
     }
 
     if (eventsInfo.length > 0) {
@@ -160,7 +166,7 @@ const HomeStructAd = () => {
             <ul>
               {impactList.map((impact, index) => (
                 <li key={index}>
-                  <p>{impact.valeur}</p>
+                  <p>{removeDoubleQuotes(impact.nom_impact)}</p>
                   <p>Nombre personne : {impact.nombre_personnes}</p>
                 </li>
               ))}

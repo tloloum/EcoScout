@@ -7,60 +7,90 @@ import { ServerContext } from "../contexts/Server";
 import Sidebar from "../components/Sidebar";
 import ListOfAdherents from "../components/ListOfAdherents";
 
-
-const Profile = () => {
+const HomeAd = () => {
   const { myToken, myUserId } = useContext(AuthContext);
   const { getServerAddress } = useContext(ServerContext);
-  const { myAdherentId, myTokenAd } = useContext(AuthAdContext);
+  const { setTokenAd, setUserIdAd, setAdherentId, loginAd, setFirstNameAd, myTokenAd, myAdherentId } = useContext(AuthAdContext);
   const [Name, setName] = useState("");
   const [FirstName, setFirstName] = useState("");
   const [newName, setNewName] = useState("");
   const [newFirstName, setNewFirstName] = useState("");
   const [AdhId, setAdhId] = useState("");
   const [showForm, setShowForm] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const serverAddress = getServerAddress();
   const navigate = useNavigate();
 
-  async function showInfos() {
-    if (!myToken || !myUserId) {
+  const fetchUserDetails = async () => {
+    const response = await fetch(serverAddress + "user/" + myUserId + "/adherents", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + myToken,
+      },
+    });
+
+    if (!response.ok) {
+      console.log("Erreur lors du chargement des informations");
+      setIsLoading(false);
       return;
     }
-    const resultInfos = await fetch(
-      serverAddress + "user/" + myUserId + "/adherents",
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + myToken,
-        },
-      }
-    );
 
-    if (resultInfos.status !== 200) {
-      console.log("Erreur lors du chargement des informations");
-      return;
-    } else {
-      const resultInfoContent = await resultInfos.json();
-      console.log(resultInfoContent);
-
-      for (let i = 0; i < resultInfoContent.length; i++) {
-        if (resultInfoContent[i].id_adherent === myAdherentId) {
-          setName(resultInfoContent[i].nom_ad);
-          setFirstName(resultInfoContent[i].prenom_ad);
-          setAdhId(resultInfoContent[i].id_adherent);
+    const adherents = await response.json();
+    if (adherents && adherents.length > 0) {
+      if (!myTokenAd) {
+        setName(adherents[0].nom_ad);
+        setFirstName(adherents[0].prenom_ad);
+        setAdhId(adherents[0].id_adherent);
+        handleFirstConnection(adherents[0].id_adherent);
+      } else {
+        for (let i = 0; i < adherents.length; i++) {
+          if (adherents[i].id_adherent === myAdherentId) {
+            setName(adherents[i].nom_ad);
+            setFirstName(adherents[i].prenom_ad);
+            setAdhId(adherents[i].id_adherent);
+          }
         }
       }
     }
-  }
+    setIsLoading(false);
+  };
+
 
   useEffect(() => {
-    showInfos();
-  }, [myTokenAd, myUserId, myToken]);
+    if (!myToken || !myUserId) {
+      navigate("/login"); // Rediriger si les identifiants ne sont pas disponibles
+      return;
+    }
+    fetchUserDetails();
+  }, [myToken, myTokenAd, navigate, serverAddress]);
 
-  const handleClick = () => {
-    setShowForm(true);
+  const handleFirstConnection = async (adherentId) => {
+    const response = await fetch(serverAddress + "user/login-adherent", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + myToken,
+      },
+      body: JSON.stringify({ adherentId }),
+    });
+
+    if (!response.ok) {
+      console.error("Erreur lors de la connexion du profil, code d'erreur:", response.status);
+      return;
+    }
+
+    const { token, userId } = await response.json();
+    setTokenAd(token);
+    setUserIdAd(userId);
+    setAdherentId(adherentId);
+    loginAd();
   };
+
+  if (isLoading) {
+    return <div className="chargement">Chargement...</div>;
+  }
 
   const handleNameChange = (event) => {
     setNewName(event.target.value);
@@ -107,27 +137,19 @@ const Profile = () => {
       const resultModificationContent = await resultToken.json();
       console.log(resultModificationContent);
       setShowForm(false);
-      showInfos(); // Si showInfos() est défini ailleurs, sinon adapter cette ligne
+      fetchUserDetails();
     } catch (error) {
       console.error("Erreur lors de la mise à jour du profil :", error);
     }
     navigate("/homead");
   }
 
-  const initPageLastUser = () => {
-    if (Name === "" && FirstName === "") {
-      //Se connecter en tant que premier adhérent
-
-      setFirstName("Chargement...");
-    }
-  };
 
   return (
     <div className="home-struct-ad">
-      {initPageLastUser()}
       <Sidebar />
-      <div className = "list-of-adherents-load">
-      <ListOfAdherents/>
+      <div className="list-of-adherents-load">
+        <ListOfAdherents />
       </div>
       <div className="content">
         <div className="name">
@@ -135,7 +157,7 @@ const Profile = () => {
             <h1 className="profile-title">
               {FirstName} {Name}
             </h1>
-            <button className="edit-profile-button" onClick={handleClick}>
+            <button className="edit-profile-button" onClick={() => setShowForm(true)}>
               Modifier
             </button>
           </div>
@@ -212,4 +234,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default HomeAd;

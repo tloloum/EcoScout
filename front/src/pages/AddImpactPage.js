@@ -135,14 +135,13 @@ const AddImpactPage = () => {
       });
 
       if (result.ok) {
-        console.log("Impact added successfully");
         setSelectedImpact(null);
         setQuantity("");
         setSelectedUnit("");
         setNombrePersonne("");
         setVerifCHoix(false);
         setSelectedEventId("");
-        navigate(`/homeStruct/${structName}`);
+        navigate(`/homeStructAd/${structName}`);
       } else {
         console.log("Error adding impact");
       }
@@ -195,7 +194,6 @@ const AddImpactPage = () => {
 
         if (result.ok) {
           const resultContent = await result.json();
-          console.log("Events:", resultContent);
           setEvent(resultContent);
         }
       } catch (err) {
