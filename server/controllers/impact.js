@@ -104,7 +104,7 @@ exports.addImpact = async (req, res, next) => {
 
 exports.getImpactByEvent = async (req, res, next) => {
   const id_evenement = req.params.id_evenement;
-  const query = `SELECT * FROM Impact WHERE id_evenement = ${id_evenement}`;
+  const query = `SELECT *, (SELECT nom_impact FROM Nom_impact WHERE id_impact = Impact.id_impact) as nom_impact FROM Impact WHERE id_evenement = ${id_evenement}`;
   const rows = await utils.send_query_select(query);
   return res.status(200).json(rows);
 }
