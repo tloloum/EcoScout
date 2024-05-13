@@ -2,11 +2,13 @@ import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/Auth";
 import { ServerContext } from "../../contexts/Server";
+import { AuthStContext } from "../../contexts/AuthSt";
 import Sidebar from "../../components/Sidebar";
 
 const RegisterStructure = () => {
   const { myToken, myUserId } = useContext(AuthContext);
   const { getServerAddress } = useContext(ServerContext);
+  const { setTokenSt, setUserIdSt, setStructureId, setNameSt} = useContext(AuthStContext);
 
   const navigate = useNavigate();
 
@@ -42,7 +44,6 @@ const RegisterStructure = () => {
     }
 
     const serverAddress = getServerAddress();
-    console.log(serverAddress + "structures/create");
 
     const resultStructure = await fetch(serverAddress + "structures/create", {
       method: "POST",
@@ -55,24 +56,50 @@ const RegisterStructure = () => {
         date_creation: dateStructure,
       }),
     });
-    // const resultAdherent = await fetch(serverAddress + "user/create-adherent", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     Authorization: "Bearer " + myToken,
-    //   },
-    //   body: JSON.stringify({
-    //     nom_ad: nom,
-    //     prenom_ad: prenom,
-    //   }),
-    // });
 
     if (resultStructure.status !== 201) {
       console.log(resultStructure);
       setErreurMessage("Erreur lors de la création de la structure");
       return;
     } else {
-      navigate("/homestruct");
+      const resultSearchId = await fetch(serverAddress + "structures/searchstruct/" + nameStructure, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + myToken,
+        },
+      });
+
+      if (resultSearchId.status !== 200) {
+        setErreurMessage("Erreur lors de la recherche de la structure");
+        return;
+      } else {
+        const resultSearchIdContent = await resultSearchId.json();
+        const idStructure = resultSearchIdContent[0].id_structur;
+        const resultLoginStructure = await fetch(serverAddress + "structures/loginstruct", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + myToken,
+          },
+          body: JSON.stringify({
+            structureId: idStructure,
+          }),
+        });
+
+        if (resultLoginStructure.status !== 201) {
+          setErreurMessage("Erreur lors de la connexion de la structure");
+          return;
+        } else {
+          const resultLoginStructureContent = await resultLoginStructure.json();
+          setTokenSt(resultLoginStructureContent.token);
+          setUserIdSt(resultLoginStructureContent.userId);
+          setStructureId(idStructure);
+          setNameSt(nameStructure);
+          navigate(`/homestruct/${nameStructure}`);
+        }
+      }
+
     }
   }
 
