@@ -1,0 +1,85 @@
+// Variables
+$sidebar-width: 250px;
+$primary-color: #3498db;
+$success-color: #2ecc71;
+$error-color: #e74c3c;
+$text-color: #ecf0f1;
+$title-color: #000000; // Gris pour le titre
+
+// Stylisation générale de la page
+.see-demands {
+  display: flex;
+  margin-left: $sidebar-width;
+  padding: 20px;
+  flex-direction: column;
+  color: $text-color;
+  min-height: 100vh;
+  
+  h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: $title-color; // Couleur du titre grisée
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+
+    li {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: #34495e;
+      margin-bottom: 10px;
+      padding: 10px 15px;
+      border-radius: 6px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+      // Ajout d'une légère séparation pour les noms/prénoms
+      & > :first-child {
+        margin-right: 10px;
+      }
+
+      // Conteneur de boutons pour contrôler l'espacement
+      .button-container {
+        display: flex;
+        gap: 8px; // Écart réduit entre les boutons
+
+        button {
+          background-color: $primary-color;
+          color: $text-color;
+          border: none;
+          padding: 8px 16px;
+          border-radius: 6px;
+          cursor: pointer;
+          transition: background-color 0.3s;
+
+          &:hover {
+            background-color: darken($primary-color, 10%);
+          }
+
+          // Style spécifique pour les boutons d'acceptation et de refus
+          &.accept {
+            background-color: $success-color; // Vert pour accepter
+
+            &:hover {
+              background-color: darken($success-color, 10%);
+            }
+          }
+
+          &.denie {
+            background-color: $error-color; // Rouge pour refuser
+
+            &:hover {
+              background-color: darken($error-color, 10%);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  p {
+    margin-top: 20px;
+  }
+}

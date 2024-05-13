@@ -1,0 +1,98 @@
+.content-void {
+  width: 100%;
+}
+
+.choose-adherant {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px; // Espace entre les carrés
+  padding: 20px;
+
+  h2 {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  li {
+    list-style-type: none; // Enlève les puces
+  }
+
+  ul {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0;
+    gap: 20px;
+  }
+
+  .choose-adherant-container {
+    width: 200px;
+    height: 200px;
+    border: 1px solid #ccc;
+    border-radius: 10px; // Bords arrondis pour les carrés
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2em;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #e0e0e0;
+    }
+  }
+
+  #create-profile {
+    // width: 250px;
+    // height: 250px;
+    // border-radius: 10px;
+    // background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    font-size: 2em;
+    cursor: pointer;
+
+    &:before,
+    &:after {
+      content: "";
+      position: absolute;
+      background-color: #ccc;
+    }
+
+    &:before {
+      height: 70%;
+      width: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    &:after {
+      width: 70%;
+      height: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    &:hover {
+      background-color: #e0e0e0;
+    }
+  }
+}
+
+.no-profile {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px; // Espace entre les carrés
+  padding: 20px;
+
+  h2 {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+}
