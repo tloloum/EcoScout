@@ -1,28 +1,28 @@
 import React, { useContext } from "react";
-import BadgesAd from "../../components/Badges/BadgesAd";
 import BadgesSt from "../../components/Badges/BadgesSt";
 import Sidebar from "../../components/Sidebar";
-import { AuthAdContext } from "../../contexts/AuthAd";
 import { AuthStContext } from "../../contexts/AuthSt";
 
 const Badges = () => {
   const { myStructureId, myTokenSt } = useContext(AuthStContext);
-  const { myAdherentId, myTokenAd } = useContext(AuthAdContext);
   if (myStructureId) {
     return (
-      <div className="home-struct-ad">
-        <Sidebar />
-        <h1>Badges</h1>
-        <BadgesSt />
-      </div>
-    );
-  } else if (myAdherentId) {
-    return (
-      <div className="home-struct-ad">
-        <Sidebar />
-        <h1>Badges</h1>
-        <BadgesAd />
-      </div>
+      <div className="home-ad">
+      <Sidebar />
+      <div className="content">
+            <div className="stat-badge">
+              
+              <div className="badges-section">
+                <div className="title">
+                  <h2>Badges</h2>
+                </div>
+                <BadgesSt />
+              </div>
+            </div>
+          </div>
+        </div>
+
+ 
     );
   } else {
     return (

@@ -9,94 +9,73 @@ import { ServerContext } from "../../contexts/Server";
 const BadgesAd = () => {
   const { getServerAddress } = useContext(ServerContext);
   const { myAdherentId, myTokenAd } = useContext(AuthAdContext);
-  const [badges, setBadges] = useState([]);
-
-  const PossibleBadgesAd = [
+  const [PossibleBadgesAd, setPossibleBadges] = useState([
     {
-      name: "Badge 1",
-      description: "Avoir participé à 3 évènements",
+      name: "Badge structure",
+      description: "Avoir rejoint deux structure",
       src: badge1,
       hasTheBadge: false,
-      condition: user => user.eventsParticipated >= 3,
     },
     {
       name: "Badge 2",
       description: "Recommander l'application à 3 amis",
       src: badge2,
       hasTheBadge: false,
-      condition: user => user.friendsReferred >= 3,
     },
     {
       name: "Badge 3",
       description: "Rejoindre une communauté de 10 adhérents",
       src: badge3,
       hasTheBadge: false,
-      condition: user => user.communityMembers >= 10,
     },
     {
       name: "Badge 4",
       description: "Avoir un impact co2 réduit de 10% entre deux évènements",
       src: badge4,
       hasTheBadge: false,
-      condition: user => user.co2Reduction >= 10,
     },
-  ];
+  ]);
 
   useEffect(() => {
-    const fetchBadges = async () => {
-      try {
+    async function checkJoinedStructure () {
+      try{
         const serverAddress = getServerAddress();
-        const response = await fetch(`${serverAddress}adherent/${myAdherentId}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${myTokenAd}`,
-          },
-        });
-        if (response.ok) {
-          const data = await response.json();
-          setBadges(data.badges || []);
-          updateBadgeStatus(data);
+        const resultStructure = await fetch(
+          `${serverAddress}structures/adherent/`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + myTokenAd,
+            },
+          }
+        );
+        if (resultStructure.ok) {
+          const structuresData = await resultStructure.json();
+          console.log("structuresData", structuresData);
+          const joinedAStructure = structuresData.length >=2 ;
+          setPossibleBadges((prevBadges) =>
+          prevBadges.map((badge) =>
+            badge.name === "Badge structure"
+              ? { ...badge, hasTheBadge: joinedAStructure }
+              : badge
+          )
+        );
         } else {
-          console.log("Erreur lors de la récupération des badges");
+          console.error("Erreur lors de la récupération des structures");
+          return false;
         }
-      } catch (error) {
-        console.error("Error fetching badges:", error);
+      }
+      catch (error) {
+        console.error("Error checking joined structure:", error);
+        return false;
       }
     };
 
-    fetchBadges();
+    checkJoinedStructure();
   }, [getServerAddress, myAdherentId, myTokenAd]);
 
-  const updateBadgeStatus = (userData) => {
-    const updatedBadges = PossibleBadgesAd.map(badge => {
-      if (badge.condition(userData)) {
-        badge.hasTheBadge = true;
-      }
-      return badge;
-    });
-    setBadges(updatedBadges);
-    saveBadges(updatedBadges.filter(badge => badge.hasTheBadge));
-  };
 
-  const saveBadges = async (earnedBadges) => {
-    try {
-      const serverAddress = getServerAddress();
-      const response = await fetch(`${serverAddress}adherent/${myAdherentId}/badges`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${myTokenAd}`,
-        },
-        body: JSON.stringify({ badges: earnedBadges.map(badge => badge.name) }),
-      });
-      if (!response.ok) {
-        console.log("Erreur lors de la sauvegarde des badges");
-      }
-    } catch (error) {
-      console.error("Error saving badges:", error);
-    }
-  };
 
   return (
     <div>
