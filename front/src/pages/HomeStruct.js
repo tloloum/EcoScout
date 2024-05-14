@@ -94,6 +94,26 @@ const HomeStruct = () => {
               ...event,
               isOpen: false,
             }));
+
+            const hierarchy_event = await fetch(
+              `${serverAddress}events/gethierarchyevent/${structName}/${structInfo.id_structur_mere}`,
+              {
+                method: "GET",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${myToken}`,
+                },
+              }
+            );
+
+            if (hierarchy_event.ok) {
+              const hierarchy_event_content = await hierarchy_event.json();
+              eventsWithState.push(...hierarchy_event_content);
+            } else {
+              console.log("Something went wrong with hierarchy_event")
+            }
+
+
             setEventsInfo(eventsWithState);
             setErrorEvent(null); // Clear any previous errors if events are found
           }
