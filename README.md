@@ -7,8 +7,6 @@ Le projet est open source et disponible sur GitHub à l'adresse suivante : [EcoS
 
 Ce projet vise à développer une application informatique permettant d’inciter chaque adhérent et chaque structure à limiter son impact sur le climat, notamment en mesurant les progrès réalisés au travers de différentes actions.
 
-## Server
-
 ## Manuel d'utilisation de l'application
 
 ### Étape 1: Configuration
