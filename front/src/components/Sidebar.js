@@ -69,9 +69,6 @@ const Sidebar = () => {
         </li>
       </ul>
       <ul>
-        <li onClick={() => navigate("/evenements")}>Mes évènements</li>
-      </ul>
-      <ul>
         <li key="join" onClick={() => navigate("/badges")}>
           Voir mes badges
         </li>

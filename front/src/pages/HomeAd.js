@@ -5,6 +5,7 @@ import { AuthContext } from "../contexts/Auth";
 import { AuthAdContext } from "../contexts/AuthAd";
 import { ServerContext } from "../contexts/Server";
 import Sidebar from "../components/Sidebar";
+import StatAd from "../components/StatAd";
 import ListOfAdherents from "../components/ListOfAdherents";
 
 const HomeAd = () => {
@@ -220,7 +221,7 @@ const HomeAd = () => {
             <div className="title">
               <h2>Statistiques</h2>
             </div>
-            TODO: Rajouter les statistiques ici
+            <StatAd />
           </div>
           <div className="event-section">
             <div className="title">

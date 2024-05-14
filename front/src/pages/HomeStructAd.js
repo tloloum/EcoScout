@@ -88,7 +88,7 @@ const HomeStructAd = () => {
       }
     }
     getEvents();
-  }, [myToken, getServerAddress, structName]);
+  }, [myToken, getServerAddress, structInfo]);
 
   // Obtenir la liste des impacts pour chaque événement
   useEffect(() => {
@@ -115,11 +115,14 @@ const HomeStructAd = () => {
           console.error("Erreur :", err);
         }
       }
+      console.log(eventsInfo, newImpactList)
       setImpactList(newImpactList.slice(-3));
     }
 
     if (eventsInfo.length > 0) {
       fetchImpactList();
+    } else {
+      setImpactList([]);
     }
   }, [eventsInfo, getServerAddress]);
 
