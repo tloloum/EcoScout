@@ -130,7 +130,7 @@ const SeeDemands = () => {
           ))}
         </ul>
       ) : (
-        <p>Pas de nouvelles demandes.</p>
+        <p className="no-demand-message">Pas de nouvelles demandes.</p>
       )}
     </div>
   );
