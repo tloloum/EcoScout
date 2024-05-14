@@ -71,6 +71,15 @@ const Sidebar = () => {
       }
       <ul>
         <li onClick={() => navigate("/evenements")}>Mes évènements</li>
+      </ul>
+      <ul
+        className="user-actions-div"
+        onClick={() => {
+          toggleDropdown();
+          // Propose de se déconnecter ou de changer d'utilisateur
+          // navigate("/choose");
+        }}
+      >
         <li>Utilisateur</li>
       </ul>
       {isDropdownOpen && (
