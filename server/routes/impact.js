@@ -22,6 +22,7 @@ router.get("/:id_evenement", impactCtrl.getImpactByEvent);
 router.get("/calcul/:id_impact_event", impactCtrl.getCalculImpact);
 router.get("/calcul/event/:id_evenement", impactCtrl.getCalculEvent);
 
+router.get("/get/totalad", auth_ad, impactCtrl.getTotalAdherent);
 
 router.get("/fill", impactCtrl.fillImpact);
 

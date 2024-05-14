@@ -125,11 +125,24 @@ exports.getCalculImpact = async (req, res, next) => {
 
 exports.getCalculEvent = async (req, res, next) => {
   const id_evenement = req.params.id_evenement;
-  const query = `SELECT id_impact_event FROM Impact WHERE id_evenement = ${id_evenement}`;
+  const query = `SELECT id_impact, nombre_personnes, valeur FROM Impact WHERE id_evenement = ${id_evenement}`;
+  const rows = await utils.send_query_select(query);
+  let total = 0;
+  for (let i = 0; i < rows.length; i++) {
+    const getTotalPoste = `SELECT total_poste_non_decompose FROM Nom_impact WHERE id_impact = ${rows[i].id_impact}`;
+    const rows2 = await utils.send_query_select(getTotalPoste);
+    total += rows[i].valeur * rows2[0].total_poste_non_decompose / rows[i].nombre_personnes;
+  }
+  return res.status(200).json({ impact: total });
+};
+
+exports.getTotalAdherent = async (req, res, next) => {
+  const id_adherent = req.auth.adherentId;
+  const query = `SELECT id_impact_event FROM Impact WHERE id_adherent = ${id_adherent}`;
   const rows = await utils.send_query_select(query);
   let total = 0;
   for (let i = 0; i < rows.length; i++) {
     total += await calculImpact(rows[i].id_impact_event);
   }
   return res.status(200).json({ impact: total });
-};
+}
