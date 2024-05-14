@@ -6,24 +6,17 @@ import badge2 from "../../assets/img/badgeSt/badge8.jpeg";
 import { AuthStContext } from "../../contexts/AuthSt";
 import { ServerContext } from "../../contexts/Server";
 import { AuthContext } from "../../contexts/Auth";  
-import { set } from "react-hook-form";
 
-const BadgesAd = ({hasOrganisedEvents}) => {
+const BadgesSt = () => {
   const { getServerAddress } = useContext(ServerContext);
-  const { myStructureId, myTokenSt ,getNameSt} = useContext(AuthStContext);
-  const [badges, setBadges] = useState([]);
-  const [structInfo, setStructInfo] = useState(null);
-  const [eventsInfo, setEventsInfo] = useState([]);
+  const { getNameSt} = useContext(AuthStContext);
   const { myToken } = useContext(AuthContext);
-  const [obtainedBadge, setObtainedBadge] = useState(false);
-
-
   const [PossibleBadgesSt, setPossibleBadges] = useState([
     {
       name: "Badge event",
       description: "Avoir organisé 3 évènements",
       src: badge1,
-      hasTheBadge: hasOrganisedEvents,
+      hasTheBadge: false,
     },
     {
       name: "Badge 2",
@@ -62,9 +55,7 @@ const BadgesAd = ({hasOrganisedEvents}) => {
         );
 
         if (resultEvents.ok) {
-          console.log("fetching info is ok");
           const textResponse = await resultEvents.text(); // Get response as text first
-          console.log(textResponse);
           let resultEventsContent;
           try {
             resultEventsContent = JSON.parse(textResponse); // Try to parse JSON
@@ -107,4 +98,4 @@ const BadgesAd = ({hasOrganisedEvents}) => {
   );
   };
 
-export default BadgesAd;
+export default BadgesSt;
