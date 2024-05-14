@@ -30,6 +30,7 @@ module.exports = {
     PASSWWORD: '', // votre mdp (qui peut être nul)
     DB: '' // le nom de votre base de donnée
 };
+```
 
 **Installation des dépendances :**
 - Exécutez `npm install` dans les dossiers "front" et "server".
