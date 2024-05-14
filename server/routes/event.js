@@ -96,7 +96,7 @@ router.put("/update/:eventId", auth_struct, eventCtrl.updateEvent);
 router.delete("/delete/:eventId", auth_struct, eventCtrl.deleteEvent);
 
 //Get hierarchy event
-router.get("/gethierarchyevent/:hierarchyId", auth_struct, eventCtrl.getEventHierarchy);
+router.get("/gethierarchyevent/:structName/:hierarchyId",auth, eventCtrl.getEventHierarchy);
 
 router.use((req, res, next) => {
   console.log("Requete d'evenement");

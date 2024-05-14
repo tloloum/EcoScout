@@ -239,8 +239,8 @@ exports.getEventHierarchy = (req, res, next) => {
   // if(!HierarchyId || !req.auth.structureId){
   //   return res.status(401).json({ message: "Unauthorized" });
   // }
-  const myStructId=req.auth.structureId;
-  const query_verif = `SELECT COUNT(*) FROM Structur WHERE id_structure=${myStructId} AND id_structur_mere=${HierarchyId}`;
+  const myStructName = req.params.structName;
+  const query_verif = `SELECT COUNT(*) FROM Structur WHERE nom_structure = '${myStructName}' AND id_structur = '${HierarchyId}'`;
   connection.query(query_verif, (error, rows) => {
     if (error) {
       throw error;
@@ -248,8 +248,15 @@ exports.getEventHierarchy = (req, res, next) => {
       if (rows[0].count === 0) {
         return res.status(401).json({ message: "Unauthorized" });
       }
-      const query = `SELECT * FROM Evenements WHERE id_evenement IN ( SELECT id_evenement FROM Organisateurs WHERE id_structur = ${HierarchyId})`
-      utils.send_query_insert(query, res, 200, "Event from hierarchy fetched successfully");
+      const query = `SELECT * FROM Evenements WHERE id_evenement IN ( SELECT id_evenement FROM Organisateurs WHERE id_structure = ${HierarchyId})`
+      connection.query(query, (error, rows) => {
+        if (error) {
+          throw error;
+        } else {
+          console.log(rows);
+          res.status(200).json(rows);
+        }
+      });
     }
   });
 }
