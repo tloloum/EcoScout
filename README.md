@@ -4,6 +4,59 @@ Ce projet vise à développer une application informatique permettant d’incite
 
 ---
 
+## Manuel d'utilisation de l'application
+
+### Étape 1: Configuration
+
+Cette section décrit les étapes préliminaires nécessaires pour lancer l'application en local. Assurez-vous d'avoir téléchargé npm au préalable.
+
+**Configuration de la base de données :**
+- Créez un utilisateur test dans MySQL.
+- Créez une base de données nommée "pfa" dans MySQL.
+- Utilisez le fichier create.sql (`src/server/bdd/sql/create.sql`) pour configurer la base de données.
+- N'utilisez pas de mot de passe pour cette base de données (les détails sont dans `src/server/config/db_config.js`).
+
+**Installation des dépendances :**
+- Exécutez `npm install` dans les dossiers "front" et "server".
+
+**Lancement du front et du back :**
+- Exécutez `npm start` dans les dossiers "front" et "server" (2 processus nécessaires).
+
+Une fois le serveur lancé, saisissez dans la barre de recherche d'un nouvel onglet :
+http://localhost:3000/impact/fillname
+
+Cela permet de récupérer les données de l'ADEM qui permettent de calculer des impacts plus tard.
+
+### Étape 2: Utilisation de l'application
+
+**Création du compte :**
+Une fois le front et le back lancés, vous arrivez sur la page de connexion. Commencez par créer un compte et renseigner le type de compte (compte parent, personnel...). Une fois le compte créé, renseignez les nom et prénom de l'adhérent. Vous avez désormais accès à un adhérent.
+
+**Création d'une structure :**
+Pour créer une structure, cliquez sur "Utilisateur" en bas à gauche de la barre latérale, puis sur le symbole plus (+) à côté de "Structures". Renseignez ensuite les informations sur la structure avant d'appuyer sur "créer". Une fois cela fait, vous pouvez sélectionner dans "Utilisateur" à quel compte vous voulez vous connecter : une structure parmi vos structures, ou un adhérent parmi vos adhérents.
+
+**Rejoindre une structure :**
+Pour rejoindre une structure en tant qu'adhérent, sélectionnez votre compte adhérent, puis cliquez sur "rejoindre une structure" en haut à gauche de votre barre latérale. Renseignez le nom de la structure que vous souhaitez rejoindre, puis appuyez sur "entrée". Si la structure que vous recherchez existe, un bouton apparaît. Cliquez dessus, puis appuyez sur "rejoindre". Cela crée une demande pour rejoindre la structure.
+
+**Accepter un adhérent dans une structure :**
+Depuis votre compte structure, cliquez sur le bouton en bas à droite "Gérer les membres", puis sur "Demandes en attente". Vous accédez à vos demandes en attente et pouvez les accepter ou les refuser.
+
+**Créer un événement :**
+Pour créer un événement, connectez-vous en tant que structure, puis dans l'onglet "événement", cliquez sur "Ajouter un événement" et renseignez le formulaire.
+
+**Ajouter son impact à l'événement :**
+Pour ajouter un impact aux événements, connectez-vous en tant qu'adhérent appartenant à la structure organisant l'événement. Cliquez sur "Ajouter un impact", renseignez votre impact parmi ceux disponibles dans la base de données de l'ADEM, puis remplissez le formulaire associé. Une fois cela fait, les impacts sont calculés et ajoutés à l'événement.
+
+**Définir une structure en tant que structure parent :**
+Connectez-vous en tant que structure, cliquez en bas à droite sur le bouton "Gérer les membres", puis sur "Gérer la hiérarchie". Renseignez la structure parente de la même manière que pour rejoindre une structure. Il ne s'agit pas d'une demande, vous définissez directement la structure comme parente.
+
+**Suppression d'une structure / d'un adhérent :**
+Dans la barre latérale, sous "Utilisateur", cliquez sur le moins (-) à côté de "structure" ou "adhérent", puis sur le moins à côté du compte que vous voulez supprimer.
+
+**Modification des informations d'un adhérent :**
+En haut de la page, cliquez sur "Modifier", à côté de votre nom et prénom. Renseignez les nouvelles informations, puis cliquez sur "Soumettre".
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
