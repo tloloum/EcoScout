@@ -6,7 +6,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  position: absolute;
+  position: fixed;
 }
 
 .centered {
@@ -140,6 +140,9 @@
 .primaryBtn:hover {
   transform: translateY(-5px);
   box-shadow: 0 10px 20px -10px rgba(24, 90, 219, 0.6);
+}
+.errorMsg {
+  color: #ff3e4e;
 }
 label {
   text-align: left;

@@ -5,6 +5,7 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const utils = require("../bdd/utils/utils.js");
+const connection = require("../bdd/utils/connection.js");
 
 const check_if_exists_user = (mail) =>
   utils.check_if_exists("Utilisateurs", "mail", mail);
@@ -180,7 +181,7 @@ exports.updateAdherent = (req, res, next) => {
   if (!nom_ad || !prenom_ad) {
     return res.status(400).json({ message: "Missing required fields" });
   }
-  const update_query = `UPDATE Adherents SET nom_ad='${nom_ad}', prenom_ad='${prenom_ad}' WHERE id_user='${userId}'`;
+  const update_query = `UPDATE Adherents SET nom_ad='${nom_ad}', prenom_ad='${prenom_ad}' WHERE id_adherent='${adherentId}'`;
   utils.send_query_insert(
     update_query,
     res,
@@ -198,14 +199,25 @@ exports.updateAdherent = (req, res, next) => {
 exports.deleteAdherent = (req, res, next) => {
   const userId = parseInt(req.params.userId, 10);
   const adherentId = parseInt(req.params.adherentId, 10);
-  if (userId !== req.auth.userId || adherentId !== req.auth.adherentId) {
+  if (userId !== req.auth.userId) {
     return res.status(401).json({ message: "Unauthorized" });
   }
-  const delete_query = `DELETE FROM Adherents WHERE id_user='${userId}'`;
-  utils.send_query_insert(
-    delete_query,
-    res,
-    200,
-    "Adherent deleted successfully"
-  );
+  const query_verif = `SELECT * FROM Adherents WHERE id_user='${userId}' AND id_adherent='${adherentId}'`;
+  utils
+    .send_query_select(query_verif)
+    .then((rows) => {
+      if (rows.length === 0) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+      const delete_query = `DELETE FROM Adherents WHERE id_user='${userId}' AND id_adherent='${adherentId}'`;
+      utils.send_query_insert(
+        delete_query,
+        res,
+        200,
+        "Adherent deleted successfully"
+      );
+    })
+    .catch((error) => {
+      res.status(500).json({ error });
+    });
 };

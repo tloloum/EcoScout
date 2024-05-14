@@ -1,3 +1,7 @@
+.content-void {
+  width: 100%;
+}
+
 .choose-adherant {
   display: flex;
   flex-wrap: wrap;
@@ -15,7 +19,15 @@
     list-style-type: none; // Enlève les puces
   }
 
-  button {
+  ul {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0;
+    gap: 20px;
+  }
+
+  .choose-adherant-container {
     width: 200px;
     height: 200px;
     border: 1px solid #ccc;
@@ -31,26 +43,12 @@
       background-color: #e0e0e0;
     }
   }
-}
 
-.no-profile {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px; // Espace entre les carrés
-  padding: 20px;
-
-  h2 {
-    width: 100%;
-    text-align: center;
-    margin-bottom: 20px;
-  }
-
-  .create-profile {
-    width: 250px;
-    height: 250px;
-    border-radius: 10px;
-    background-color: #f0f0f0;
+  #create-profile {
+    // width: 250px;
+    // height: 250px;
+    // border-radius: 10px;
+    // background-color: #f0f0f0;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -82,5 +80,19 @@
     &:hover {
       background-color: #e0e0e0;
     }
+  }
+}
+
+.no-profile {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px; // Espace entre les carrés
+  padding: 20px;
+
+  h2 {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 20px;
   }
 }

@@ -1,0 +1,220 @@
+.home-ad {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: calc(100% - 250px); // Adjusted for sidebar width
+  margin-left: 250px; // Sidebar offset
+
+  .content {
+    flex: 1;
+    width: 80%;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    background: white;
+
+    .name {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      margin-bottom: 20px;
+      padding: 15px;
+      border: solid 2px #2c3e50;
+      background: #d7e8ff;
+      border-radius: 12px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      position: relative;
+
+      .profile-header {
+        flex: 1;
+        text-align: center;
+
+        .profile-title {
+          margin: 0 auto;
+          color: #2c3e50;
+          font-size: 28px;
+          font-family: "Arial", sans-serif;
+        }
+
+        .edit-profile-button {
+          position: absolute;
+          right: 15px;
+          top: 50%;
+          transform: translateY(-50%);
+          background-color: #004d40;
+          color: white;
+          border: none;
+          padding: 10px 20px;
+          border-radius: 8px;
+          cursor: pointer;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+          &:hover {
+            background-color: #00796b;
+          }
+        }
+      }
+    }
+
+    .modal {
+      width: 100%;
+      max-width: 500px;
+      background: #fff;
+      box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+      overflow: hidden;
+      padding: 20px;
+      text-align: left;
+    }
+
+    .modalHeader {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .heading {
+      font-size: 20px;
+      font-weight: 600;
+      margin: 0;
+      color: #333;
+    }
+
+    .closeBtn {
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      font-size: 20px;
+      color: #333;
+    }
+
+    .modalContent {
+      margin-top: 10px;
+    }
+
+    label {
+      display: block;
+      margin: 10px 0;
+      font-size: 16px;
+      color: #333;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+
+    .submitBtn {
+      padding: 10px 20px;
+      background-color: #28a745;
+      border: none;
+      border-radius: 4px;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .submitBtn:hover {
+      background-color: #218838;
+    }
+
+    /* App.css or your main stylesheet */
+    .profile-header {
+      display: grid; /* Use grid layout */
+      grid-template-columns: 1fr auto; /* 1fr (title) + auto (button) */
+      align-items: center; /* Align items vertically in the center */
+      gap: 10px; /* Optional: space between elements */
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      background-color: none;
+    }
+
+    .profile-title {
+      margin: 0; /* Removes default margin from h1 */
+    }
+
+    .stat-badge {
+      display: flex;
+      flex-direction: column;
+      align-items: center; // This ensures that the child sections are centered
+      width: 100%;
+      margin-bottom: 20px;
+
+      .stat-section,
+      .badges-section {
+        width: 100%;
+        margin-bottom: 20px;
+        border: solid 2px #00796b;
+        background: #e0f2f1;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        overflow-y: auto;
+        max-height: 40vh;
+
+        .title {
+          border: solid 2px #00796b;
+          text-align: center;
+          width: auto;
+          padding: 0.5px;
+          margin-bottom: 10px;
+          color: #004d40;
+          font-family: "Arial", sans-serif;
+        }
+      }
+    }
+  }
+}
+
+.chargement {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100vh; // Ajustez la hauteur selon le contexte de votre application
+  background-color: rgba(255, 255, 255, 0.8);
+  color: #333;
+  font-family: "Arial", sans-serif;
+  font-size: 24px;
+  text-align: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999; // Assure que la div est bien visible au-dessus des autres contenus
+
+  // Animation de fondu pour l'effet de chargement
+  &::before {
+    content: "";
+    display: block;
+    width: 50px;
+    height: 50px;
+    border: 5px solid #ddd; // Couleur du bord externe du cercle
+    border-top-color: #007bff; // Couleur du bord supérieur animé
+    border-radius: 50%;
+    position: absolute;
+    top: calc(50% - 25px); // Centrage vertical
+    left: calc(50% - 25px); // Centrage horizontal
+    animation: spin 1s linear infinite; // Animation de rotation
+  }
+
+  // Animation de rotation pour le cercle de chargement
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+}

@@ -47,14 +47,13 @@ const Login = () => {
       console.log(resultTokenContent);
       setUserId(resultTokenContent.userId);
       setToken(resultTokenContent.token);
-      login(email, password); 
-      navigate("/chooseadherant");
+      login(email, password);
+      navigate("/homead");
     }
   }
 
   return (
     <div className="login-page">
-
       <section id="form">
         <h2>Se connecter</h2>
         <form onSubmit={handleSubmit}>

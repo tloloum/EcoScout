@@ -1,0 +1,93 @@
+.add-impact {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: calc(100% - 250px); /* Adjust to your sidebar width */
+    margin-left: 250px; /* Offset to accommodate the sidebar */
+
+    .content {
+        flex: 1;
+        padding: 20px;
+        background-color: #f4f4f4;
+        width: 100%;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        max-width: 600px; /* Set a maximum width to limit the form's size */
+        margin: 30px auto; /* Center the form horizontally and vertically */
+
+        h1 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+
+            .input-container {
+                width: 100%;
+                padding: 10px;
+                border: 1px solid #e0e0e0;
+                border-radius: 8px;
+                background-color: #fff;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+                margin-bottom: 15px;
+            }
+
+            .search-bar,
+            .quantity-input,
+            .unit-select {
+                width: 100%;
+                border: none;
+                outline: none;
+                background: none;
+                font-size: 16px;
+                padding: 10px;
+            }
+
+            .unit-select {
+                appearance: none;
+                cursor: pointer;
+                border: 1px solid #ccc;
+                border-radius: 8px;
+                font-size: 18px; /* Larger font size for visibility */
+                padding: 12px; /* Larger padding for prominence */
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+                background-color: #fff;
+                margin-top: 10px;
+                transition: all 0.2s ease;
+
+                &:hover {
+                    border-color: #888; /* Change border color on hover */
+                }
+            }
+        }
+
+        .impact-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            max-height: 300px; /* Set a maximum height for the scrollable list */
+            overflow-y: auto; /* Enable vertical scrolling */
+
+            .impact-item {
+                padding: 10px;
+                background-color: #fff;
+                border: 1px solid #e0e0e0;
+                border-radius: 8px;
+                margin-bottom: 10px;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+                cursor: pointer;
+                transition: box-shadow 0.2s, background-color 0.2s;
+
+                &:hover {
+                    background-color: #f0f2f5;
+                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                }
+            }
+        }
+    }
+}
