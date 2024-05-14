@@ -327,11 +327,12 @@ exports.deleteDemand = (req, res, next) => {
 exports.addAdmin = (req, res, next) => {
   const structureId = parseInt(req.params.structureId, 10);
   const adherentId = parseInt(req.params.adherentId, 10);
+  console.log("hey");
   const date_creation = new Date().toISOString().slice(0, 19).replace("T", " ");
   if (structureId !== req.auth.structureId) {
     return res.status(401).json({ message: "Unauthorized" });
   }
-  const query = `INSERT INTO Admin (id_admin, debut_mandat, id_structure, id_adherent) VALUES (1 ,'${date_creation}' ,'${structureId}', '${adherentId}')`;
+  const query = `INSERT INTO Admin (id_admin, debut_mandat, id_structure, id_adherent) VALUES ('0' ,'${date_creation}' ,'${structureId}', '${adherentId}')`;
   console.log("hey");
   connection.query(query, (error, results, fields) => {
     if (error) {
@@ -373,7 +374,7 @@ exports.getMembersStruct = (req, res, next) => {
     if (error) {
       res.status(500).json({ error });
     } else {
-      res.status(200).json({ message: "Liste des adherents dans la structure" });
+      res.status(200).json({ results});
     }
   });
 }
