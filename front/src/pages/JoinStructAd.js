@@ -4,7 +4,7 @@ import { AuthAdContext } from "../contexts/AuthAd";
 import { ServerContext } from "../contexts/Server";
 import { useNavigate } from "react-router-dom";
 import SearchStruct from "../components/SearchStruct";
-
+import Sidebar from "../components/Sidebar";
 
 const JoinStructAd = () => {
     const { getServerAddress } = useContext(ServerContext);
@@ -52,7 +52,11 @@ const JoinStructAd = () => {
         setShowForm(false);
     };
     return (
+        
     <div>
+        <div className="home-struct-ad">
+            <Sidebar />
+    </div>
         <SearchStruct structureSubmit={structureSubmit}/>
         
     </div>
