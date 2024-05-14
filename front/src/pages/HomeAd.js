@@ -150,9 +150,6 @@ const HomeAd = () => {
   return (
     <div className="home-ad">
       <Sidebar />
-      <div className="list-of-adherents-load">
-        <ListOfAdherents />
-      </div>
       <div className="content">
         <div className="name">
           <div className="profile-header">
@@ -217,14 +214,14 @@ const HomeAd = () => {
             </>
           )}
         </div>
-        <div className="impact-event-container">
-          <div className="impact-section">
+        <div className="stat-badge">
+          <div className="stat-section">
             <div className="title">
               <h2>Statistiques</h2>
             </div>
             <StatAd />
           </div>
-          <div className="event-section">
+          <div className="badges-section">
             <div className="title">
               <h2>Badges</h2>
             </div>
