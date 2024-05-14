@@ -7,6 +7,7 @@
 *.swp
 *.swo
 
+<<<<<<< HEAD
 # Fichiers latex
 *.aux
 *.out
@@ -17,6 +18,10 @@
 
 # Dossiers et fichiers de dépendances
 front/node_modules/
+=======
+
+# Dossiers et fichiers de dépendances
+>>>>>>> origin
 server/node_modules/
 /vendor/
 /bower_components/

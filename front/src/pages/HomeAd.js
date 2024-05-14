@@ -214,20 +214,22 @@ const HomeAd = () => {
             </>
           )}
         </div>
-        <div className="stat-badge">
-          <div className="stat-section">
-            <div className="title">
-              <h2>Statistiques</h2>
+        {!showForm && (<>
+          <div className="stat-badge">
+            <div className="stat-section">
+              <div className="title">
+                <h2>Statistiques</h2>
+              </div>
+              <StatAd />
             </div>
-            <StatAd />
-          </div>
-          <div className="badges-section">
-            <div className="title">
-              <h2>Badges</h2>
+            <div className="badges-section">
+              <div className="title">
+                <h2>Badges</h2>
+              </div>
+              <ListOfBadges />
             </div>
-            <ListOfBadges />
           </div>
-        </div>
+        </>)}
       </div>
     </div>
   );

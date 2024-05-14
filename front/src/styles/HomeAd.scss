@@ -61,6 +61,90 @@
       }
     }
 
+
+    .modal {
+      width: 100%;
+      max-width: 500px;
+      background: #fff;
+      box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+      overflow: hidden;
+      padding: 20px;
+      text-align: left;
+    }
+
+    .modalHeader {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .heading {
+      font-size: 20px;
+      font-weight: 600;
+      margin: 0;
+      color: #333;
+    }
+
+    .closeBtn {
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      font-size: 20px;
+      color: #333;
+    }
+
+    .modalContent {
+      margin-top: 10px;
+    }
+
+    label {
+      display: block;
+      margin: 10px 0;
+      font-size: 16px;
+      color: #333;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+
+    .submitBtn {
+      padding: 10px 20px;
+      background-color: #28a745;
+      border: none;
+      border-radius: 4px;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .submitBtn:hover {
+      background-color: #218838;
+    }
+
+    /* App.css or your main stylesheet */
+    .profile-header {
+      display: grid; /* Use grid layout */
+      grid-template-columns: 1fr auto; /* 1fr (title) + auto (button) */
+      align-items: center; /* Align items vertically in the center */
+      gap: 10px; /* Optional: space between elements */
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      background-color: none;
+    }
+
+    .profile-title {
+      margin: 0; /* Removes default margin from h1 */
+    }
+
     .stat-badge {
       display: flex;
       flex-direction: column;
