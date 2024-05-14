@@ -229,8 +229,12 @@ router.delete(
 //Route pour creer et ajouter un admin à une structure
 router.post("/admin/:structureId/adherent/:adherentId", auth_struct, structCtrl.addAdmin);
 
+//Route pour récuperer les admins d'une structure
+router.get("/getadmins/:structureId", auth_struct, structCtrl.getAdminsStruct);
+
 //Route pour lister les membres d'une structure
 router.get("/getmembers/:structureId", auth_struct, structCtrl.getMembersStruct);
+
 
 //Route pour supprimer un membre d'une structure
 router.delete("/delmember/:structureId/adherent/:adherentId", auth_struct, structCtrl.deleteMemberStruct);

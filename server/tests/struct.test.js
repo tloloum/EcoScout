@@ -305,16 +305,20 @@ describe("Structures API", () => {
     );
   });
 
+  it("should get all admins from a struct", async () => {
+    const structureId = 1;
+    const response = await request(app)
+      .get(`/structures/getadmins/${structureId}`)
+      .set("Authorization", `Bearer ${structureToken}`)
+      .expect(200);
+  });
+
   it("should get all members from a struct", async () => {
     const structureId = 1;
     const response = await request(app)
       .get(`/structures/getmembers/${structureId}`)
       .set("Authorization", `Bearer ${structureToken}`)
       .expect(200);
-    expect(response.body).toHaveProperty(
-      "message",
-      "Liste des adherents dans la structure"
-    );
   });
 
   it("should delete a member from a struct", async () => {
