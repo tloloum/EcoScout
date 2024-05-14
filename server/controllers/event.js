@@ -233,3 +233,23 @@ exports.deleteEvent = (req, res, next) => {
     }
   });
 };
+
+exports.getEventHierarchy = (req, res, next) => {
+  const HierarchyId= req.params.hierarchyId;
+  // if(!HierarchyId || !req.auth.structureId){
+  //   return res.status(401).json({ message: "Unauthorized" });
+  // }
+  const myStructId=req.auth.structureId;
+  const query_verif = `SELECT COUNT(*) FROM Structur WHERE id_structure=${myStructId} AND id_structur_mere=${HierarchyId}`;
+  connection.query(query_verif, (error, rows) => {
+    if (error) {
+      throw error;
+    } else {
+      if (rows[0].count === 0) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+      const query = `SELECT * FROM Evenements WHERE id_evenement IN ( SELECT id_evenement FROM Organisateurs WHERE id_structur = ${HierarchyId})`
+      utils.send_query_insert(query, res, 200, "Event from hierarchy fetched successfully");
+    }
+  });
+}
