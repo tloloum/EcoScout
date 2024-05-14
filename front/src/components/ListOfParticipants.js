@@ -13,6 +13,7 @@ const ListOfParticipants = (props) => {
 
     const navigate = useNavigate();
     const [participants, setParticipants] = useState([]);
+    const [admins, setAdmins] = useState(null);
     // const [showMinus, setShowMinus] = useState(false);
 
     useEffect(() => {
@@ -50,6 +51,27 @@ const ListOfParticipants = (props) => {
         showParticipants();
     }, [getServerAddress, myTokenSt, myStructureId]);
 
+    useEffect(() => {
+        const serverAddress = getServerAddress();
+        const fetchAdmins = async () => {
+            // Récupérer les administrateurs depuis votre API
+            const response = await fetch(serverAddress + "structures/getadmins/" + myStructureId, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + myTokenSt,
+                },
+            });
+            if (response.ok) {
+                console.log(admins+"fajkeea");
+                const data = await response.json();
+                setAdmins(data); // Mettre à jour la liste des administrateurs
+                console.log(data);
+            }
+        };
+        fetchAdmins();
+    }, [getServerAddress, myTokenSt, myStructureId]);
+
     const handleAddAdminButton = async (participantId) => {
         const serverAddress = getServerAddress();
         const response = await fetch(serverAddress + "structures/admin/" + myStructureId + "/adherent/" + participantId, {
@@ -59,8 +81,8 @@ const ListOfParticipants = (props) => {
                 Authorization: "Bearer " + myTokenSt,
             },
         });
-        console.log(participantId);
-        console.log(response.status);
+        // console.log(participantId);
+        // console.log(response.status);
         if (response.status !== 201) {
             console.log("Erreur lors de l'ajout de l'admin");
             return;
@@ -96,7 +118,8 @@ const ListOfParticipants = (props) => {
                 {participants.map((participant) => (
                     <li key={participant.id_adherent}>
                         {participant.nom_ad} {participant.prenom_ad}
-                        <button onClick={() => handleAddAdminButton(participant.id_adherent)}>Ajouter en tant qu'admin</button>
+                        {(admins !== null) && (admins.results.some(admin => admin.id === participant.id_adherent)) &&(
+                        <button onClick={() => handleAddAdminButton(participant.id_adherent)}>Ajouter en tant qu'admin</button>)}
                         <button onClick={() => handleRemoveParticipantButton(participant.id_adherent)}>Supprimer</button>
                     </li>
                 ))}
