@@ -10,7 +10,7 @@ const ListOfAdherents = (props) => {
   const { getServerAddress } = useContext(ServerContext);
   const { myTokenAd, setTokenAd, setUserIdAd, setAdherentId, loginAd, setFirstNameAd } =
     useContext(AuthAdContext);
-  const { setTokenSt, setUserIdSt, setStructureId, setNameSt, setDateSt} = useContext(AuthStContext);
+  const { setTokenSt, setUserIdSt, setStructureId, setNameSt, setDateSt, signOutSt} = useContext(AuthStContext);
 
   const navigate = useNavigate();
   const [adherents, setAdherents] = useState([]);
@@ -77,6 +77,13 @@ const ListOfAdherents = (props) => {
     setFirstNameAd(prenom);
     setAdherentId(adherentId);
     loginAd();
+    setTokenSt("");
+    setUserIdSt(null);
+    setStructureId(null);
+    setUserIdSt(null);
+    setNameSt("");
+    setDateSt("");
+    signOutSt();
     navigate("/homead");
   };
 
@@ -189,12 +196,6 @@ const ListOfAdherents = (props) => {
             className="choose-adherant-container"
             onClick={() => {
               loginAdherent(adherent.id_adherent, adherent.prenom_ad);
-              setTokenSt("");
-              setUserIdSt(null);
-              setStructureId(null);
-              setUserIdSt(null);
-              setNameSt("");
-              setDateSt("");
             }}
           >
           <div className="ad-actions">

@@ -10,7 +10,7 @@ import logo from "../assets/img/logo.jpeg";
 
 const Sidebar = () => {
   const [structures, setStructures] = useState([]);
-  const { myTokenAd } = useContext(AuthAdContext);
+  const { myTokenAd, isAuthenticatedAd } = useContext(AuthAdContext);
   const { myTokenSt } = useContext(AuthStContext);
   const { getServerAddress } = useContext(ServerContext);
   const [isStruct, setIsStruct] = useState(false); 
@@ -71,7 +71,7 @@ const Sidebar = () => {
           </li>
         ))}
       </ul>
-      {myTokenAd!=undefined && <ul>
+      {isAuthenticatedAd && <ul>
         <li key="join" onClick={() => navigate("/join")}>
           Rejoindre une structure
         </li>
