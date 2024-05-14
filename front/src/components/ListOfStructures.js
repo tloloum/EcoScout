@@ -7,7 +7,7 @@ import { ServerContext } from "../contexts/Server";
 
 const ListOfStructures = (props) => {
   const { myToken, myUserId } = useContext(AuthContext);
-  const { myTokenAd, setTokenAd, setUserIdAd, setFirstNameAd } = useContext(AuthAdContext);
+  const { myTokenAd, setTokenAd, setUserIdAd, setFirstNameAd, signOutAd } = useContext(AuthAdContext);
   const { getServerAddress } = useContext(ServerContext);
 
   const {
@@ -84,6 +84,10 @@ const ListOfStructures = (props) => {
       setNameSt(structureName);
       setDateSt(structureDate);
       loginSt();
+      setTokenAd(null);
+      setFirstNameAd("");
+      setUserIdAd(null);
+      signOutAd();
       navigate("/homeStruct/" + structureName);
     }
   }
@@ -136,9 +140,6 @@ const ListOfStructures = (props) => {
           key={structure.id_structur}
           className="choose-adherant-container"
           onClick={() => {
-            setTokenAd(null);
-            setFirstNameAd("");
-            setUserIdAd(null);
             loginStructure(structure.id_structur, structure.nom_structure, structure.date_creation);
           }}
         >
