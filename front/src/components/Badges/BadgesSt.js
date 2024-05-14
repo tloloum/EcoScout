@@ -5,18 +5,25 @@ import badge4 from "../../assets/img/badgeSt/badge7.jpeg";
 import badge2 from "../../assets/img/badgeSt/badge8.jpeg";
 import { AuthStContext } from "../../contexts/AuthSt";
 import { ServerContext } from "../../contexts/Server";
+import { AuthContext } from "../../contexts/Auth";  
+import { set } from "react-hook-form";
 
-const BadgesAd = () => {
+const BadgesAd = ({hasOrganisedEvents}) => {
   const { getServerAddress } = useContext(ServerContext);
-  const { myStructureId, myTokenSt } = useContext(AuthStContext);
+  const { myStructureId, myTokenSt ,getNameSt} = useContext(AuthStContext);
   const [badges, setBadges] = useState([]);
+  const [structInfo, setStructInfo] = useState(null);
+  const [eventsInfo, setEventsInfo] = useState([]);
+  const { myToken } = useContext(AuthContext);
+  const [obtainedBadge, setObtainedBadge] = useState(false);
 
-  const PossibleBadgesSt = [
+
+  const [PossibleBadgesSt, setPossibleBadges] = useState([
     {
-      name: "Badge 1",
+      name: "Badge event",
       description: "Avoir organisé 3 évènements",
       src: badge1,
-      hasTheBadge: false,
+      hasTheBadge: hasOrganisedEvents,
     },
     {
       name: "Badge 2",
@@ -36,41 +43,50 @@ const BadgesAd = () => {
       src: badge4,
       hasTheBadge: false,
     },
-  ];
+  ]);
+  
+  // // // Get structure events
   useEffect(() => {
-    const fetchBadges = async () => {
+    async function getNumberEvents() {
       try {
         const serverAddress = getServerAddress();
-        const response = await fetch(`${serverAddress}${myStructureId}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${myTokenSt}`,
-          },
-        });
-        if (response.ok) {
-          const data = await response.json();
-          setBadges(data);
-          if (data.badges) {
-            data.badges.forEach((badge) => {
-              PossibleBadgesSt.forEach((possibleBadge) => {
-                if (badge === possibleBadge.name) {
-                  possibleBadge.hasTheBadge = true;
-                  possibleBadge.description = badge.description;
-                }
-              });
-            });
+        const resultEvents = await fetch(
+          `${serverAddress}events/allevents/${getNameSt()}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${myToken}`,
+            },
           }
-        } else {
-          console.log("Erreur lors de la récupération des badges");
-        }
-      } catch (error) {
-        console.error("Error fetching badges:", error);
-      }
-    };
+        );
 
-    fetchBadges();
-  }, [getServerAddress]);
+        if (resultEvents.ok) {
+          console.log("fetching info is ok");
+          const textResponse = await resultEvents.text(); // Get response as text first
+          console.log(textResponse);
+          let resultEventsContent;
+          try {
+            resultEventsContent = JSON.parse(textResponse); // Try to parse JSON
+            const hasOrganisedEvents = resultEventsContent.length >= 3;
+
+          setPossibleBadges((prevBadges) =>
+          prevBadges.map((badge) =>
+            badge.name === "Badge event"
+              ? { ...badge, hasTheBadge: hasOrganisedEvents }
+              : badge
+          )
+        );
+          } catch (error) {
+            throw new Error(`Invalid JSON response: ${textResponse}`);
+          }
+        }}catch (err) {
+          console.error("Erreur:", err);
+        }}
+        getNumberEvents();
+      }, [myToken, getServerAddress, getNameSt]);
+
+
   return (
     <div>
       <div className="badges-list">
@@ -89,6 +105,6 @@ const BadgesAd = () => {
       </div>
     </div>
   );
-};
+  };
 
 export default BadgesAd;

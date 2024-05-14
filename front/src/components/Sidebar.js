@@ -10,7 +10,7 @@ import logo from "../assets/img/logo.jpeg";
 const Sidebar = () => {
   const [structures, setStructures] = useState([]);
   const { myTokenAd, isAuthenticatedAd } = useContext(AuthAdContext);
-  const { myTokenSt, myNameSt } = useContext(AuthStContext);
+  const { myTokenSt, myNameSt, isAuthenticatedSt} = useContext(AuthStContext);
   const { getServerAddress } = useContext(ServerContext);
   const [isStruct, setIsStruct] = useState(false);
   const navigate = useNavigate();
@@ -86,11 +86,16 @@ const Sidebar = () => {
           </li>
         </ul>
       )}
-      <ul>
-        <li key="join" onClick={() => navigate("/badges")}>
-          Voir mes badges
-        </li>
-      </ul>
+      {
+        isAuthenticatedSt && (
+          <ul>
+          <li key="join" onClick={() => navigate("/badges")}>
+            Voir mes badges
+          </li>
+        </ul>
+        )
+      }
+
       <ul
         className="user-actions-div"
         onClick={() => {
