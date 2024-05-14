@@ -232,7 +232,6 @@ exports.joinStruct = (req, res, next) => {
 exports.joinHierarchy = (req, res, next) => {
   const structureId = parseInt(req.params.structureId, 10);
   const structuremereId = parseInt(req.params.structuremereId, 10);
-  console.log("hey");
   if (structureId !== req.auth.structureId) {
     return res.status(401).json({ message: "Unauthorized" });
   } else {
@@ -327,13 +326,11 @@ exports.deleteDemand = (req, res, next) => {
 exports.addAdmin = (req, res, next) => {
   const structureId = parseInt(req.params.structureId, 10);
   const adherentId = parseInt(req.params.adherentId, 10);
-  console.log("hey");
   const date_creation = new Date().toISOString().slice(0, 19).replace("T", " ");
   if (structureId !== req.auth.structureId) {
     return res.status(401).json({ message: "Unauthorized" });
   }
   const query = `INSERT INTO Admin (id_admin, debut_mandat, id_structure, id_adherent) VALUES ('0' ,'${date_creation}' ,'${structureId}', '${adherentId}')`;
-  console.log("hey");
   connection.query(query, (error, results, fields) => {
     if (error) {
       console.log(error);
@@ -375,6 +372,21 @@ exports.getMembersStruct = (req, res, next) => {
       res.status(500).json({ error });
     } else {
       res.status(200).json({ results});
+    }
+  });
+}
+
+exports.getAdminsStruct = (req, res, next) => {
+  const structureId = parseInt(req.params.structureId, 10);
+  if (structureId !== req.auth.structureId) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+  const query = `SELECT Adherents.id_adherent, Adherents.nom_ad, Adherents.prenom_ad FROM Adherents JOIN Admin ON Adherents.id_adherent = Admin.id_adherent WHERE Admin.id_structure = '${structureId}'`;
+  connection.query(query, (error, results, fields) => {
+    if (error) {
+      res.status(500).json({ error });
+    } else {
+      res.status(200).json({results});
     }
   });
 }
