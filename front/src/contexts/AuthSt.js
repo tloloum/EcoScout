@@ -73,6 +73,7 @@ const AuthStContextProvider = (props) => {
         myUserIdSt,
         myStructureId,
         getNameSt,
+        myNameSt,
         setNameSt,
         setDateSt,
       }}

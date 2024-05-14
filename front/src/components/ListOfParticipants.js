@@ -11,6 +11,8 @@ const ListOfParticipants = (props) => {
     const { getServerAddress } = useContext(ServerContext);
     const {myStructureId , myTokenSt, myNameSt} = useContext(AuthStContext);
 
+    console.log(myStructureId + " " + myTokenSt + " " + myNameSt)
+
     const navigate = useNavigate();
     const [participants, setParticipants] = useState([]);
     // const [showMinus, setShowMinus] = useState(false);
@@ -39,7 +41,6 @@ const ListOfParticipants = (props) => {
                 return;
             } else {
                 const resultParticipantContent = await resultParticipant.json();
-                console.log(resultParticipantContent.results);
                 console.log("Participants récupérés avec succès "+ resultParticipantContent); //ici la longueur = undefined je recoi uniquement le message de succes
                 // if (resultParticipantContent.length > 0) {
                     // console.log(resultParticipantContent+ "adza"); // je rentre jamais la donc pas de participant 
@@ -59,13 +60,10 @@ const ListOfParticipants = (props) => {
                 Authorization: "Bearer " + myTokenSt,
             },
         });
-        console.log(participantId);
-        console.log(response.status);
         if (response.status !== 201) {
             console.log("Erreur lors de l'ajout de l'admin");
             return;
         }
-        console.log("Admin ajouté avec succès");
         navigate("/HomeStruct/"+myNameSt);
     }
 
@@ -80,7 +78,6 @@ const ListOfParticipants = (props) => {
                 Authorization: "Bearer " + myTokenSt,
             },
         });
-        console.log(response.status);
         if (response.status !== 200) {
             console.log("Erreur lors de la suppression du participant");
             return;

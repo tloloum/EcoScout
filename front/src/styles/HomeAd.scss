@@ -38,7 +38,7 @@
           margin: 0 auto;
           color: #2c3e50;
           font-size: 28px;
-          font-family: 'Arial', sans-serif;
+          font-family: "Arial", sans-serif;
         }
 
         .edit-profile-button {
@@ -60,7 +60,6 @@
         }
       }
     }
-
 
     .modal {
       width: 100%;
@@ -171,9 +170,51 @@
           padding: 0.5px;
           margin-bottom: 10px;
           color: #004d40;
-          font-family: 'Arial', sans-serif;
+          font-family: "Arial", sans-serif;
         }
       }
+    }
+  }
+}
+
+.chargement {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100vh; // Ajustez la hauteur selon le contexte de votre application
+  background-color: rgba(255, 255, 255, 0.8);
+  color: #333;
+  font-family: "Arial", sans-serif;
+  font-size: 24px;
+  text-align: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999; // Assure que la div est bien visible au-dessus des autres contenus
+
+  // Animation de fondu pour l'effet de chargement
+  &::before {
+    content: "";
+    display: block;
+    width: 50px;
+    height: 50px;
+    border: 5px solid #ddd; // Couleur du bord externe du cercle
+    border-top-color: #007bff; // Couleur du bord supérieur animé
+    border-radius: 50%;
+    position: absolute;
+    top: calc(50% - 25px); // Centrage vertical
+    left: calc(50% - 25px); // Centrage horizontal
+    animation: spin 1s linear infinite; // Animation de rotation
+  }
+
+  // Animation de rotation pour le cercle de chargement
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
     }
   }
 }
