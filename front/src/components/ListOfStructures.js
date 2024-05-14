@@ -89,7 +89,25 @@ const ListOfStructures = (props) => {
   }
 
   const handleDeleteStruct = async (structureId) => {
-    // Implementation for structure deletion can go here
+    const serverAddress = getServerAddress();
+    console.log(serverAddress + structureId);
+    const res= await fetch(
+      serverAddress + "structures/" +structureId,
+      {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + myToken,
+      },
+    });
+    if(res.status!=200){
+      console.log("Erreur de la supression de la structure");
+
+    }
+    else{
+      console.log("Succès dans la supression de la structure");
+      navigate("/homeAd")
+    }
   };
 
   const handleDeleteButton = () => {
