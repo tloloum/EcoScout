@@ -48,7 +48,7 @@ const StatAd = () => {
             return prev;
           }
         });
-      }, 40);
+      }, 10);
     }
     return () => clearInterval(interval);
   }, [totalImpact]);
