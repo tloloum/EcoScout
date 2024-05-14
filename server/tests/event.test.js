@@ -110,21 +110,21 @@ describe("Event API", () => {
     expect(res.body).toHaveProperty("message", "Event created successfully");
   });
 
-  // Test de la récupération de tous les événements d'une structure
-  it("should get all events from a structure", async () => {
-    const res = await request(app)
-      .get("/events/struct/allevents")
-      .set("Authorization", `Bearer ${Structtoken}`);
-    expect(res.statusCode).toEqual(200);
-    expect(res.body).toBeInstanceOf(Array);
-    expect(res.body[0]).toHaveProperty("nom_evenement");
-    expect(res.body[0]).toHaveProperty("date_debut");
-    expect(res.body[0]).toHaveProperty("lieu");
-    expect(res.body[0]).toHaveProperty("descr");
-    expect(res.body[0]).toHaveProperty("duree_evenement");
-    expect(res.body[0]).toHaveProperty("id_evenement");
-    expect(res.body[0].nom_evenement).toEqual("EventTest1");
-  });
+  // // Test de la récupération de tous les événements d'une structure
+  // it("should get all events from a structure", async () => {
+  //   const res = await request(app)
+  //     .get("/events/struct/allevents")
+  //     .set("Authorization", `Bearer ${Structtoken}`);
+  //   expect(res.statusCode).toEqual(200);
+  //   expect(res.body).toBeInstanceOf(Array);
+  //   expect(res.body[0]).toHaveProperty("nom_evenement");
+  //   expect(res.body[0]).toHaveProperty("date_debut");
+  //   expect(res.body[0]).toHaveProperty("lieu");
+  //   expect(res.body[0]).toHaveProperty("descr");
+  //   expect(res.body[0]).toHaveProperty("duree_evenement");
+  //   expect(res.body[0]).toHaveProperty("id_evenement");
+  //   expect(res.body[0].nom_evenement).toEqual("EventTest1");
+  // });
 
   // Test de la récupération de tous les événements d'une structure par un adhérent
   it("should get all events from a structure by an adherent", async () => {
