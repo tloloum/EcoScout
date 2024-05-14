@@ -11,7 +11,7 @@ import logo from "../assets/img/logo.jpeg";
 const Sidebar = () => {
   const [structures, setStructures] = useState([]);
   const { myTokenAd, isAuthenticatedAd } = useContext(AuthAdContext);
-  const { myTokenSt } = useContext(AuthStContext);
+  const { myTokenSt, myNameSt } = useContext(AuthStContext);
   const { getServerAddress } = useContext(ServerContext);
   const [isStruct, setIsStruct] = useState(false); 
   const navigate = useNavigate();
@@ -56,7 +56,14 @@ const Sidebar = () => {
       <img
         src={logo}
         alt="Logo"
-        onClick={() => navigate("/homeAd")}
+        onClick={() => {
+          if(!myTokenAd){
+            navigate(`/homeStruct/${myNameSt}`)
+          }
+          else{
+            navigate(`/homeAd`)
+          }}
+        }
         style={{ width: "75px", height: "auto" , display: "block", margin: " auto" }}
       />
       <ul>
