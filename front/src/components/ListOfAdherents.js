@@ -8,7 +8,7 @@ import { ServerContext } from "../contexts/Server";
 const ListOfAdherents = (props) => {
   const { myToken, myUserId } = useContext(AuthContext);
   const { getServerAddress } = useContext(ServerContext);
-  const { setTokenAd, setUserIdAd, setAdherentId, loginAd, setFirstNameAd } =
+  const { myTokenAd, setTokenAd, setUserIdAd, setAdherentId, loginAd, setFirstNameAd } =
     useContext(AuthAdContext);
   const { setTokenSt, setUserIdSt, setStructureId, setNameSt, setDateSt} = useContext(AuthStContext);
 
@@ -70,7 +70,9 @@ const ListOfAdherents = (props) => {
     }
 
     const resultLoginAdherentContent = await resultLoginAdherent.json();
+    console.log(myTokenAd);
     setTokenAd(resultLoginAdherentContent.token);
+    console.log(myTokenAd);
     setUserIdAd(resultLoginAdherentContent.userId);
     setFirstNameAd(prenom);
     setAdherentId(adherentId);

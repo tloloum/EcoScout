@@ -25,7 +25,7 @@ const AddImpactPage = () => {
 
   const removeDoubleQuotes = (input) => {
     if (typeof input !== "string") {
-      throw new TypeError("Expected a string as input.");
+      return input;
     }
     return input.replace(/"+/g, "");
   };
