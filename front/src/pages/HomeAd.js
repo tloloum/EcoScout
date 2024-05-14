@@ -148,7 +148,7 @@ const HomeAd = () => {
 
 
   return (
-    <div className="home-struct-ad">
+    <div className="home-ad">
       <Sidebar />
       <div className="list-of-adherents-load">
         <ListOfAdherents />
