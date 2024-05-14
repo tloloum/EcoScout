@@ -20,7 +20,9 @@ $title-color: #000000; // Gris pour le titre
     margin-bottom: 20px;
     color: $title-color; // Couleur du titre grisée
   }
-
+  .no-demand-message {
+    color: black; // Définit la couleur du texte à noir
+  }
   ul {
     list-style: none;
     padding: 0;
