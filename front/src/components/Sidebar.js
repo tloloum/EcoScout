@@ -5,6 +5,8 @@ import { ServerContext } from "../contexts/Server";
 import { AuthStContext } from "../contexts/AuthSt";
 import ListOfAdherents from "./ListOfAdherents";
 import ListOfStructures from "./ListOfStructures";
+import logo from "../assets/img/logo.jpeg";
+
 
 const Sidebar = () => {
   const [structures, setStructures] = useState([]);
@@ -51,6 +53,12 @@ const Sidebar = () => {
 
   return (
     <aside className="sidebar open">
+      <img
+        src={logo}
+        alt="Logo"
+        onClick={() => navigate("/homeAd")}
+        style={{ width: "75px", height: "auto" , display: "block", margin: " auto" }}
+      />
       <ul>
         {structures.map((structure) => (
           <li
