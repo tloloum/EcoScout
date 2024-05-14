@@ -6,6 +6,7 @@ import { AuthAdContext } from "../contexts/AuthAd";
 import { ServerContext } from "../contexts/Server";
 import Sidebar from "../components/Sidebar";
 import ListOfAdherents from "../components/ListOfAdherents";
+import ListOfBadges from '../components/BadgesAd';
 
 const HomeAd = () => {
   const { myToken, myUserId } = useContext(AuthContext);
@@ -226,7 +227,7 @@ const HomeAd = () => {
             <div className="title">
               <h2>Badges</h2>
             </div>
-            TODO: Rajouter les badges ici
+            <ListOfBadges />
           </div>
         </div>
       </div>
