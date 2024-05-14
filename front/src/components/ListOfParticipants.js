@@ -9,7 +9,7 @@ import { ServerContext } from "../contexts/Server";
 const ListOfParticipants = (props) => {
     // const { myToken, myUserId } = useContext(AuthContext);
     const { getServerAddress } = useContext(ServerContext);
-    const {myStructureId , myTokenSt} = useContext(AuthStContext);
+    const {myStructureId , myTokenSt, myNameSt} = useContext(AuthStContext);
 
     const navigate = useNavigate();
     const [participants, setParticipants] = useState([]);
@@ -39,12 +39,12 @@ const ListOfParticipants = (props) => {
                 return;
             } else {
                 const resultParticipantContent = await resultParticipant.json();
-                console.log(JSON.stringify(resultParticipantContent));
-                console.log("Participants récupérés avec succès "+ resultParticipantContent.length); //ici la longueur = undefined je recoi uniquement le message de succes
-                if (resultParticipantContent.length > 0) {
-                    console.log(resultParticipantContent+ "adza"); // je rentre jamais la donc pas de participant 
-                    setParticipants(resultParticipantContent);
-                }
+                console.log(resultParticipantContent.results);
+                console.log("Participants récupérés avec succès "+ resultParticipantContent); //ici la longueur = undefined je recoi uniquement le message de succes
+                // if (resultParticipantContent.length > 0) {
+                    // console.log(resultParticipantContent+ "adza"); // je rentre jamais la donc pas de participant 
+                setParticipants(resultParticipantContent.results);
+                // }
             }
         }
         showParticipants();
@@ -52,43 +52,45 @@ const ListOfParticipants = (props) => {
 
     const handleAddAdminButton = async (participantId) => {
         const serverAddress = getServerAddress();
-        const response = await fetch(serverAddress + "structures/addadmin/" + myStructureId + "/" + participantId, {
+        const response = await fetch(serverAddress + "structures/admin/" + myStructureId + "/adherent/" + participantId, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
                 Authorization: "Bearer " + myTokenSt,
             },
         });
-
-        if (response.status !== 200) {
+        console.log(participantId);
+        console.log(response.status);
+        if (response.status !== 201) {
             console.log("Erreur lors de l'ajout de l'admin");
             return;
         }
         console.log("Admin ajouté avec succès");
-        navigate("/homeSt");
+        navigate("/HomeStruct/"+myNameSt);
     }
 
     const handleRemoveParticipantButton = async (participantId) => {
         const serverAddress = getServerAddress();
         if(window.confirm("Voulez-vous vraiment supprimer ce participant ?")){
 
-        const response = await fetch(serverAddress + "structures/delmember/" + myStructureId + "/adherent" + participantId, {
+        const response = await fetch(serverAddress + "structures/delmember/" + myStructureId + "/adherent/" + participantId, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
                 Authorization: "Bearer " + myTokenSt,
             },
         });
-
+        console.log(response.status);
         if (response.status !== 200) {
             console.log("Erreur lors de la suppression du participant");
             return;
         }
     }
-        navigate("/homeSt");
+        navigate("/HomeStruct/"+myNameSt);
     }
     return(
-        <div>
+        <div className="list-ad-struct-container">
+            <div className="list-of-participants">
             <h2>Liste des participants</h2>
             <ul>
                 {participants.map((participant) => (
@@ -99,6 +101,7 @@ const ListOfParticipants = (props) => {
                     </li>
                 ))}
             </ul>
+                </div>
         </div>
     )
 };

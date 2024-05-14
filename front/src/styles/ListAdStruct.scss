@@ -1,0 +1,39 @@
+.list-ad-struct-container {
+    display: flex;
+    width: calc(100% - 250px); /* Réduit de la largeur de la sidebar */
+    margin-left: 250px; /* Décalé de la largeur de la sidebar */
+    
+    /* Styles pour le contenu principal */
+    .list-of-participants {
+
+        flex: 1;
+        h2 {
+            text-align: center; /* Centrer le titre horizontalement */
+            margin-bottom: 20px; /* Espacement en dessous du titre */
+        }
+        
+        ul {
+            list-style-type: none; /* Supprimer les puces de la liste */
+            padding: 0; /* Supprimer les marges intérieures de la liste */
+            text-align: center; /* Centrer le contenu de la liste horizontalement */
+        }
+        
+        li {
+            margin-bottom: 10px; /* Espacement entre chaque élément de la liste */
+        }
+        
+        button {
+            padding: 5px 10px; /* Espacement interne des boutons */
+            margin-left: 5px; /* Espacement entre les boutons */
+            border: none; /* Supprimer les bordures */
+            border-radius: 5px; /* Ajouter une bordure arrondie */
+            background-color: #007bff; /* Couleur de fond des boutons */
+            color: #fff; /* C   ouleur du texte des boutons */
+            cursor: pointer; /* Curseur de type pointer */
+        }
+        
+        button:hover {
+            background-color: #0056b3; /* Couleur de fond des boutons au survol */
+        } /* Pour occuper l'espace restant dans le conteneur */
+    }
+}
