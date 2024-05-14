@@ -19,17 +19,14 @@ const AuthAdContextProvider = (props) => {
   const [myFirstNameAd, setMyFirstNameAd] = useState("");
 
   const setTokenAd = (token) => {
-    console.log("My token Ad:", token);
     setMyTokenAd(token);
   };
 
   const setUserIdAd = (userId) => {
-    console.log("My User ID Ad:", userId);
     setMyUserIdAd(userId);
   };
 
   const setFirstNameAd = (firstNameAd) => {
-    console.log("My first name:", firstNameAd);
     setMyFirstNameAd(firstNameAd);
   };
 
@@ -38,17 +35,14 @@ const AuthAdContextProvider = (props) => {
   };
 
   const setAdherentId = (adherantId) => {
-    console.log("My Adherant ID:", adherantId);
     setMyAdherentId(adherantId);
   };
 
   const loginAd = () => {
-    // console.log(myAdherentId, myUserIdAd, myTokenAd);
     setIsAuthenticatedAd(true);
   };
 
   const signOutAd = () => {
-    console.log("signOutAd");
     setIsAuthenticatedAd(false);
   };
 

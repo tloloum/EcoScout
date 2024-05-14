@@ -15,22 +15,17 @@ const AuthContextProvider = (props) => {
 
   const setToken = (token) => {
     setMyToken(token);
-    console.log("My token :", token);
   };
 
   const setUserId = (userId) => {
     setMyUserId(userId);
-    console.log("My User ID :", userId);
   };
 
   const login = (profile_id, profile_password) => {
-    // console.log(profile_id, profile_password);
     setIsAuthenticated(true);
   };
 
   const signOut = () => {
-    console.log("signOut");
-
     setIsAuthenticated(false);
   };
 

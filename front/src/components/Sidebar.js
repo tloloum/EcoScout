@@ -3,17 +3,16 @@ import { useNavigate } from "react-router-dom";
 import { AuthAdContext } from "../contexts/AuthAd";
 import { ServerContext } from "../contexts/Server";
 import { AuthStContext } from "../contexts/AuthSt";
-import ListOfAdherents from "./ListOfAdherents";
-import ListOfStructures from "./ListOfStructures";
+import ListOfAdherents from "./adherent/ListOfAdherents";
+import ListOfStructures from "./structures/ListOfStructures";
 import logo from "../assets/img/logo.jpeg";
-
 
 const Sidebar = () => {
   const [structures, setStructures] = useState([]);
   const { myTokenAd, isAuthenticatedAd } = useContext(AuthAdContext);
   const { myTokenSt, myNameSt } = useContext(AuthStContext);
   const { getServerAddress } = useContext(ServerContext);
-  const [isStruct, setIsStruct] = useState(false); 
+  const [isStruct, setIsStruct] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -39,10 +38,8 @@ const Sidebar = () => {
         setStructures(resultStructuresContent);
       }
     }
-    if (myTokenAd)
-      getStructures();
-    else
-      setStructures([]);
+    if (myTokenAd) getStructures();
+    else setStructures([]);
   }, [myTokenAd, myTokenSt, getServerAddress]);
 
   const [isDropdownOpen, setDropdownOpen] = useState(false);
@@ -57,14 +54,18 @@ const Sidebar = () => {
         src={logo}
         alt="Logo"
         onClick={() => {
-          if(!myTokenAd){
-            navigate(`/homeStruct/${myNameSt}`)
+          if (!myTokenAd) {
+            navigate(`/homeStruct/${myNameSt}`);
+          } else {
+            navigate(`/homeAd`);
           }
-          else{
-            navigate(`/homeAd`)
-          }}
-        }
-        style={{ width: "75px", height: "auto" , display: "block", margin: " auto" }}
+        }}
+        style={{
+          width: "75px",
+          height: "auto",
+          display: "block",
+          margin: " auto",
+        }}
       />
       <ul>
         {structures.map((structure) => (
@@ -78,12 +79,13 @@ const Sidebar = () => {
           </li>
         ))}
       </ul>
-      {isAuthenticatedAd && <ul>
-        <li key="join" onClick={() => navigate("/join")}>
-          Rejoindre une structure
-        </li>
-      </ul>
-      }
+      {isAuthenticatedAd && (
+        <ul>
+          <li key="join" onClick={() => navigate("/join")}>
+            Rejoindre une structure
+          </li>
+        </ul>
+      )}
       <ul>
         <li key="join" onClick={() => navigate("/badges")}>
           Voir mes badges

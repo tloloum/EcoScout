@@ -21,17 +21,14 @@ const AuthStContextProvider = (props) => {
   const [myDateSt, setMyDateSt] = useState("");
 
   const setTokenSt = (token) => {
-    console.log("My token Ad:", token);
     setMyTokenSt(token);
   };
 
   const setUserIdSt = (userId) => {
-    console.log("My User ID St:", userId);
     setMyUserIdSt(userId);
   };
 
   const setNameSt = (nameSt) => {
-    console.log("My name:", nameSt);
     setMyNameSt(nameSt);
   };
 
@@ -40,22 +37,18 @@ const AuthStContextProvider = (props) => {
   };
 
   const setDateSt = (dateSt) => {
-    console.log("My date:", dateSt);
     setMyDateSt(dateSt);
   };
 
   const setStructureId = (adherantId) => {
-    console.log("My Adherant ID:", adherantId);
     setMyStructureId(adherantId);
   };
 
   const loginSt = () => {
-    console.log(myStructureId, myUserIdSt, myTokenSt);
     setIsAuthenticatedSt(true);
   };
 
   const signOutSt = () => {
-    console.log("signOutSt");
     setIsAuthenticatedSt(false);
   };
 
