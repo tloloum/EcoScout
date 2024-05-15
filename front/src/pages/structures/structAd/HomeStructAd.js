@@ -7,7 +7,10 @@ import { ServerContext } from "../../../contexts/Server";
 import Sidebar from "../../../components/Sidebar";
 
 const HomeStructAd = () => {
+
   const { name: structName } = useParams();
+
+  
   const { getServerAddress } = useContext(ServerContext);
   const { myTokenAd } = useContext(AuthAdContext);
   const { myToken } = useContext(AuthContext);
@@ -225,10 +228,10 @@ const HomeStructAd = () => {
             </div>
           </div>
         </div>
-        <div className="list-members">
+        {/* <div className="list-members">
           <h2>Liste des membres</h2>
-          {/* Ajoutez votre liste de membres ici */}
-        </div>
+          Ajoutez votre liste de membres ici
+        </div> */}
       </div>
     </div>
   );
